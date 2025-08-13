@@ -14,9 +14,9 @@ services:
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
     depends_on:
-      - db
+      - postgres
 
-  db:
+  postgres:
     image: postgres:latest
     container_name: split-net-postgres
     ports:
