@@ -14,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Accessors(chain = true)
+@Table(name = "app_user")
 public class User {
     @Id
     private UUID id;
