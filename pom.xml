@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.kridan</groupId>
 	<artifactId>split-net</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<name>split-net</name>
 	<description>VPN project</description>
 	<url/>
