@@ -1,7 +1,9 @@
 package com.kridan.split_net.domain.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,5 +23,7 @@ public class Device {
     private String devicePrivateKey;
     private String ipAddress;
     private String allowedIps;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private User owner;
 }

@@ -2,6 +2,8 @@ package com.kridan.split_net.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +22,9 @@ public class User {
     private UUID id;
     private String login;
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     List<Device> devices;
 
 }
