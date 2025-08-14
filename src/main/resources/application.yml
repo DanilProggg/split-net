@@ -16,5 +16,10 @@ spring:
     password: ${DB_PASS:postgres}
     driverClassName: org.postgresql.Driver
 
+logging:
+  level:
+    com.kridan.split_net: DEBUG
+    root: INFO
+
 wg:
   interface: wg0
