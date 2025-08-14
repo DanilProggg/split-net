@@ -20,7 +20,7 @@ public class CreateUserService implements CreateUserUseCase {
     }
 
     @Override
-    public void createUser(CreateUserCommand command) {
+    public User createUser(CreateUserCommand command) {
         try {
             log.debug(String.format("Создание пользователя %s", command.getUsername()));
 
@@ -29,9 +29,11 @@ public class CreateUserService implements CreateUserUseCase {
                     .setLogin(command.getUsername())
                     .setPassword(command.getPassword());
 
-            userRepository.save(user);
+            User createdUser = userRepository.save(user);
+            return createdUser;
         } catch (Exception e) {
             log.error(e.getMessage());
+            return null;
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.kridan.split_net.application.inbound.rest;
 
 import com.kridan.split_net.domain.command.CreateUserCommand;
+import com.kridan.split_net.domain.model.User;
 import com.kridan.split_net.domain.ports.inbound.CreateUserUseCase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,10 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody CreateUserCommand command) {
         try {
             log.debug("Обращение к endpoint 'singup'");
-            createUserUseCase.createUser(command);
 
+            User user = createUserUseCase.createUser(command);
+
+            log.debug("Пользователь создан. UUID: {}", user.getId().toString());
             return ResponseEntity.ok("Пользователь создан");
         } catch (Exception e){
             log.error(e.getMessage());
