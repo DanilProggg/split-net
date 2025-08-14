@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.file.Files;
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -17,7 +18,6 @@ public class WireGuardInitializer implements CommandLineRunner {
     @Value("${wg.interface:wg0}")
     private String interfaceName;
 
-    @Value("${wg.privateKey}")
     private String privateKey;
 
     @Value("${wg.ip:100.64.0.0/10}")
@@ -38,18 +38,20 @@ public class WireGuardInitializer implements CommandLineRunner {
 
             keyFile.getParentFile().mkdirs();
 
-            // Gen 32 random bytes to base64
+            // Генерируем 32 random bytes и кодируем в base64
             byte[] keyBytes = new byte[32];
             new SecureRandom().nextBytes(keyBytes);
-            String privateKey = Base64.getEncoder().encodeToString(keyBytes);
+            privateKey = Base64.getEncoder().encodeToString(keyBytes);
 
-            // Save file
+            // Сохраняем ключ в файл
             try (FileWriter writer = new FileWriter(keyFile)) {
                 writer.write(privateKey);
             }
 
             log.info("Private key generated and saved to " + keyFile.getAbsolutePath());
         } else {
+            // Если файл есть, читаем его содержимое
+            privateKey = Files.readString(keyFile.toPath()).trim();
             log.info("Private key exists, using existing one.");
         }
 
