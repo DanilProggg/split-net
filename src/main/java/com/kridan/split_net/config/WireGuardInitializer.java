@@ -23,7 +23,7 @@ public class WireGuardInitializer implements CommandLineRunner {
     @Value("${wg.ip:100.64.0.0/10}")
     private String ipAddress;
 
-    @Value("${wg.listenPort:51820}")
+    @Value("${wg.listenPort}")
     private int listenPort;
 
 
