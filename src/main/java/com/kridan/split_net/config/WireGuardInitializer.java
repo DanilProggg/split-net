@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -38,21 +40,37 @@ public class WireGuardInitializer implements CommandLineRunner {
 
             keyFile.getParentFile().mkdirs();
 
-            // Генерируем 32 random bytes и кодируем в base64
-            byte[] keyBytes = new byte[32];
-            new SecureRandom().nextBytes(keyBytes);
-            privateKey = Base64.getEncoder().encodeToString(keyBytes);
+            try {
+                // Генерация ключа через shell
+                Process process = new ProcessBuilder("wg", "genkey")
+                        .redirectErrorStream(true)
+                        .start();
 
-            // Сохраняем ключ в файл
-            try (FileWriter writer = new FileWriter(keyFile)) {
-                writer.write(privateKey);
+                privateKey = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim();
+                int exitCode = process.waitFor();
+                if (exitCode != 0) {
+                    throw new RuntimeException("Failed to generate WireGuard private key, exit code: " + exitCode);
+                }
+
+                // Сохраняем ключ в файл
+                try (FileWriter writer = new FileWriter(keyFile)) {
+                    writer.write(privateKey);
+                }
+
+                log.info("Private key generated and saved to " + keyFile.getAbsolutePath());
+
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException("Error generating WireGuard key", e);
             }
 
-            log.info("Private key generated and saved to " + keyFile.getAbsolutePath());
         } else {
-            // Если файл есть, читаем его содержимое
-            privateKey = Files.readString(keyFile.toPath()).trim();
-            log.info("Private key exists, using existing one.");
+            // Если файл существует, читаем его содержимое
+            try {
+                privateKey = Files.readString(keyFile.toPath()).trim();
+                log.info("Private key exists, using existing one.");
+            } catch (IOException e) {
+                throw new RuntimeException("Error reading existing WireGuard key", e);
+            }
         }
 
         // Create interface
