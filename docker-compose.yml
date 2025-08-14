@@ -11,6 +11,8 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
+    volumes:
+      - keys:/etc/vpn/keys
     depends_on:
       - postgres
 
@@ -28,3 +30,4 @@ services:
 
 volumes:
   pg_data:
+  keys:

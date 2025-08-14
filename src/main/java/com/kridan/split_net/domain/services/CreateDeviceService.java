@@ -8,11 +8,13 @@ import com.kridan.split_net.domain.ports.outbound.CreateWgPeerPort;
 import com.kridan.split_net.domain.ports.outbound.CreateWgPrivKeyPort;
 import com.kridan.split_net.infrastructure.database.repository.DeviceRepository;
 import com.kridan.split_net.infrastructure.database.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class CreateDeviceService implements CreateDeviceUseCase {
     private final UserRepository userRepository;
     private final DeviceRepository deviceRepository;
@@ -27,7 +29,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
     }
 
     @Override
-    public void createDevice(String userId, CreateDeviceCommand command){
+    public Device createDevice(String userId, CreateDeviceCommand command){
         try {
             User user = userRepository.getReferenceById(UUID.fromString(userId));
             Device device = new Device()
@@ -38,14 +40,17 @@ public class CreateDeviceService implements CreateDeviceUseCase {
                     .setAllowedIps(command.getAllowedIps())
                     .setOwner(user);
 
-            //Сохранение в БД
-            deviceRepository.save(device);
+            //Save to DB
+            Device createdDevice = deviceRepository.save(device);
+            log.debug("Добавлено устройство: {}", createdDevice.toString());
 
-            //Добавление пира после создания
+            //Adding peer
             createWgPeerPort.createPeer(device);
+            return createdDevice;
 
         } catch (Exception e){
-
+            log.error(e.getMessage());
+            return null;
         }
     }
 }
