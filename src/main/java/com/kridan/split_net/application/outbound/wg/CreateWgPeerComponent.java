@@ -26,7 +26,7 @@ public class CreateWgPeerComponent implements CreateWgPeerPort {
     private String interfaceName;
 
     @Override
-    public boolean createPeer(Device device) {
+    public boolean createPeer(Device device) throws IOException {
         return runWgCommand(new String[]{
                 "wg", "set", interfaceName,
                 "peer", createWgPubKeyPort.generatePubKey(device.getDevicePrivateKey()),
