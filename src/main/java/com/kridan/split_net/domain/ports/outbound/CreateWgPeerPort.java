@@ -5,5 +5,5 @@ import com.kridan.split_net.domain.model.Device;
 import java.io.IOException;
 
 public interface CreateWgPeerPort {
-    boolean createPeer(Device device) throws IOException;
+    boolean createPeer(Device device) throws IOException, InterruptedException;
 }
