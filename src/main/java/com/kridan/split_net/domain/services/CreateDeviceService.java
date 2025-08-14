@@ -9,6 +9,7 @@ import com.kridan.split_net.domain.ports.outbound.CreateWgPrivKeyPort;
 import com.kridan.split_net.infrastructure.database.repository.DeviceRepository;
 import com.kridan.split_net.infrastructure.database.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -42,7 +43,9 @@ public class CreateDeviceService implements CreateDeviceUseCase {
 
             //Save to DB
             Device createdDevice = deviceRepository.save(device);
-            log.debug("Добавлено устройство: {}", createdDevice.toString());
+
+            Device realDevice = (Device) Hibernate.unproxy(createdDevice);
+            log.debug("Добавлено устройство: {}", realDevice.toString());
 
             //Adding peer
             createWgPeerPort.createPeer(device);

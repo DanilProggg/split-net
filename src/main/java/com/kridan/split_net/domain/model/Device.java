@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.UUID;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Accessors(chain = true)
+@ToString
 public class Device {
     @Id
     private UUID id;

@@ -3,6 +3,7 @@ package com.kridan.split_net.application.outbound.wg;
 import com.kridan.split_net.domain.model.Device;
 import com.kridan.split_net.domain.ports.outbound.CreateWgPeerPort;
 import com.kridan.split_net.domain.ports.outbound.CreateWgPubKeyPort;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Component
+@Slf4j
 public class CreateWgPeerComponent implements CreateWgPeerPort {
 
     public final CreateWgPubKeyPort createWgPubKeyPort;
@@ -46,7 +48,7 @@ public class CreateWgPeerComponent implements CreateWgPeerPort {
                     new InputStreamReader(process.getInputStream()))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
+                    log.info(line);
                 }
             }
 
