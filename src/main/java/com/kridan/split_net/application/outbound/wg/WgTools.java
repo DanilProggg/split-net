@@ -36,7 +36,7 @@ public class WgTools implements CreateWgPrivKeyPort, CreateWgPubKeyPort {
 
     @Override
     public String generatePubKey(String base64PrivateKey) throws IOException {
-        Process process = new ProcessBuilder("echo", base64PrivateKey, "|", "wg", "pubkey")
+        Process process = new ProcessBuilder("echo", "\""+base64PrivateKey+"\"", "|", "wg", "pubkey")
                 .redirectErrorStream(true) // объединяем stdout и stderr
                 .start();
 
