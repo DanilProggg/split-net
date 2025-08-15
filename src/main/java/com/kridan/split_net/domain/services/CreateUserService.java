@@ -25,7 +25,7 @@ public class CreateUserService implements CreateUserUseCase {
 
             User user = new User()
                     .setId(UUID.randomUUID())
-                    .setLogin(command.getUsername())
+                    .setUsername(command.getUsername())
                     .setPassword(command.getPassword());
 
             User createdUser = saveUserPort.save(user);
