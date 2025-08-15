@@ -1,4 +1,4 @@
-package com.kridan.split_net.domain.ports.outbound;
+package com.kridan.split_net.domain.ports.outbound.wg;
 
 import com.kridan.split_net.domain.model.Device;
 

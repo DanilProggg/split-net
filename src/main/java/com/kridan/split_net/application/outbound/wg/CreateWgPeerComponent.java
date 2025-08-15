@@ -1,8 +1,8 @@
 package com.kridan.split_net.application.outbound.wg;
 
 import com.kridan.split_net.domain.model.Device;
-import com.kridan.split_net.domain.ports.outbound.CreateWgPeerPort;
-import com.kridan.split_net.domain.ports.outbound.CreateWgPubKeyPort;
+import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPeerPort;
+import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPubKeyPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

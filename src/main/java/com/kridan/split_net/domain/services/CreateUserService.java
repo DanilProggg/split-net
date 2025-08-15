@@ -3,21 +3,19 @@ package com.kridan.split_net.domain.services;
 import com.kridan.split_net.domain.command.CreateUserCommand;
 import com.kridan.split_net.domain.model.User;
 import com.kridan.split_net.domain.ports.inbound.CreateUserUseCase;
-import com.kridan.split_net.infrastructure.database.repository.UserRepository;
+import com.kridan.split_net.domain.ports.outbound.db.SaveUserPort;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class CreateUserService implements CreateUserUseCase {
 
-    private final UserRepository userRepository;
-
-    public CreateUserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final SaveUserPort saveUserPort;
 
     @Override
     public User createUser(CreateUserCommand command) {
@@ -29,7 +27,7 @@ public class CreateUserService implements CreateUserUseCase {
                     .setLogin(command.getUsername())
                     .setPassword(command.getPassword());
 
-            User createdUser = userRepository.save(user);
+            User createdUser = saveUserPort.save(user);
             return createdUser;
         } catch (Exception e) {
             log.error(e.getMessage());

@@ -4,10 +4,13 @@ import com.kridan.split_net.domain.command.CreateDeviceCommand;
 import com.kridan.split_net.domain.model.Device;
 import com.kridan.split_net.domain.model.User;
 import com.kridan.split_net.domain.ports.inbound.CreateDeviceUseCase;
-import com.kridan.split_net.domain.ports.outbound.CreateWgPeerPort;
-import com.kridan.split_net.domain.ports.outbound.CreateWgPrivKeyPort;
+import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
+import com.kridan.split_net.domain.ports.outbound.db.SaveDevicePort;
+import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPeerPort;
+import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPrivKeyPort;
 import com.kridan.split_net.infrastructure.database.repository.DeviceRepository;
 import com.kridan.split_net.infrastructure.database.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
@@ -15,24 +18,18 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class CreateDeviceService implements CreateDeviceUseCase {
-    private final UserRepository userRepository;
-    private final DeviceRepository deviceRepository;
+    private final FindUserPort findUserPort;
+    private final SaveDevicePort saveDevicePort;
     private final CreateWgPrivKeyPort createWgPrivKeyPort;
     private final CreateWgPeerPort createWgPeerPort;
-
-    public CreateDeviceService(UserRepository userRepository, DeviceRepository deviceRepository, CreateWgPrivKeyPort createWgPrivKeyPort, CreateWgPeerPort createWgPeerPort) {
-        this.userRepository = userRepository;
-        this.deviceRepository = deviceRepository;
-        this.createWgPrivKeyPort = createWgPrivKeyPort;
-        this.createWgPeerPort = createWgPeerPort;
-    }
 
     @Override
     public Device createDevice(String userId, CreateDeviceCommand command){
         try {
-            User user = userRepository.getReferenceById(UUID.fromString(userId));
+            User user = findUserPort.findById(UUID.fromString(userId));
             Device device = new Device()
                     .setId(UUID.randomUUID())
                     .setDevicePrivateKey(createWgPrivKeyPort.generatePrivKey())
@@ -42,7 +39,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
                     .setOwner(user);
 
             //Save to DB
-            Device createdDevice = deviceRepository.save(device);
+            Device createdDevice = saveDevicePort.save(device);
 
             Device realDevice = (Device) Hibernate.unproxy(createdDevice);
             log.debug("Добавлено устройство: {}", realDevice.toString());

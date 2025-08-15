@@ -1,13 +1,10 @@
 package com.kridan.split_net.application.outbound.wg;
 
-import com.kridan.split_net.domain.ports.outbound.CreateWgPrivKeyPort;
-import com.kridan.split_net.domain.ports.outbound.CreateWgPubKeyPort;
-import org.bouncycastle.crypto.params.X25519PrivateKeyParameters;
-import org.bouncycastle.crypto.params.X25519PublicKeyParameters;
+import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPrivKeyPort;
+import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPubKeyPort;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.util.Base64;
 import java.util.stream.Collectors;
 
 @Component

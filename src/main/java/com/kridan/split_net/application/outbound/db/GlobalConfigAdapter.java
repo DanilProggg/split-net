@@ -1,0 +1,31 @@
+package com.kridan.split_net.application.outbound.db;
+
+import com.kridan.split_net.domain.model.GlobalConfig;
+import com.kridan.split_net.domain.ports.outbound.GetGlobalConfigPort;
+import com.kridan.split_net.domain.ports.outbound.SaveGlobalConfigPort;
+import com.kridan.split_net.infrastructure.database.repository.GlobalConfigRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class GlobalConfigAdapter implements SaveGlobalConfigPort, GetGlobalConfigPort {
+    private final GlobalConfigRepository globalConfigRepository;
+
+    @Override
+    public Optional<GlobalConfig> get(String key) {
+        Optional<GlobalConfig> config = globalConfigRepository.findById(key);
+        return config;
+    }
+
+    @Override
+    public GlobalConfig save(String key, String value) {
+        GlobalConfig config = new GlobalConfig();
+        config.setKey(key);
+        config.setValue(value);
+        GlobalConfig savedConfig = globalConfigRepository.save(config);
+        return savedConfig;
+    }
+}

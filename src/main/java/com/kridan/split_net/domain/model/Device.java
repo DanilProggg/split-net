@@ -18,9 +18,17 @@ import java.util.UUID;
 public class Device {
     @Id
     private UUID id;
+
+    @Column(unique = true, nullable = false)
     private String name;
+
+    @Column(unique = true, nullable = false)
     private String devicePrivateKey;
+
+    @Column(unique = true, nullable = false)
     private String ipAddress;
+
+    @Column(nullable = false)
     private String allowedIps;
 
     @ManyToOne
