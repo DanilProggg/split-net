@@ -6,6 +6,7 @@ import com.kridan.split_net.domain.ports.inbound.CreateUserUseCase;
 import com.kridan.split_net.domain.ports.outbound.db.SaveUserPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -20,7 +21,7 @@ public class CreateUserService implements CreateUserUseCase {
     @Override
     public User createUser(CreateUserCommand command) {
         try {
-            log.debug(String.format("Создание пользователя %s", command.getUsername()));
+            log.debug("Создание пользователя {}", command.getUsername());
 
             User user = new User()
                     .setId(UUID.randomUUID())
@@ -28,6 +29,10 @@ public class CreateUserService implements CreateUserUseCase {
                     .setPassword(command.getPassword());
 
             User createdUser = saveUserPort.save(user);
+
+            User realUser = (User) Hibernate.unproxy(createdUser);
+            log.debug("Пользователь создан {}", realUser.toString());
+
             return createdUser;
         } catch (Exception e) {
             log.error(e.getMessage());
