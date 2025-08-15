@@ -16,6 +16,6 @@ public class SaveUserAdapter implements SaveUserPort {
 
     @Override
     public User save(User user) {
-        return userRepository.getReferenceById(user.getId());
+        return userRepository.save(user);
     }
 }
