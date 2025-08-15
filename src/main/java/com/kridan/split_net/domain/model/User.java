@@ -18,7 +18,10 @@ import java.util.UUID;
 public class User {
     @Id
     private UUID id;
+    @Column(unique = true, nullable = false)
     private String login;
+
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
