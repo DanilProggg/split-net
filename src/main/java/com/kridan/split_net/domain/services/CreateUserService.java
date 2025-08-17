@@ -30,6 +30,7 @@ public class CreateUserService implements CreateUserUseCase {
 
             User createdUser = saveUserPort.save(user);
 
+            //Unproxy for logging. Delete after prod
             User realUser = (User) Hibernate.unproxy(createdUser);
             log.debug("Пользователь создан {}", realUser.toString());
 

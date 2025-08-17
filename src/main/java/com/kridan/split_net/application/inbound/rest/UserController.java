@@ -23,30 +23,28 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> createUser(@RequestBody CreateUserCommand command) {
         try {
-            log.debug("Обращение к endpoint 'singup'");
+            log.debug("Call endpoint 'singup'");
 
             User user = createUserUseCase.createUser(command);
 
-            log.debug("Пользователь создан. UUID: {}", user.getId().toString());
-            return ResponseEntity.ok("Пользователь создан");
+            log.debug("User created. UUID: {}", user.getId().toString());
+            return ResponseEntity.ok("User created.");
         } catch (Exception e){
             log.error(e.getMessage());
-            return ResponseEntity.internalServerError().body("Произошла непредвиденая ошибка");
+            return ResponseEntity.internalServerError().body("An error occurred");
         }
     }
 
     @PostMapping("/signin")
     public ResponseEntity<?> loginUser(@RequestBody CreateUserCommand command) {
         try {
-            log.debug("Обращение к endpoint 'singin'");
+            log.debug("Call endpoint 'singin'");
 
-
-
-
-            return ResponseEntity.ok();
+            createUserUseCase.createUser(command);
+            return ResponseEntity.ok("User created");
         } catch (Exception e){
             log.error(e.getMessage());
-            return ResponseEntity.internalServerError().body("Произошла непредвиденая ошибка");
+            return ResponseEntity.internalServerError().body("An error occurred");
         }
     }
 }
