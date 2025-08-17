@@ -34,4 +34,19 @@ public class UserController {
             return ResponseEntity.internalServerError().body("Произошла непредвиденая ошибка");
         }
     }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> loginUser(@RequestBody CreateUserCommand command) {
+        try {
+            log.debug("Обращение к endpoint 'singin'");
+
+
+
+
+            return ResponseEntity.ok();
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body("Произошла непредвиденая ошибка");
+        }
+    }
 }
