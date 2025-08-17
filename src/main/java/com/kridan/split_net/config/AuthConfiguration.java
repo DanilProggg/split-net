@@ -25,6 +25,7 @@ public class AuthConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").authenticated()
                         .requestMatchers("/signin","/signup").permitAll()
+                        .requestMatchers("oauth/**").permitAll()
                 )
                 .oauth2ResourceServer(
                         oauth -> oauth.jwt(Customizer.withDefaults())
