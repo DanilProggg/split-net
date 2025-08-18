@@ -36,6 +36,7 @@ public class AuthConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").authenticated()
                         .requestMatchers("/signin","/signup").permitAll()
+                        .requestMatchers("/login").permitAll()
                 )
                 .oauth2ResourceServer(
                         oauth -> oauth.jwt(Customizer.withDefaults())
