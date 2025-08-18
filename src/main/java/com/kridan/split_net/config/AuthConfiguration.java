@@ -26,7 +26,7 @@ public class AuthConfiguration {
         http
                 .formLogin(Customizer.withDefaults())
                 .authorizeHttpRequests(auth-> auth
-                        .requestMatchers("/login", "oauth2/**")
+                        .requestMatchers("/login", "oauth2/**").permitAll()
                 );
 
         return http.build();
