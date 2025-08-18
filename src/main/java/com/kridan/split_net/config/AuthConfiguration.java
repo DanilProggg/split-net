@@ -23,7 +23,11 @@ public class AuthConfiguration {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
         // Включаем форму логина для авторизации пользователей
-        http.formLogin(Customizer.withDefaults());
+        http
+                .formLogin(Customizer.withDefaults())
+                .authorizeHttpRequests(auth-> auth
+                        .requestMatchers("/login", "oauth2/**")
+                );
 
         return http.build();
     }
@@ -36,7 +40,6 @@ public class AuthConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").authenticated()
                         .requestMatchers("/signin","/signup").permitAll()
-                        .requestMatchers("/login").permitAll()
                 )
                 .oauth2ResourceServer(
                         oauth -> oauth.jwt(Customizer.withDefaults())
