@@ -85,7 +85,7 @@ public class AuthServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer("http://localhost:8080") // поменяй на свой публичный URL
+                .issuer("http://192.168.0.108:8080") // поменяй на свой публичный URL
                 .build();
     }
 
