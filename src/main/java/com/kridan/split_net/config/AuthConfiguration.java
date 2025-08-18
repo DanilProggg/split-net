@@ -24,7 +24,8 @@ public class AuthConfiguration {
 
         // Включаем форму логина для авторизации пользователей
         http
-                .formLogin(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults())
+                .authorizeHttpRequests(auth->auth.requestMatchers("/login"));
 
         return http.build();
     }
