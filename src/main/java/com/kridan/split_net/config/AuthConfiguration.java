@@ -27,10 +27,6 @@ public class AuthConfiguration {
         // Включаем форму логина для авторизации пользователей
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login").permitAll()
-                        .anyRequest().authenticated()
-                )
                 .formLogin(Customizer.withDefaults());
 
         return http.build();
