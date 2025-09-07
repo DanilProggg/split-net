@@ -21,13 +21,15 @@ public class AuthConfiguration {
     @Bean
     @Order(1)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        // Применяем дефолтную конфигурацию OAuth2 Authorization Server
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
 
         // Включаем форму логина для авторизации пользователей
         http
                 .csrf(csrf -> csrf.disable())
                 .formLogin(Customizer.withDefaults());
+
+        // Применяем дефолтную конфигурацию OAuth2 Authorization Server
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
         return http.build();
     }
