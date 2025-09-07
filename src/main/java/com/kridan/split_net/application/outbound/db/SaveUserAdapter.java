@@ -4,7 +4,7 @@ import com.kridan.split_net.domain.model.User;
 import com.kridan.split_net.domain.ports.outbound.db.SaveUserPort;
 import com.kridan.split_net.infrastructure.database.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class SaveUserAdapter implements SaveUserPort {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User save(User user) {
@@ -20,7 +20,7 @@ public class SaveUserAdapter implements SaveUserPort {
 
         //Encode password
         String password = user.getPassword();
-        user.setPassword(bCryptPasswordEncoder.encode(password));
+        user.setPassword(passwordEncoder.encode(password));
 
         return userRepository.save(user);
     }
