@@ -44,7 +44,6 @@ public class AuthConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").authenticated()
-                        .requestMatchers("/signin","/signup", "/login").permitAll()
                 )
                 .oauth2ResourceServer(
                         oauth -> oauth.jwt(Customizer.withDefaults())
