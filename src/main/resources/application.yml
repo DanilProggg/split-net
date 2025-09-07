@@ -21,6 +21,9 @@ logging:
     com.kridan.split_net: DEBUG
     root: INFO
 
+jwt:
+  secret: "supersecretkeysupersecretkey"
+
 wg:
   interface: wg0
   listenPort: ${WG_PORT}
