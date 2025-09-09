@@ -1,6 +1,11 @@
 package com.kridan.split_net.config;
 
 import com.kridan.split_net.application.outbound.security.JpaUserDetailsService;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.OctetSequenceKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -72,7 +77,15 @@ public class LocalAuthConfiguration {
     @Bean
     public JwtEncoder jwtEncoder() {
         SecretKey secretKey = new SecretKeySpec(jwtSecret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
-        return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey));
+
+        // оборачиваем в JWK
+        JWK jwk = new OctetSequenceKey.Builder(secretKey)
+                .algorithm(JWSAlgorithm.HS256)
+                .build();
+
+        JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
+
+        return new NimbusJwtEncoder(jwkSource);
     }
 
     @Bean
