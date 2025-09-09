@@ -3,6 +3,8 @@ package com.kridan.split_net.application.outbound.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,12 +20,13 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-@NoArgsConstructor
 public class JwtUtils {
-    @Value("${jwt.secret}")
-    private String jwtSecret;
 
-    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    private final Key key;
+
+    public JwtUtils(@Value("${jwt.secret}") String jwtSecret) {
+        this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    }
 
     public String generateToken(String username, List<String> roles) {
         Instant now = Instant.now();
