@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public interface FindUserPort {
     User findById(UUID uuid);
-    User findByUsername(String username);
+    User findByEmail(String email);
 }
