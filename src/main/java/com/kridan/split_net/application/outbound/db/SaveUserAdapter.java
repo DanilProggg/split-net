@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class SaveUserAdapter implements SaveUserPort {
@@ -26,6 +28,7 @@ public class SaveUserAdapter implements SaveUserPort {
     public User save(String email, String password) {
 
         User user = new User()
+                .setId(UUID.randomUUID())
                 .setEmail(email);
         User savedUser = userRepository.save(user);
 
