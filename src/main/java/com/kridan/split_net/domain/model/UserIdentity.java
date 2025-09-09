@@ -27,6 +27,5 @@ public class UserIdentity {
     private User user;
 
     @OneToOne(mappedBy = "identity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @Column(nullable = true)
     private LocalCredentials localCredentials;
 }

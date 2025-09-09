@@ -18,8 +18,7 @@ public class LocalCredentials {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "identity_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "identity_id", nullable = false)
     private UserIdentity identity;
 
     @Column(nullable = false)
