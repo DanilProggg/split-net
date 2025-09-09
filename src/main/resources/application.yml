@@ -22,7 +22,7 @@ logging:
     root: INFO
 
 jwt:
-  secret: "supersecretkeysupersecretkeydfskhighrduigdhgjkhdfkjghbdgdfhk"
+  secret: "r8N3kPq7vY2sF1dL9hJ5wXzT6bQ4uV0m"
 
 wg:
   interface: wg0
