@@ -57,6 +57,7 @@ public class UserController {
                             loginUserDto.getPassword()
                     )
             );
+            log.debug("User found");
 
             // Generate JWT
             List<String> roles = authentication.getAuthorities().stream()
