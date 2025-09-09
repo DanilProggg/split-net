@@ -69,11 +69,6 @@ public class LocalAuthConfiguration {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    @Bean
-    public JwtEncoder jwtEncoder() {
-        SecretKey secretKey = new SecretKeySpec(jwtSecret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
-        return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey));
-    }
 
     @Bean
     public JwtDecoder jwtDecoder() {

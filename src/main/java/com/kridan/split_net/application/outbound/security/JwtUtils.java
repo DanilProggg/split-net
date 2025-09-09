@@ -1,31 +1,38 @@
 package com.kridan.split_net.application.outbound.security;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class JwtUtils {
-    private final JwtEncoder jwtEncoder;
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
     public String generateToken(String username, List<String> roles) {
         Instant now = Instant.now();
 
-        JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("self")                // кто выдал токен
-                .issuedAt(now)                 // время создания
-                .expiresAt(now.plus(1, ChronoUnit.DAYS)) // срок действия
-                .subject(username)             // имя пользователя
-                .claim("roles", roles)         // роли пользователя
-                .build();
-
-        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        return Jwts.builder()
+                .setSubject(username)                   // имя пользователя
+                .setIssuer("self")                      // кто выдал токен
+                .setIssuedAt(Date.from(now))            // время создания
+                .setExpiration(Date.from(now.plusSeconds(86400))) // 1 день
+                .claim("roles", roles)                  // роли
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 }
