@@ -3,6 +3,7 @@ package com.kridan.split_net.application.outbound.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@NoArgsConstructor
 public class JwtUtils {
     @Value("${jwt.secret}")
     private String jwtSecret;
