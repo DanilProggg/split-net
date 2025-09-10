@@ -26,10 +26,13 @@ public class DeviceController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<?> createDevice(@RequestParam("user-id") String uuid, @RequestBody CreateDeviceCommand command) {
+    public ResponseEntity<?> createDevice(@AuthenticationPrincipal Jwt jwt, @RequestBody CreateDeviceCommand command) {
         try {
+            String email = jwt.getClaim("email");
+            User user = findUserPort.findByEmail(email);
+
             log.debug("Обращение к endpoint /device/add");
-            createDeviceUseCase.createDevice(uuid, command);
+            createDeviceUseCase.createDevice(user.getId().toString(), command);
             return ResponseEntity.ok("Устройство добавлено");
         } catch (Exception e) {
             log.debug(e.getMessage());
