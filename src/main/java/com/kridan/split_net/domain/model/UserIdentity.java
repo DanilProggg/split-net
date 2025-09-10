@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@ToString
+@ToString(exclude = "user")
 public class UserIdentity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
