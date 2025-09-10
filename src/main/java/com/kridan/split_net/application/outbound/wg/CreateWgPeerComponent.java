@@ -25,7 +25,7 @@ public class CreateWgPeerComponent implements CreateWgPeerPort {
         return runWgCommand(new String[]{
                 "wg", "set", interfaceName,
                 "peer", device.getPublicKey(),
-                "allowed-ips", device.getAllowedIps()
+                "allowed-ips", device.getIpAddress()
         });
     }
 
