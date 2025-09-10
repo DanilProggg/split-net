@@ -58,9 +58,9 @@ public class CreateDeviceService implements CreateDeviceUseCase {
                     privateKey,
                     command.getIpAddress(),
 
-                    getConfigUseCase.get("publicKey"),
+                    (String) Hibernate.unproxy(getConfigUseCase.get("publicKey")),
                     command.getAllowedIps(),
-                    getConfigUseCase.get("url"),
+                    (String) Hibernate.unproxy(getConfigUseCase.get("url")),
                     port
             );
 
