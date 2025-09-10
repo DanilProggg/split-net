@@ -35,8 +35,11 @@ public class DeviceController {
             User user = findUserPort.findByEmail(email);
 
             log.debug("Обращение к endpoint /device/add");
-            createDeviceUseCase.createDevice(user.getId().toString(), command);
-            return ResponseEntity.ok("Устройство добавлено");
+            String config = createDeviceUseCase.createDevice(user.getId().toString(), command);
+
+
+
+            return ResponseEntity.ok(config);
         } catch (Exception e) {
             log.debug(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
@@ -56,7 +59,7 @@ public class DeviceController {
                     .map(
                         d -> new DeviceDto(
                                 d.getName(),
-                                d.getDevicePrivateKey(),
+                                d.getPublicKey(),
                                 d.getIpAddress(),
                                 d.getAllowedIps()
                         )
@@ -81,7 +84,7 @@ public class DeviceController {
 
             DeviceDto deviceDto = new DeviceDto(
                     device.getName(),
-                    device.getDevicePrivateKey(),
+                    device.getPublicKey(),
                     device.getIpAddress(),
                     device.getAllowedIps()
             );

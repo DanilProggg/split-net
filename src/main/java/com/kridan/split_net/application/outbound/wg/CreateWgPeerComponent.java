@@ -15,11 +15,6 @@ import java.io.InputStreamReader;
 @Slf4j
 public class CreateWgPeerComponent implements CreateWgPeerPort {
 
-    public final CreateWgPubKeyPort createWgPubKeyPort;
-
-    public CreateWgPeerComponent(CreateWgPubKeyPort createWgPubKeyPort) {
-        this.createWgPubKeyPort = createWgPubKeyPort;
-    }
     //Добавление пира через shell
 
     @Value("${wg.interface}")
@@ -29,7 +24,7 @@ public class CreateWgPeerComponent implements CreateWgPeerPort {
     public boolean createPeer(Device device) throws IOException, InterruptedException {
         return runWgCommand(new String[]{
                 "wg", "set", interfaceName,
-                "peer", createWgPubKeyPort.generatePubKey(device.getDevicePrivateKey()),
+                "peer", device.getPublicKey(),
                 "allowed-ips", device.getAllowedIps()
         });
     }
