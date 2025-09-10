@@ -1,6 +1,5 @@
 package com.kridan.split_net.application.inbound.rest;
 
-import com.kridan.split_net.application.inbound.rest.dto.CreateDeviceResponse;
 import com.kridan.split_net.application.inbound.rest.dto.DeviceDto;
 import com.kridan.split_net.domain.command.CreateDeviceCommand;
 import com.kridan.split_net.domain.model.Device;
@@ -11,6 +10,7 @@ import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
 import com.kridan.split_net.domain.ports.outbound.db.GetDevicePort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -29,7 +29,7 @@ public class DeviceController {
     private final GetDevicePort getDevicePort;
 
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<?> createDevice(@AuthenticationPrincipal Jwt jwt, @RequestBody CreateDeviceCommand command) {
         try {
             String email = jwt.getClaim("email");
@@ -38,9 +38,7 @@ public class DeviceController {
             log.debug("Обращение к endpoint /device/add");
             String config = createDeviceUseCase.createDevice(user.getId().toString(), command);
 
-
-
-            return ResponseEntity.ok(new CreateDeviceResponse(config));
+            return ResponseEntity.ok(config);
         } catch (Exception e) {
             log.debug(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
