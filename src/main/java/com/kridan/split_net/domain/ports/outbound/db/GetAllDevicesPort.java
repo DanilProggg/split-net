@@ -6,5 +6,5 @@ import com.kridan.split_net.domain.model.User;
 import java.util.List;
 
 public interface GetAllDevicesPort {
-    List<Device> getDevices (User user);
+    List<Device> getDevices (String email);
 }

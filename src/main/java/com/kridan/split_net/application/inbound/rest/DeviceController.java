@@ -6,6 +6,7 @@ import com.kridan.split_net.domain.model.User;
 import com.kridan.split_net.domain.ports.inbound.CreateDeviceUseCase;
 import com.kridan.split_net.domain.ports.inbound.GetAllDevicesUseCase;
 import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
+import com.kridan.split_net.domain.ports.outbound.db.GetDevicePort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class DeviceController {
     private final CreateDeviceUseCase createDeviceUseCase;
     private final GetAllDevicesUseCase getAllDevicesUseCase;
     private final FindUserPort findUserPort;
+    private final GetDevicePort getDevicePort;
 
 
     @PostMapping("/add")
@@ -36,24 +38,40 @@ public class DeviceController {
             return ResponseEntity.ok("Устройство добавлено");
         } catch (Exception e) {
             log.debug(e.getMessage());
-            return ResponseEntity.internalServerError().body("Произошла непредвиденая ошибка");
+            return ResponseEntity.internalServerError().body("An error occurred");
         }
     }
 
-    @PostMapping("/get-all")
+    @GetMapping("/get-all")
     public ResponseEntity<?> getDevices(@AuthenticationPrincipal Jwt jwt) {
         try {
             String email = jwt.getClaim("email");
-            User user = findUserPort.findByEmail(email);
 
             log.debug("Обращение к endpoint /device/get-all");
 
-            List<Device> devices = getAllDevicesUseCase.getAllDevices(user);
+            List<Device> devices = getAllDevicesUseCase.getAllDevices(email);
 
             return ResponseEntity.ok(devices);
         } catch (Exception e) {
             log.debug(e.getMessage());
-            return ResponseEntity.internalServerError().body("Произошла непредвиденая ошибка");
+            return ResponseEntity.internalServerError().body("An error occurred");
+        }
+    }
+
+    @GetMapping("/get/{name}")
+    public ResponseEntity<?> getDevices(@AuthenticationPrincipal Jwt jwt, @PathVariable String name) {
+        try {
+            String email = jwt.getClaim("email");
+            User user = findUserPort.findByEmail(email);
+
+            log.debug("Обращение к endpoint /device/get");
+
+            Device device = getDevicePort.getDevice(email, name);
+
+            return ResponseEntity.ok(device);
+        } catch (Exception e) {
+            log.debug(e.getMessage());
+            return ResponseEntity.internalServerError().body("An error occurred");
         }
     }
 }
