@@ -1,5 +1,6 @@
 package com.kridan.split_net.application.inbound.rest;
 
+import com.kridan.split_net.application.inbound.rest.dto.CreateDeviceResponse;
 import com.kridan.split_net.application.inbound.rest.dto.DeviceDto;
 import com.kridan.split_net.domain.command.CreateDeviceCommand;
 import com.kridan.split_net.domain.model.Device;
@@ -39,7 +40,7 @@ public class DeviceController {
 
 
 
-            return ResponseEntity.ok(config);
+            return ResponseEntity.ok(new CreateDeviceResponse(config));
         } catch (Exception e) {
             log.debug(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
