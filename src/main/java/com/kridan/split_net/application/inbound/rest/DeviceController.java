@@ -2,8 +2,10 @@ package com.kridan.split_net.application.inbound.rest;
 
 import com.kridan.split_net.domain.command.CreateDeviceCommand;
 import com.kridan.split_net.domain.model.Device;
+import com.kridan.split_net.domain.model.User;
 import com.kridan.split_net.domain.ports.inbound.CreateDeviceUseCase;
 import com.kridan.split_net.domain.ports.inbound.GetAllDevicesUseCase;
+import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.List;
 public class DeviceController {
     private final CreateDeviceUseCase createDeviceUseCase;
     private final GetAllDevicesUseCase getAllDevicesUseCase;
+    private final FindUserPort findUserPort;
 
 
     @PostMapping("/add")
@@ -36,11 +39,13 @@ public class DeviceController {
 
     @PostMapping("/get-all")
     public ResponseEntity<?> getDevices(@AuthenticationPrincipal Jwt jwt) {
-        String email = jwt.getClaim("email");
         try {
+            String email = jwt.getClaim("email");
+            User user = findUserPort.findByEmail(email);
+
             log.debug("Обращение к endpoint /device/get-all");
 
-            List<Device> devices = getAllDevicesUseCase.devices(email);
+            List<Device> devices = getAllDevicesUseCase.getAllDevices(user);
 
             return ResponseEntity.ok(devices);
         } catch (Exception e) {
