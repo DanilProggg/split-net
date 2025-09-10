@@ -1,27 +1,48 @@
 package com.kridan.split_net.application.outbound.db;
 
+import com.kridan.split_net.domain.model.LocalCredentials;
 import com.kridan.split_net.domain.model.User;
+import com.kridan.split_net.domain.model.UserIdentity;
 import com.kridan.split_net.domain.ports.outbound.db.SaveUserPort;
+import com.kridan.split_net.infrastructure.database.repository.LocalCredentialsRepository;
+import com.kridan.split_net.infrastructure.database.repository.UserIdentityRepository;
 import com.kridan.split_net.infrastructure.database.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class SaveUserAdapter implements SaveUserPort {
 
     private final UserRepository userRepository;
+    private final UserIdentityRepository userIdentityRepository;
+    private final LocalCredentialsRepository localCredentialsRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User save(User user) {
+    @Transactional
+    public User save(String email, String password) {
 
+        User user = new User()
+                .setId(UUID.randomUUID())
+                .setEmail(email);
+        User savedUser = userRepository.save(user);
 
-        //Encode password
-        String password = user.getPassword();
-        user.setPassword(passwordEncoder.encode(password));
+        UserIdentity userIdentity = new UserIdentity()
+                .setUser(savedUser)
+                .setProvider("LOCAL")
+                .setProviderId(savedUser.getEmail());
+        UserIdentity savedUserIdentity = userIdentityRepository.save(userIdentity);
 
-        return userRepository.save(user);
+        LocalCredentials localCredentials = new LocalCredentials()
+                .setIdentity(savedUserIdentity)
+                .setPasswordHash(passwordEncoder.encode(password));
+        localCredentialsRepository.save(localCredentials);
+
+        return savedUser;
     }
 }

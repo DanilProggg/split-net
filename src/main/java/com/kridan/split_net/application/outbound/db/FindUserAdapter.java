@@ -3,18 +3,17 @@ package com.kridan.split_net.application.outbound.db;
 import com.kridan.split_net.domain.model.User;
 import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
 import com.kridan.split_net.infrastructure.database.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class FindUserAdapter implements FindUserPort {
 
     private final UserRepository userRepository;
 
-    public FindUserAdapter(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public User findById(UUID uuid) {
@@ -22,8 +21,8 @@ public class FindUserAdapter implements FindUserPort {
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
                 ()->new RuntimeException("User not found")
         );
     }

@@ -1,42 +1,43 @@
 package com.kridan.split_net.application.outbound.security;
 
+import com.kridan.split_net.domain.model.User;
+import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
 @Component
 public class JwtUtils {
 
+    private final FindUserPort findUserPort;
+
     private final Key key;
 
-    public JwtUtils(@Value("${jwt.secret}") String jwtSecret) {
+    public JwtUtils(@Value("${jwt.secret}") String jwtSecret, FindUserPort findUserPort) {
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        this.findUserPort = findUserPort;
     }
 
-    public String generateToken(String username, List<String> roles) {
+    public String generateToken(String email, List<String> roles) {
         Instant now = Instant.now();
 
+        User user = findUserPort.findByEmail(email);
+
         return Jwts.builder()
-                .setSubject(username)                   // имя пользователя
-                .setIssuer("self")                      // кто выдал токен
-                .setIssuedAt(Date.from(now))            // время создания
-                .setExpiration(Date.from(now.plusSeconds(86400))) // 1 день
-                .claim("roles", roles)                  // роли
+                .setSubject(user.getId().toString())
+                .setIssuer("self")
+                .setIssuedAt(Date.from(now))
+                .setExpiration(Date.from(now.plusSeconds(86400)))
+                .claim("email", email)
+                .claim("roles", roles)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }

@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -39,6 +40,14 @@ public class CreateDeviceService implements CreateDeviceUseCase {
                     .setOwner(user);
 
             //Save to DB
+
+            Optional<Device> device1 = user.getDevices().stream()
+                    .filter(
+                            d -> d.getName().equals(command.getDeviceName())
+                    ).findAny();
+
+            if (device1.isPresent()) throw new RuntimeException("Device name already in use");
+
             Device createdDevice = saveDevicePort.save(device);
 
             Device realDevice = (Device) Hibernate.unproxy(createdDevice);
