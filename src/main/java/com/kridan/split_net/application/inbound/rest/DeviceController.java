@@ -1,5 +1,6 @@
 package com.kridan.split_net.application.inbound.rest;
 
+import com.kridan.split_net.application.inbound.rest.dto.DeviceDto;
 import com.kridan.split_net.domain.command.CreateDeviceCommand;
 import com.kridan.split_net.domain.model.Device;
 import com.kridan.split_net.domain.model.User;
@@ -51,7 +52,17 @@ public class DeviceController {
 
             List<Device> devices = getAllDevicesUseCase.getAllDevices(email);
 
-            return ResponseEntity.ok(devices);
+            List<DeviceDto> deviceDtos = devices.stream()
+                    .map(
+                        d -> new DeviceDto(
+                                d.getName(),
+                                d.getDevicePrivateKey(),
+                                d.getIpAddress(),
+                                d.getAllowedIps()
+                        )
+                    ).toList();
+
+            return ResponseEntity.ok(deviceDtos);
         } catch (Exception e) {
             log.debug(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
@@ -68,7 +79,14 @@ public class DeviceController {
 
             Device device = getDevicePort.getDevice(email, name);
 
-            return ResponseEntity.ok(device);
+            DeviceDto deviceDto = new DeviceDto(
+                    device.getName(),
+                    device.getDevicePrivateKey(),
+                    device.getIpAddress(),
+                    device.getAllowedIps()
+            );
+
+            return ResponseEntity.ok(deviceDto);
         } catch (Exception e) {
             log.debug(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
