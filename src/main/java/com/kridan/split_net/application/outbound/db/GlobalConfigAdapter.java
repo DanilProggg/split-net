@@ -15,8 +15,8 @@ public class GlobalConfigAdapter implements SaveGlobalConfigPort, GetGlobalConfi
     private final GlobalConfigRepository globalConfigRepository;
 
     @Override
-    public Optional<GlobalConfig> get(String key) {
-        Optional<GlobalConfig> config = globalConfigRepository.findById(key);
+    public GlobalConfig get(String key) {
+        GlobalConfig config = globalConfigRepository.findById(key).orElseThrow(()->new RuntimeException("Global config not found"));
         return config;
     }
 

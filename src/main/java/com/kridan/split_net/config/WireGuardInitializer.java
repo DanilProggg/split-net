@@ -1,5 +1,8 @@
 package com.kridan.split_net.config;
 
+import com.kridan.split_net.domain.ports.inbound.UpdateConfigUseCase;
+import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPubKeyPort;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -13,7 +16,11 @@ import java.nio.file.Files;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class WireGuardInitializer implements CommandLineRunner {
+
+    private final UpdateConfigUseCase updateConfigUseCase;
+    private final CreateWgPubKeyPort createWgPubKeyPort;
 
     @Value("${wg.interface:wg0}")
     private String interfaceName;
@@ -55,6 +62,8 @@ public class WireGuardInitializer implements CommandLineRunner {
                     writer.write(privateKey);
                 }
 
+
+
                 log.info("Private key generated and saved to " + keyFile.getAbsolutePath());
 
             } catch (IOException | InterruptedException e) {
@@ -65,11 +74,16 @@ public class WireGuardInitializer implements CommandLineRunner {
             // Если файл существует, читаем его содержимое
             try {
                 privateKey = Files.readString(keyFile.toPath()).trim();
+
                 log.info("Private key exists, using existing one.");
             } catch (IOException e) {
                 throw new RuntimeException("Error reading existing WireGuard key", e);
             }
         }
+
+        //Save to global config
+        updateConfigUseCase.update("privateKey", privateKey);
+        updateConfigUseCase.update("publicKey", createWgPubKeyPort.generatePubKey(privateKey));
 
         // Create interface
         new ProcessBuilder("ip", "link", "add", interfaceName, "type", "wireguard")

@@ -23,7 +23,7 @@ public class Device {
     private String name;
 
     @Column(unique = true, nullable = false)
-    private String devicePrivateKey;
+    private String publicKey;
 
     @Column(unique = true, nullable = false)
     private String ipAddress;
