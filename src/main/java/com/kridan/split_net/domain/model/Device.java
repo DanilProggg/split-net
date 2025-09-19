@@ -34,4 +34,8 @@ public class Device {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
+
+    @ManyToOne
+    @JoinColumn(name = "subnet_id", nullable = false)
+    private Subnet subnet;
 }
