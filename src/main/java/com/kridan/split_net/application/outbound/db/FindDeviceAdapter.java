@@ -32,4 +32,9 @@ public class FindDeviceAdapter implements GetAllDevicesPort, GetDevicePort {
         return deviceRepository.findByOwnerAndName(user, deviceName)
                 .orElseThrow(()->new RuntimeException("Device with given data not found"));
     }
+
+    @Override
+    public List<Device> getAll() {
+        return deviceRepository.findAll();
+    }
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface GetAllDevicesPort {
     List<Device> getDevices (String email);
+    List<Device> getAll();
 }

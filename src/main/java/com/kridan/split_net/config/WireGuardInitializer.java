@@ -1,6 +1,9 @@
 package com.kridan.split_net.config;
 
+import com.kridan.split_net.application.outbound.db.FindDeviceAdapter;
+import com.kridan.split_net.domain.model.Device;
 import com.kridan.split_net.domain.ports.inbound.UpdateConfigUseCase;
+import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPeerPort;
 import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPubKeyPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,8 @@ public class WireGuardInitializer implements CommandLineRunner {
 
     private final UpdateConfigUseCase updateConfigUseCase;
     private final CreateWgPubKeyPort createWgPubKeyPort;
+    private final FindDeviceAdapter deviceAdapter;
+    private final CreateWgPeerPort createWgPeerPort;
 
     @Value("${wg.interface:wg0}")
     private String interfaceName;
@@ -113,5 +118,10 @@ public class WireGuardInitializer implements CommandLineRunner {
                 .waitFor();
 
         log.info("WireGuard interface " + interfaceName + " created succesful.");
+
+        //Peer recovering
+        for (Device device : deviceAdapter.getAll()) {
+            createWgPeerPort.createPeer(device);
+        }
     }
 }
