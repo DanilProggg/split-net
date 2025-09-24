@@ -1,16 +1,15 @@
 package com.kridan.split_net.application.outbound.db;
 
-import com.kridan.split_net.domain.model.Device;
-import com.kridan.split_net.domain.model.User;
-import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
-import com.kridan.split_net.domain.ports.outbound.db.GetAllDevicesPort;
-import com.kridan.split_net.domain.ports.outbound.db.GetDevicePort;
-import com.kridan.split_net.infrastructure.database.repository.DeviceRepository;
+import com.kridan.split_net.domain.device.Device;
+import com.kridan.split_net.domain.user.User;
+import com.kridan.split_net.domain.user.ports.FindUserPort;
+import com.kridan.split_net.domain.device.ports.GetAllDevicesPort;
+import com.kridan.split_net.domain.device.ports.GetDevicePort;
+import com.kridan.split_net.infrastructure.database.repository.device.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

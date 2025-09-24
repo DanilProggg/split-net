@@ -1,7 +1,7 @@
 package com.kridan.split_net.application.inbound.rest;
 
-import com.kridan.split_net.domain.model.Subnet;
-import com.kridan.split_net.domain.ports.inbound.GetSubnetsUseCase;
+import com.kridan.split_net.domain.subnet.Subnet;
+import com.kridan.split_net.domain.subnet.usecases.GetSubnetsUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

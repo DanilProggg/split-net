@@ -1,15 +1,13 @@
 package com.kridan.split_net.application.outbound.security;
 
-import com.kridan.split_net.domain.model.User;
-import com.kridan.split_net.domain.model.UserIdentity;
-import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
+import com.kridan.split_net.domain.user.User;
+import com.kridan.split_net.domain.user.UserIdentity;
+import com.kridan.split_net.domain.user.ports.FindUserPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

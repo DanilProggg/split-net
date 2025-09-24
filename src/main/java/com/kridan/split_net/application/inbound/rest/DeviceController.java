@@ -1,13 +1,13 @@
 package com.kridan.split_net.application.inbound.rest;
 
 import com.kridan.split_net.application.inbound.rest.dto.DeviceDto;
-import com.kridan.split_net.domain.command.CreateDeviceCommand;
-import com.kridan.split_net.domain.model.Device;
-import com.kridan.split_net.domain.model.User;
-import com.kridan.split_net.domain.ports.inbound.CreateDeviceUseCase;
-import com.kridan.split_net.domain.ports.inbound.GetAllDevicesUseCase;
-import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
-import com.kridan.split_net.domain.ports.outbound.db.GetDevicePort;
+import com.kridan.split_net.domain.device.command.CreateDeviceCommand;
+import com.kridan.split_net.domain.device.Device;
+import com.kridan.split_net.domain.user.User;
+import com.kridan.split_net.domain.device.usecases.CreateDeviceUseCase;
+import com.kridan.split_net.domain.device.usecases.GetAllDevicesUseCase;
+import com.kridan.split_net.domain.user.ports.FindUserPort;
+import com.kridan.split_net.domain.device.ports.GetDevicePort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

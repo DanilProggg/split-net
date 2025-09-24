@@ -1,8 +1,8 @@
 package com.kridan.split_net.application.outbound.db;
 
-import com.kridan.split_net.domain.model.Device;
-import com.kridan.split_net.domain.ports.outbound.db.SaveDevicePort;
-import com.kridan.split_net.infrastructure.database.repository.DeviceRepository;
+import com.kridan.split_net.domain.device.Device;
+import com.kridan.split_net.domain.device.ports.SaveDevicePort;
+import com.kridan.split_net.infrastructure.database.repository.device.DeviceRepository;
 import org.springframework.stereotype.Service;
 
 @Service

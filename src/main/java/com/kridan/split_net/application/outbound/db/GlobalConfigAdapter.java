@@ -1,13 +1,11 @@
 package com.kridan.split_net.application.outbound.db;
 
-import com.kridan.split_net.domain.model.GlobalConfig;
-import com.kridan.split_net.domain.ports.outbound.GetGlobalConfigPort;
-import com.kridan.split_net.domain.ports.outbound.SaveGlobalConfigPort;
-import com.kridan.split_net.infrastructure.database.repository.GlobalConfigRepository;
+import com.kridan.split_net.domain.globalConfig.GlobalConfig;
+import com.kridan.split_net.domain.globalConfig.ports.GetGlobalConfigPort;
+import com.kridan.split_net.domain.globalConfig.ports.SaveGlobalConfigPort;
+import com.kridan.split_net.infrastructure.database.repository.globalConfig.GlobalConfigRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

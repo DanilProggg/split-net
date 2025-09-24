@@ -1,8 +1,8 @@
 package com.kridan.split_net.application.outbound.db;
 
-import com.kridan.split_net.domain.model.User;
-import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
-import com.kridan.split_net.infrastructure.database.repository.UserRepository;
+import com.kridan.split_net.domain.user.User;
+import com.kridan.split_net.domain.user.ports.FindUserPort;
+import com.kridan.split_net.infrastructure.database.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

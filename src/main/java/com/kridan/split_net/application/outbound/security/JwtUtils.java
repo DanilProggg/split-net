@@ -1,11 +1,10 @@
 package com.kridan.split_net.application.outbound.security;
 
-import com.kridan.split_net.domain.model.User;
-import com.kridan.split_net.domain.ports.outbound.db.FindUserPort;
+import com.kridan.split_net.domain.user.User;
+import com.kridan.split_net.domain.user.ports.FindUserPort;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package com.kridan.split_net.application.outbound.wg;
 
-import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPrivKeyPort;
-import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPubKeyPort;
+import com.kridan.split_net.domain.wireguard.ports.CreateWgPrivKeyPort;
+import com.kridan.split_net.domain.wireguard.ports.CreateWgPubKeyPort;
 import org.springframework.stereotype.Component;
 
 import java.io.*;

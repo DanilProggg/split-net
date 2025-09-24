@@ -1,10 +1,10 @@
 package com.kridan.split_net.config;
 
 import com.kridan.split_net.application.outbound.db.FindDeviceAdapter;
-import com.kridan.split_net.domain.model.Device;
-import com.kridan.split_net.domain.ports.inbound.UpdateConfigUseCase;
-import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPeerPort;
-import com.kridan.split_net.domain.ports.outbound.wg.CreateWgPubKeyPort;
+import com.kridan.split_net.domain.device.Device;
+import com.kridan.split_net.domain.globalConfig.usecases.UpdateConfigUseCase;
+import com.kridan.split_net.domain.wireguard.ports.CreateWgPeerPort;
+import com.kridan.split_net.domain.wireguard.ports.CreateWgPubKeyPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

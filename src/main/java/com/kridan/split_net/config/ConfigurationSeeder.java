@@ -1,15 +1,9 @@
 package com.kridan.split_net.config;
 
-import com.kridan.split_net.domain.ports.outbound.GetGlobalConfigPort;
-import com.kridan.split_net.domain.ports.outbound.SaveGlobalConfigPort;
-import lombok.RequiredArgsConstructor;
+import com.kridan.split_net.domain.globalConfig.ports.SaveGlobalConfigPort;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.lang.module.Configuration;
-
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
 
 @Component
 public class ConfigurationSeeder implements CommandLineRunner {

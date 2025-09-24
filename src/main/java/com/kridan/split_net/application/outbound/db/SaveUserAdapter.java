@@ -1,12 +1,12 @@
 package com.kridan.split_net.application.outbound.db;
 
-import com.kridan.split_net.domain.model.LocalCredentials;
-import com.kridan.split_net.domain.model.User;
-import com.kridan.split_net.domain.model.UserIdentity;
-import com.kridan.split_net.domain.ports.outbound.db.SaveUserPort;
-import com.kridan.split_net.infrastructure.database.repository.LocalCredentialsRepository;
-import com.kridan.split_net.infrastructure.database.repository.UserIdentityRepository;
-import com.kridan.split_net.infrastructure.database.repository.UserRepository;
+import com.kridan.split_net.domain.user.LocalCredentials;
+import com.kridan.split_net.domain.user.User;
+import com.kridan.split_net.domain.user.UserIdentity;
+import com.kridan.split_net.domain.user.ports.SaveUserPort;
+import com.kridan.split_net.infrastructure.database.repository.user.LocalCredentialsRepository;
+import com.kridan.split_net.infrastructure.database.repository.user.UserIdentityRepository;
+import com.kridan.split_net.infrastructure.database.repository.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
