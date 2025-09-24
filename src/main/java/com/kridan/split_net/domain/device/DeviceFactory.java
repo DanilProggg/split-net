@@ -4,11 +4,13 @@ import com.kridan.split_net.domain.device.value.DeviceCreationResult;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Component
 public class DeviceFactory {
     private final FindUserPort findUserPort;
 
