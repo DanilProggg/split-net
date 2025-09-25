@@ -9,5 +9,4 @@ public class DeviceDto {
     private String name;
     private String PublicKey;
     private String ipAddress;
-    private String allowedIps;
 }

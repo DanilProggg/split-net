@@ -30,9 +30,6 @@ public class Device {
     @Column(unique = true, nullable = false)
     private String ipAddress;
 
-    @Column(nullable = false)
-    private String allowedIps;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;

@@ -1,13 +1,12 @@
 package com.kridan.split_net.domain.device;
 
-import lombok.AllArgsConstructor;
+public class DeviceConfigGenerator {
 
-@AllArgsConstructor
-public class DeviceConfig {
+
     private String devicePrivateKey;
     private String serverPublicKey;
+    private String defaultAllowedIps;
     private String ipAddress;
-    private String allowedIps;
     private String serverUri;
 
     public String generateConfig(){
@@ -23,9 +22,8 @@ public class DeviceConfig {
                     """,
                 devicePrivateKey,
                 ipAddress,
-
+                defaultAllowedIps,
                 serverPublicKey,
-                allowedIps,
                 serverUri
         );
         return deviceConfig;

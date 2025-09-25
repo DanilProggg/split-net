@@ -18,7 +18,7 @@ public class ConfigurationSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        seedConfig("default_allowed_ips", "0.0.0.0/0");
+        seedConfig("default_allowed_ips", "100.64.0.0/10");
         seedConfig("url", url);
         seedConfig("max_devices_per_user", "10");
     }

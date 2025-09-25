@@ -1,5 +1,6 @@
 package com.kridan.split_net.application.inbound.rest;
 
+import com.kridan.split_net.application.inbound.rest.dto.CreateDeviceRequest;
 import com.kridan.split_net.application.inbound.rest.dto.DeviceDto;
 import com.kridan.split_net.domain.device.command.CreateDeviceCommand;
 import com.kridan.split_net.domain.device.Device;
@@ -30,13 +31,17 @@ public class DeviceController {
 
 
     @PostMapping(value = "/add", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<?> createDevice(@AuthenticationPrincipal Jwt jwt, @RequestBody CreateDeviceCommand command) {
+    public ResponseEntity<?> createDevice(@AuthenticationPrincipal Jwt jwt, @RequestBody CreateDeviceRequest createDeviceRequest) {
         try {
             String email = jwt.getClaim("email");
             User user = findUserPort.findByEmail(email);
 
             log.debug("Обращение к endpoint /device/add");
-            String config = createDeviceUseCase.createDevice(user.getId().toString(), command);
+            String config = createDeviceUseCase.createDevice(
+                    user.getId().toString(),
+                    createDeviceRequest.getDeviceName(),
+                    createDeviceRequest.getIpAddress()
+            );
 
             return ResponseEntity.ok(config);
         } catch (Exception e) {

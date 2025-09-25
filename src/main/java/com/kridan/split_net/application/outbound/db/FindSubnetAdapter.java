@@ -24,4 +24,11 @@ public class FindSubnetAdapter implements FindSubnetPort {
     public List<Subnet> findAll() {
         return subnetRepository.findAll();
     }
+
+    @Override
+    public Subnet findById(Long id) {
+        return subnetRepository.findById(id).orElseThrow(
+                ()->new RuntimeException("Subnet not found")
+        );
+    }
 }
