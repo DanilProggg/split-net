@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class DeviceDto {
+    private String uuid;
     private String name;
     private String PublicKey;
     private String ipAddress;

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/device")
+@RequestMapping("/api/devices")
 @Slf4j
 @RequiredArgsConstructor
 public class DeviceController {
@@ -29,7 +29,8 @@ public class DeviceController {
     private final FindDevicePort findDevicePort;
 
 
-    @PostMapping(value = "/add", produces = MediaType.TEXT_PLAIN_VALUE)
+    //Create device
+    @PostMapping(produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<?> createDevice(@AuthenticationPrincipal Jwt jwt, @RequestBody CreateDeviceRequest createDeviceRequest) {
         try {
             String email = jwt.getClaim("email");
@@ -50,7 +51,8 @@ public class DeviceController {
         }
     }
 
-    @GetMapping("/get-all")
+    //Get all devices of user
+    @GetMapping()
     public ResponseEntity<?> getDevices(@AuthenticationPrincipal Jwt jwt) {
         try {
             String email = jwt.getClaim("email");
@@ -62,6 +64,7 @@ public class DeviceController {
             List<DeviceDto> deviceDtos = devices.stream()
                     .map(
                         d -> new DeviceDto(
+                                d.getId().toString(),
                                 d.getName(),
                                 d.getPublicKey(),
                                 d.getIpAddress(),
@@ -76,17 +79,20 @@ public class DeviceController {
         }
     }
 
-    @GetMapping("/get/{name}")
-    public ResponseEntity<?> getDevices(@AuthenticationPrincipal Jwt jwt, @PathVariable String name) {
+
+    //Get device of user by uuid
+    @GetMapping("/{uuid}")
+    public ResponseEntity<?> getDevice(@AuthenticationPrincipal Jwt jwt, @PathVariable String uuid) {
         try {
             String email = jwt.getClaim("email");
             User user = findUserPort.findByEmail(email);
 
             log.debug("Обращение к endpoint /device/get");
 
-            Device device = findDevicePort.getDevice(email, name);
+            Device device = findDevicePort.findByOwnerAndId(email, uuid);
 
             DeviceDto deviceDto = new DeviceDto(
+                    device.getId().toString(),
                     device.getName(),
                     device.getPublicKey(),
                     device.getIpAddress(),

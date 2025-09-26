@@ -12,5 +12,5 @@ import java.util.UUID;
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, UUID> {
     public List<Device> findAllByOwner(User user);
-    public Optional<Device> findByOwnerAndName(User user, String deviceName);
+    public Optional<Device> findByOwnerAndId(User user, UUID uuid);
 }

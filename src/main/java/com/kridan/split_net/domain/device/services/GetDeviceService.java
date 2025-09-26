@@ -14,6 +14,6 @@ public class GetDeviceService implements GetDeviceUseCase {
 
     @Override
     public Device getDevice(String email, String deviceName) {
-        return findDevicePort.getDevice(email, deviceName);
+        return findDevicePort.findByOwnerAndId(email, deviceName);
     }
 }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +26,10 @@ public class FindDeviceAdapter implements FindAllDevicesPort, FindDevicePort {
     }
 
     @Override
-    public Device getDevice(String email, String deviceName) {
+    public Device findByOwnerAndId(String email, String uuid) {
         User user = findUserPort.findByEmail(email);
-        return deviceRepository.findByOwnerAndName(user, deviceName)
+
+        return deviceRepository.findByOwnerAndId(user, UUID.fromString(uuid))
                 .orElseThrow(()->new RuntimeException("Device with given data not found"));
     }
 

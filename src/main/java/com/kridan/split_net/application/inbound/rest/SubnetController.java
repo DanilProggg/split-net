@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/subnet")
+@RequestMapping("/api/subnets")
 @RequiredArgsConstructor
 @Slf4j
 public class SubnetController {
@@ -20,10 +20,9 @@ public class SubnetController {
     private final CreateSubnetUseCase createSubnetUseCase;
     private final GetSubnetsUseCase getSubnetsUseCase;
 
-    @GetMapping("/get-all")
+    @GetMapping()
     public ResponseEntity<?> getSubnets(){
         try {
-            log.debug("Call endpoint '/api/subnet/get-all'");
             List<Subnet> subnets = getSubnetsUseCase.getAll();
             return ResponseEntity.ok(subnets);
         } catch (Exception e){
@@ -32,10 +31,9 @@ public class SubnetController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<?> createSubnet(@RequestBody CreateSubnetRequest createSubnetRequest){
         try {
-            log.debug("Call endpoint '/api/subnet/create'");
             Subnet subnet = createSubnetUseCase.create(
                     createSubnetRequest.getName(),
                     createSubnetRequest.getDescription(),
