@@ -46,7 +46,7 @@ public class DeviceController {
 
             return ResponseEntity.ok(config);
         } catch (Exception e) {
-            log.debug(e.getMessage());
+            log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
         }
     }
@@ -74,7 +74,7 @@ public class DeviceController {
 
             return ResponseEntity.ok(deviceDtos);
         } catch (Exception e) {
-            log.debug(e.getMessage());
+            log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
         }
     }
@@ -101,7 +101,7 @@ public class DeviceController {
 
             return ResponseEntity.ok(deviceDto);
         } catch (Exception e) {
-            log.debug(e.getMessage());
+            log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
         }
     }
