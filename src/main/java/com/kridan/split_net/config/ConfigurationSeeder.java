@@ -12,7 +12,7 @@ public class ConfigurationSeeder implements CommandLineRunner {
     private final String url;
     private final int port;
 
-    public ConfigurationSeeder(@Value("${wg.url}") String url, @Value("$wg.port") int port, SaveGlobalConfigPort saveGlobalConfigPort) {
+    public ConfigurationSeeder(@Value("${wg.url}") String url, @Value("${wg.port}") int port, SaveGlobalConfigPort saveGlobalConfigPort) {
         this.saveGlobalConfigPort = saveGlobalConfigPort;
         this.url = url;
         this.port = port;
