@@ -16,6 +16,6 @@ public class GetAllDevicesService implements GetAllDevicesUseCase {
 
     @Override
     public List<Device> getAllDevices(String email) {
-        return findAllDevicesPort.getDevices(email);
+        return findAllDevicesPort.findAllByEmail(email);
     }
 }
