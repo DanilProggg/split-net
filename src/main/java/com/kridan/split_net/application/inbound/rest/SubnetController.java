@@ -1,6 +1,8 @@
 package com.kridan.split_net.application.inbound.rest;
 
 import com.kridan.split_net.application.inbound.rest.dto.CreateSubnetRequest;
+import com.kridan.split_net.application.inbound.rest.dto.SubnetDto;
+import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.subnet.Subnet;
 import com.kridan.split_net.domain.subnet.usecases.CreateSubnetUseCase;
 import com.kridan.split_net.domain.subnet.usecases.GetSubnetsUseCase;
@@ -24,7 +26,18 @@ public class SubnetController {
     public ResponseEntity<?> getSubnets(){
         try {
             List<Subnet> subnets = getSubnetsUseCase.getAll();
-            return ResponseEntity.ok(subnets);
+            List<SubnetDto> subnetDtos = subnets.stream()
+                    .map(
+                            s -> new SubnetDto(
+                                    s.getName(),
+                                    s.getDescription(),
+                                    s.getCidr(),
+                                    s.getDevices().stream().map(d->d.getId().toString()).toList()
+                            )
+                    ).toList();
+
+
+            return ResponseEntity.ok(subnetDtos);
         } catch (Exception e){
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
