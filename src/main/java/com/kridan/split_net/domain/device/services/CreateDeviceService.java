@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -41,7 +42,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
     public String createDevice(String userId,
                                String deviceName,
                                String ipAddress,
-                               Long subnetId){
+                               Long subnetId) throws IOException, InterruptedException {
         try {
 
             Subnet subnet = findSubnetPort.findById(subnetId);
@@ -78,8 +79,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
 
         } catch (Exception e){
             log.error(e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw e;
         }
     }
 }
