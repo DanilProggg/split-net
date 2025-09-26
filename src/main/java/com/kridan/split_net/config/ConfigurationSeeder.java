@@ -10,16 +10,19 @@ public class ConfigurationSeeder implements CommandLineRunner {
 
     private final SaveGlobalConfigPort saveGlobalConfigPort;
     private final String url;
+    private final int port;
 
-    public ConfigurationSeeder(@Value("${wg.url}") String url, SaveGlobalConfigPort saveGlobalConfigPort) {
+    public ConfigurationSeeder(@Value("${wg.url}") String url, @Value("$wg.port") int port, SaveGlobalConfigPort saveGlobalConfigPort) {
         this.saveGlobalConfigPort = saveGlobalConfigPort;
         this.url = url;
+        this.port = port;
     }
 
     @Override
     public void run(String... args) {
         seedConfig("default_allowed_ips", "100.64.0.0/10");
         seedConfig("url", url);
+        seedConfig("port", String.valueOf(port));
         seedConfig("max_devices_per_user", "10");
     }
 

@@ -1,5 +1,6 @@
 package com.kridan.split_net.domain.device.services;
 
+import com.kridan.split_net.domain.device.DeviceConfig;
 import com.kridan.split_net.domain.device.DeviceConfigGenerator;
 import com.kridan.split_net.domain.device.DeviceFactory;
 import com.kridan.split_net.domain.device.Device;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class CreateDeviceService implements CreateDeviceUseCase {
 
     private final DeviceFactory deviceFactory;
+    private final DeviceConfigGenerator deviceConfigGenerator;
     private final SaveDevicePort saveDevicePort;
     private final CreateWgPrivKeyPort createWgPrivKeyPort;
     private final CreateWgPubKeyPort createWgPubKeyPort;
@@ -52,7 +54,9 @@ public class CreateDeviceService implements CreateDeviceUseCase {
 
             Device createdDevice = saveDevicePort.save(device);
 
-            DeviceConfigGenerator deviceConfigGenerator = new DeviceConfigGenerator();
+            //Generate configuration
+            DeviceConfig deviceConfig = deviceConfigGenerator.generate(devicePrivateKey, ipAddress);
+
 
             //Logging
             Device realDevice = (Device) Hibernate.unproxy(createdDevice);
@@ -61,7 +65,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
             //Adding peer
             createWgPeerPort.createPeer(createdDevice);
 
-            return ;
+            return deviceConfig.toWireguardFormat();
 
         } catch (Exception e){
             log.error(e.getMessage());

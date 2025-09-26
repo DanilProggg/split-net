@@ -1,32 +1,24 @@
 package com.kridan.split_net.domain.device;
 
+import com.kridan.split_net.domain.globalConfig.ports.GetGlobalConfigPort;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
 public class DeviceConfigGenerator {
 
+    private final GetGlobalConfigPort getGlobalConfigPort;
 
-    private String devicePrivateKey;
-    private String serverPublicKey;
-    private String defaultAllowedIps;
-    private String ipAddress;
-    private String serverUri;
-
-    public String generateConfig(){
-        String deviceConfig = String.format("""
-                    [Interface]
-                    PrivateKey = %s
-                    Address = %s
-            
-                    [Peer]
-                    PublicKey = %s
-                    AllowedIPs = %s
-                    Endpoint = %s:%d
-                    """,
-                devicePrivateKey,
-                ipAddress,
-                defaultAllowedIps,
-                serverPublicKey,
-                serverUri
-        );
-        return deviceConfig;
+    public DeviceConfig generate(String devicePrivateKey, String ipAddress) {
+        return DeviceConfig.builder()
+                .privateKey(devicePrivateKey)
+                .ipAddress(ipAddress)
+                .serverPublicKey(getGlobalConfigPort.get("publicKey").getValue())
+                .allowedIps(getGlobalConfigPort.get("default_allowed_ips").getValue())
+                .endpoint(getGlobalConfigPort.get("url").getValue())
+                .port(Integer.parseInt(getGlobalConfigPort.get("port").getValue()))
+                .build();
     }
 
 }
