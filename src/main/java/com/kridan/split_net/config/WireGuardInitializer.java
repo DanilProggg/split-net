@@ -120,7 +120,7 @@ public class WireGuardInitializer implements CommandLineRunner {
         log.info("WireGuard interface " + interfaceName + " created succesful.");
 
         //Peer recovering
-        for (Device device : deviceAdapter.getAll()) {
+        for (Device device : deviceAdapter.findAll()) {
             createWgPeerPort.createPeer(device);
         }
     }

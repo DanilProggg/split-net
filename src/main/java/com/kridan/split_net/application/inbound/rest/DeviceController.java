@@ -2,13 +2,12 @@ package com.kridan.split_net.application.inbound.rest;
 
 import com.kridan.split_net.application.inbound.rest.dto.CreateDeviceRequest;
 import com.kridan.split_net.application.inbound.rest.dto.DeviceDto;
-import com.kridan.split_net.domain.device.command.CreateDeviceCommand;
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.device.usecases.CreateDeviceUseCase;
 import com.kridan.split_net.domain.device.usecases.GetAllDevicesUseCase;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
-import com.kridan.split_net.domain.device.ports.GetDevicePort;
+import com.kridan.split_net.domain.device.ports.FindDevicePort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -27,7 +26,7 @@ public class DeviceController {
     private final CreateDeviceUseCase createDeviceUseCase;
     private final GetAllDevicesUseCase getAllDevicesUseCase;
     private final FindUserPort findUserPort;
-    private final GetDevicePort getDevicePort;
+    private final FindDevicePort findDevicePort;
 
 
     @PostMapping(value = "/add", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -84,7 +83,7 @@ public class DeviceController {
 
             log.debug("Обращение к endpoint /device/get");
 
-            Device device = getDevicePort.getDevice(email, name);
+            Device device = findDevicePort.getDevice(email, name);
 
             DeviceDto deviceDto = new DeviceDto(
                     device.getName(),

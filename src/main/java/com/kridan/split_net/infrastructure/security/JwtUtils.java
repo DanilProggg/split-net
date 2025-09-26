@@ -1,4 +1,4 @@
-package com.kridan.split_net.application.outbound.security;
+package com.kridan.split_net.infrastructure.security;
 
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.ports.FindUserPort;

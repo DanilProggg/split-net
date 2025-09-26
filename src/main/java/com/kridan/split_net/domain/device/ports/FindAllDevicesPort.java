@@ -4,7 +4,7 @@ import com.kridan.split_net.domain.device.Device;
 
 import java.util.List;
 
-public interface GetAllDevicesPort {
-    List<Device> getDevices (String email);
-    List<Device> getAll();
+public interface FindAllDevicesPort {
+    List<Device> findAllByEmail (String email);
+    List<Device> findAll();
 }

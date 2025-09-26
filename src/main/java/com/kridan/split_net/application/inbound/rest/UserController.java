@@ -2,7 +2,7 @@ package com.kridan.split_net.application.inbound.rest;
 
 import com.kridan.split_net.application.inbound.rest.dto.JwtResponse;
 import com.kridan.split_net.application.inbound.rest.dto.LoginUserDto;
-import com.kridan.split_net.application.outbound.security.JwtUtils;
+import com.kridan.split_net.infrastructure.security.JwtUtils;
 import com.kridan.split_net.domain.user.command.CreateUserCommand;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.usecases.CreateUserUseCase;

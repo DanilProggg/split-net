@@ -2,7 +2,7 @@ package com.kridan.split_net.domain.device.services;
 
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.device.usecases.GetDeviceUseCase;
-import com.kridan.split_net.domain.device.ports.GetDevicePort;
+import com.kridan.split_net.domain.device.ports.FindDevicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetDeviceService implements GetDeviceUseCase {
 
-    private final GetDevicePort getDevicePort;
+    private final FindDevicePort findDevicePort;
 
     @Override
     public Device getDevice(String email, String deviceName) {
-        return getDevicePort.getDevice(email, deviceName);
+        return findDevicePort.getDevice(email, deviceName);
     }
 }

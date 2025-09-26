@@ -3,8 +3,8 @@ package com.kridan.split_net.application.outbound.db;
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
-import com.kridan.split_net.domain.device.ports.GetAllDevicesPort;
-import com.kridan.split_net.domain.device.ports.GetDevicePort;
+import com.kridan.split_net.domain.device.ports.FindAllDevicesPort;
+import com.kridan.split_net.domain.device.ports.FindDevicePort;
 import com.kridan.split_net.infrastructure.database.repository.device.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,14 +13,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FindDeviceAdapter implements GetAllDevicesPort, GetDevicePort {
+public class FindDeviceAdapter implements FindAllDevicesPort, FindDevicePort {
 
     private final DeviceRepository deviceRepository;
     private final FindUserPort findUserPort;
 
-
     @Override
-    public List<Device> getDevices(String email) {
+    public List<Device> findAllByEmail(String email) {
         User user = findUserPort.findByEmail(email);
         return deviceRepository.findAllByOwner(user);
     }
@@ -33,7 +32,7 @@ public class FindDeviceAdapter implements GetAllDevicesPort, GetDevicePort {
     }
 
     @Override
-    public List<Device> getAll() {
+    public List<Device> findAll() {
         return deviceRepository.findAll();
     }
 }
