@@ -39,7 +39,8 @@ public class DeviceController {
             String config = createDeviceUseCase.createDevice(
                     user.getId().toString(),
                     createDeviceRequest.getDeviceName(),
-                    createDeviceRequest.getIpAddress()
+                    createDeviceRequest.getIpAddress(),
+                    createDeviceRequest.getSubnetId()
             );
 
             return ResponseEntity.ok(config);
@@ -64,7 +65,7 @@ public class DeviceController {
                                 d.getName(),
                                 d.getPublicKey(),
                                 d.getIpAddress(),
-                                d.getAllowedIps()
+                                d.getSubnet().getId()
                         )
                     ).toList();
 
@@ -89,7 +90,7 @@ public class DeviceController {
                     device.getName(),
                     device.getPublicKey(),
                     device.getIpAddress(),
-                    device.getAllowedIps()
+                    device.getSubnet().getId()
             );
 
             return ResponseEntity.ok(deviceDto);

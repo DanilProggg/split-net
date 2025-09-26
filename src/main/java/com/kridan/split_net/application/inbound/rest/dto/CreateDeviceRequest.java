@@ -7,4 +7,5 @@ public class CreateDeviceRequest {
     private String userId;
     private String deviceName;
     private String ipAddress;
+    private Long subnetId;
 }
