@@ -8,6 +8,7 @@ import com.kridan.split_net.domain.device.usecases.CreateDeviceUseCase;
 import com.kridan.split_net.domain.globalConfig.usecases.GetConfigUseCase;
 import com.kridan.split_net.domain.device.ports.SaveDevicePort;
 import com.kridan.split_net.domain.subnet.ports.FindSubnetPort;
+import com.kridan.split_net.domain.user.ports.FindUserPort;
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPeerPort;
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPrivKeyPort;
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPubKeyPort;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +32,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
     private final CreateWgPubKeyPort createWgPubKeyPort;
     private final CreateWgPeerPort createWgPeerPort;
     private final FindSubnetPort findSubnetPort;
-
-    @Value("${wg.port}")
-    private int port;
+    private final FindUserPort findUserPort;
 
     @Override
     public String createDevice(String userId,
@@ -45,7 +46,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
             String devicePublicKey = createWgPubKeyPort.generatePubKey(devicePrivateKey);
 
             Device device = deviceFactory.create(
-                    userId,
+                    findUserPort.findById(UUID.fromString(userId)),
                     deviceName,
                     ipAddress,
                     devicePublicKey,
@@ -69,6 +70,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
 
         } catch (Exception e){
             log.error(e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }

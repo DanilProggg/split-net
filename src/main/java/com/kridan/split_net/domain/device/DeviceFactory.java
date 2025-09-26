@@ -12,15 +12,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class DeviceFactory {
-    private final FindUserPort findUserPort;
 
-    public Device create(String userId,
+    public Device create(User user,
                          String name,
                          String ipAddress,
                          String devicePublicKey,
                          Subnet subnet
                          ) {
-        User user = findUserPort.findById(UUID.fromString(userId));
 
         Device device = new Device()
                 .setId(UUID.randomUUID())
