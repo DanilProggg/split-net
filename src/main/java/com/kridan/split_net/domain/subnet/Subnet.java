@@ -1,5 +1,6 @@
 package com.kridan.split_net.domain.subnet;
 
+import com.kridan.split_net.domain.accessControlRule.AccessControlRule;
 import com.kridan.split_net.domain.device.Device;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,4 +25,7 @@ public class Subnet {
 
     @OneToMany(mappedBy = "subnet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Device> devices;
+
+    @OneToMany(mappedBy = "subnet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccessControlRule> accessControlRules;
 }

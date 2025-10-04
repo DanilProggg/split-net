@@ -1,4 +1,4 @@
-package com.kridan.split_net.application.outbound.wg;
+package com.kridan.split_net.infrastructure.wg;
 
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPrivKeyPort;
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPubKeyPort;
