@@ -1,12 +1,13 @@
 package com.kridan.split_net.domain.accessControlRule;
 
-import com.kridan.split_net.domain.subnet.Subnet;
+import com.kridan.split_net.domain.group.Group;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity@Getter
+@Entity
+@Getter
 @Setter
 @NoArgsConstructor
 public class AccessControlRule {
@@ -19,6 +20,6 @@ public class AccessControlRule {
     private String type; // "allow" or "deny"
 
     @ManyToOne
-    @JoinColumn(name = "subnet_id", nullable = false)
-    private Subnet subnet;
+    @JoinColumn(name = "group_id")
+    private Group group;
 }
