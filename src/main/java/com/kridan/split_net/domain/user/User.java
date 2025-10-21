@@ -1,6 +1,7 @@
 package com.kridan.split_net.domain.user;
 
 import com.kridan.split_net.domain.device.Device;
+import com.kridan.split_net.domain.group.Group;
 import com.kridan.split_net.domain.site.Site;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class User {
     private List<Device> devices;
 
     @ManyToMany(mappedBy = "users")
-    private Set<Site> groups = new HashSet<>();
+    private Set<Group> groups = new HashSet<>();
 
 
 }
