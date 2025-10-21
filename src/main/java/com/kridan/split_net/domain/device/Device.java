@@ -1,6 +1,5 @@
 package com.kridan.split_net.domain.device;
 
-import com.kridan.split_net.domain.subnet.Subnet;
 import com.kridan.split_net.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -34,7 +33,4 @@ public class Device {
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
-    @ManyToOne
-    @JoinColumn(name = "subnet_id", nullable = false)
-    private Subnet subnet;
 }
