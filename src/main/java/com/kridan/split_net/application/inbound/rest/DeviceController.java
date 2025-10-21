@@ -67,8 +67,7 @@ public class DeviceController {
                                 d.getId().toString(),
                                 d.getName(),
                                 d.getPublicKey(),
-                                d.getIpAddress(),
-                                d.getSubnet().getId()
+                                d.getIpAddress()
                         )
                     ).toList();
 
@@ -95,8 +94,7 @@ public class DeviceController {
                     device.getId().toString(),
                     device.getName(),
                     device.getPublicKey(),
-                    device.getIpAddress(),
-                    device.getSubnet().getId()
+                    device.getIpAddress()
             );
 
             return ResponseEntity.ok(deviceDto);

@@ -1,4 +1,4 @@
-package com.kridan.split_net.application.outbound.db;
+package com.kridan.split_net.application.outbound.db.device;
 
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.device.ports.SaveDevicePort;

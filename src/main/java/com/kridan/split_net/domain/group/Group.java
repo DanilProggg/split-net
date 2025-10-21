@@ -21,6 +21,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     private String description;
@@ -35,4 +36,11 @@ public class Group {
             inverseJoinColumns = @JoinColumn(name = "group_id") // внешний ключ на таблицу Course
     )
     private Set<User> users = new HashSet<>();
+
+
+    //Constructor for group create
+    public Group(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

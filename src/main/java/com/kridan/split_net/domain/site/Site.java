@@ -1,12 +1,13 @@
 package com.kridan.split_net.domain.site;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.kridan.split_net.domain.gateway.Gateway;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -21,5 +22,8 @@ public class Site {
 
     private String description;
 
+    private String subnet;
 
+    @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Gateway> gateways = new HashSet<>();
 }
