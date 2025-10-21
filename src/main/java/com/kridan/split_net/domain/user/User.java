@@ -1,6 +1,7 @@
 package com.kridan.split_net.domain.user;
 
 import com.kridan.split_net.domain.device.Device;
+import com.kridan.split_net.domain.site.Site;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,9 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
@@ -29,6 +28,10 @@ public class User {
     private List<UserIdentity> identities = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Device> devices;
+    private List<Device> devices;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Site> groups = new HashSet<>();
+
 
 }

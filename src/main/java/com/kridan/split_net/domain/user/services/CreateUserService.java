@@ -17,7 +17,6 @@ public class CreateUserService implements CreateUserUseCase {
     private final SaveUserPort saveUserPort;
 
     @Override
-    @Transactional
     public User createUser(CreateUserCommand command) {
         try {
             log.debug("Создание пользователя {}", command.getUsername());

@@ -1,6 +1,6 @@
 package com.kridan.split_net.config;
 
-import com.kridan.split_net.application.outbound.db.FindDeviceAdapter;
+import com.kridan.split_net.application.outbound.db.device.FindDeviceAdapter;
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.globalConfig.usecases.UpdateConfigUseCase;
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPeerPort;

@@ -1,8 +1,6 @@
 package com.kridan.split_net.domain.device;
 
-import com.kridan.split_net.domain.subnet.Subnet;
 import com.kridan.split_net.domain.user.User;
-import com.kridan.split_net.domain.user.ports.FindUserPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +14,7 @@ public class DeviceFactory {
     public Device create(User user,
                          String name,
                          String ipAddress,
-                         String devicePublicKey,
-                         Subnet subnet
+                         String devicePublicKey
                          ) {
 
         Device device = new Device()
@@ -25,7 +22,6 @@ public class DeviceFactory {
                 .setName(name)
                 .setPublicKey(devicePublicKey)
                 .setIpAddress(ipAddress)
-                .setSubnet(subnet)
                 .setOwner(user);
 
         Optional<Device> device1 = user.getDevices().stream()
