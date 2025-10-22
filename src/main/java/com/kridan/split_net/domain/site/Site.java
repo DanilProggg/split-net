@@ -26,4 +26,9 @@ public class Site {
 
     @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Gateway> gateways = new HashSet<>();
+
+    public Site(String name, String subnet) {
+        this.name = name;
+        this.subnet = subnet;
+    }
 }

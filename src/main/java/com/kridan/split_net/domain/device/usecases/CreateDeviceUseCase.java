@@ -7,7 +7,6 @@ import java.io.IOException;
 public interface CreateDeviceUseCase {
     String createDevice(String userId,
                         String deviceName,
-                        String ipAddress,
-                        Long subnetId
+                        String ipAddress
     ) throws IOException, InterruptedException;
 }

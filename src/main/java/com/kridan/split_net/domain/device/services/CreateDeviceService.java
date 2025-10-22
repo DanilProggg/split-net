@@ -34,8 +34,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
     @Override
     public String createDevice(String userId,
                                String deviceName,
-                               String ipAddress,
-                               Long subnetId) throws IOException, InterruptedException {
+                               String ipAddress) throws IOException, InterruptedException {
         try {
 
             //Device`s private/public key

@@ -15,9 +15,17 @@ public class Gateway {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    private String wg_url;
 
     @ManyToOne
     @JoinColumn(name = "gateway_id")
     private Site site;
+
+    public Gateway(Site site, String name) {
+        this.site = site;
+        this.name = name;
+    }
 }

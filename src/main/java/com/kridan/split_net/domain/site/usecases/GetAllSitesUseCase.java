@@ -2,6 +2,8 @@ package com.kridan.split_net.domain.site.usecases;
 
 import com.kridan.split_net.domain.site.Site;
 
-public interface CreateSiteUseCase {
-    Site create(String name, String subnet);
+import java.util.List;
+
+public interface GetAllSitesUseCase {
+    List<Site> getAll();
 }

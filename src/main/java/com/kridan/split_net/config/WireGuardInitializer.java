@@ -27,6 +27,9 @@ public class WireGuardInitializer implements CommandLineRunner {
     private final FindDeviceAdapter deviceAdapter;
     private final CreateWgPeerPort createWgPeerPort;
 
+    @Value("${wg.net}")
+    private String wgNet;
+
     @Value("${wg.interface:wg0}")
     private String interfaceName;
 
@@ -34,6 +37,8 @@ public class WireGuardInitializer implements CommandLineRunner {
 
     @Value("${wg.ip:100.64.0.1/10}")
     private String ipAddress;
+
+
 
     @Value("${wg.listenPort}")
     private int listenPort;
@@ -89,6 +94,7 @@ public class WireGuardInitializer implements CommandLineRunner {
         //Save to global config
         updateConfigUseCase.update("privateKey", privateKey);
         updateConfigUseCase.update("publicKey", createWgPubKeyPort.generatePubKey(privateKey));
+        updateConfigUseCase.update("network", wgNet);
 
         // Create interface
         new ProcessBuilder("ip", "link", "add", interfaceName, "type", "wireguard")

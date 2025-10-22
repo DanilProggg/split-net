@@ -40,8 +40,7 @@ public class DeviceController {
             String config = createDeviceUseCase.createDevice(
                     user.getId().toString(),
                     createDeviceRequest.getDeviceName(),
-                    createDeviceRequest.getIpAddress(),
-                    createDeviceRequest.getSubnetId()
+                    createDeviceRequest.getIpAddress()
             );
 
             return ResponseEntity.ok(config);
