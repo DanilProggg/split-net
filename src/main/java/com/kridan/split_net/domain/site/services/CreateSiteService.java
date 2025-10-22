@@ -19,7 +19,7 @@ public class CreateSiteService implements CreateSiteUseCase {
 
 
     @Override
-    public Site create(String name, String subnet) {
+    public Site create(String name, String description, String subnet) {
 
         try {
             String globalSubnet = getGlobalConfigPort.get("network").getValue();
@@ -29,6 +29,7 @@ public class CreateSiteService implements CreateSiteUseCase {
 
             Site site = new Site(
                     name,
+                    description,
                     subnet
             );
             return saveSitePort.save(site);

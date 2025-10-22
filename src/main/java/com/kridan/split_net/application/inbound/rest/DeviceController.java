@@ -36,7 +36,6 @@ public class DeviceController {
             String email = jwt.getClaim("email");
             User user = findUserPort.findByEmail(email);
 
-            log.debug("Обращение к endpoint /device/add");
             String config = createDeviceUseCase.createDevice(
                     user.getId().toString(),
                     createDeviceRequest.getDeviceName(),
@@ -55,8 +54,6 @@ public class DeviceController {
     public ResponseEntity<?> getDevices(@AuthenticationPrincipal Jwt jwt) {
         try {
             String email = jwt.getClaim("email");
-
-            log.debug("Обращение к endpoint /device/get-all");
 
             List<Device> devices = getAllDevicesUseCase.getAllDevices(email);
 
