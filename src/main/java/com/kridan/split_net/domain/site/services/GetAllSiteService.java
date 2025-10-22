@@ -1,6 +1,7 @@
 package com.kridan.split_net.domain.site.services;
 
 import com.kridan.split_net.domain.site.Site;
+import com.kridan.split_net.domain.site.ports.FindAllSitesPort;
 import com.kridan.split_net.domain.site.ports.FindSitePort;
 import com.kridan.split_net.domain.site.usecases.GetAllSitesUseCase;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +13,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetAllSiteService implements GetAllSitesUseCase {
 
-    private final FindSitePort findSitePort;
+    private final FindAllSitesPort findAllSitesPort;
 
     @Override
     public List<Site> getAll() {
-        return findSitePort.
+        return findAllSitesPort.findAll();
     }
 }
