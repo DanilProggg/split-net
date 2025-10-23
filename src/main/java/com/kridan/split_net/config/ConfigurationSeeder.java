@@ -11,15 +11,21 @@ public class ConfigurationSeeder implements CommandLineRunner {
     private final SaveGlobalConfigPort saveGlobalConfigPort;
     private final String url;
     private final int port;
+    private final String network;
 
-    public ConfigurationSeeder(@Value("${wg.url}") String url, @Value("${wg.port}") int port, SaveGlobalConfigPort saveGlobalConfigPort) {
+    public ConfigurationSeeder(@Value("${wg.url}") String url,
+                               @Value("${wg.port}") int port,
+                               @Value("${wg.net}") String network,
+                               SaveGlobalConfigPort saveGlobalConfigPort) {
         this.saveGlobalConfigPort = saveGlobalConfigPort;
         this.url = url;
         this.port = port;
+        this.network = network;
     }
 
     @Override
     public void run(String... args) {
+        seedConfig("network", network);
         seedConfig("default_allowed_ips", "100.64.0.0/10");
         seedConfig("url", url);
         seedConfig("port", String.valueOf(port));

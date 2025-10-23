@@ -25,7 +25,7 @@ public class JwtUtils {
         this.findUserPort = findUserPort;
     }
 
-    public String generateToken(String email, List<String> roles) {
+    public String generateToken(String email, List<String> roles, int hoursExpire) {
         Instant now = Instant.now();
 
         User user = findUserPort.findByEmail(email);
@@ -34,7 +34,7 @@ public class JwtUtils {
                 .setSubject(user.getId().toString())
                 .setIssuer("self")
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(86400)))
+                .setExpiration(Date.from(now.plusSeconds(hoursExpire/60/60)))
                 .claim("email", email)
                 .claim("roles", roles)
                 .signWith(key, SignatureAlgorithm.HS256)

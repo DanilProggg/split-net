@@ -3,7 +3,6 @@ package com.kridan.split_net.domain.gateway.services;
 import com.kridan.split_net.domain.gateway.Gateway;
 import com.kridan.split_net.domain.gateway.ports.SaveGatewayPort;
 import com.kridan.split_net.domain.gateway.usecases.CreateGatewayUseCase;
-import com.kridan.split_net.domain.site.Site;
 import com.kridan.split_net.domain.site.ports.FindSitePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public class CreateGatewayService implements CreateGatewayUseCase {
 
 
     @Override
-    public String create(String name, Long site_id) {
+    public Gateway create(String name, Long site_id) {
 
 
         Gateway gateway = new Gateway(
@@ -25,8 +24,6 @@ public class CreateGatewayService implements CreateGatewayUseCase {
                 name
         );
 
-        saveGatewayPort.save(gateway);
-
-        return "token";
+        return saveGatewayPort.save(gateway);
     }
 }

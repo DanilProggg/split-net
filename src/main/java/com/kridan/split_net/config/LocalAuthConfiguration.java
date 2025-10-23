@@ -40,6 +40,7 @@ public class LocalAuthConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/api/gateways/config").hasRole("gateway")
                         .anyRequest().denyAll()
                 )
                 .userDetailsService(userDetailsService)

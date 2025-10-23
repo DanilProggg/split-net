@@ -63,7 +63,7 @@ public class UserController {
             List<String> roles = authentication.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .toList();
-            String token = jwtUtils.generateToken(authentication.getName(), roles);
+            String token = jwtUtils.generateToken(authentication.getName(), roles, 24);
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e){

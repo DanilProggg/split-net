@@ -39,7 +39,7 @@ public class SiteController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAllSites() {
+    public ResponseEntity<?> getSites() {
         try {
             List<Site> sites = getAllSitesUseCase.getAll();
 

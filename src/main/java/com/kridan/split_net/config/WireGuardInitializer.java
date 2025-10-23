@@ -98,7 +98,6 @@ public class WireGuardInitializer implements CommandLineRunner {
         //Save to global config
         updateConfigUseCase.update("privateKey", privateKey);
         updateConfigUseCase.update("publicKey", createWgPubKeyPort.generatePubKey(privateKey));
-        updateConfigUseCase.update("network", wgNet);
         log.info("Global network is {}", wgNet);
 
         // Create interface
