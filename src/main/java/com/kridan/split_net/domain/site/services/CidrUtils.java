@@ -2,6 +2,7 @@ package com.kridan.split_net.domain.site.services;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 public class CidrUtils {
 
@@ -60,5 +61,44 @@ public class CidrUtils {
             if ((childBytes[fullBytes] & mask) != (parentBytes[fullBytes] & mask)) return false;
         }
         return true;
+    }
+
+    public static boolean isOverlapping(String cidr1, String cidr2) {
+        try {
+            long[] range1 = getIpRange(cidr1);
+            long[] range2 = getIpRange(cidr2);
+
+            return !(range1[1] < range2[0] || range2[1] < range1[0]);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid CIDR format", e);
+        }
+    }
+
+    public static boolean overlapsAny(String newCidr, List<String> existingCidrs) {
+        for (String existing : existingCidrs) {
+            if (isOverlapping(newCidr, existing)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static long[] getIpRange(String cidr) throws UnknownHostException {
+        String[] parts = cidr.split("/");
+        InetAddress inet = InetAddress.getByName(parts[0]);
+        int prefix = Integer.parseInt(parts[1]);
+
+        byte[] bytes = inet.getAddress();
+        long ip = 0;
+        for (byte b : bytes) {
+            ip = (ip << 8) | (b & 0xFF);
+        }
+
+        int bits = bytes.length * 8;
+        long mask = ~((1L << (bits - prefix)) - 1);
+        long network = ip & mask;
+        long broadcast = network | ~mask & ((1L << bits) - 1);
+
+        return new long[]{network, broadcast};
     }
 }
