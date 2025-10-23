@@ -33,7 +33,7 @@ public class GatewayController {
             //Create gateway
             Gateway gateway = createGatewayUseCase.create(createGatewayRequest.getName(), createGatewayRequest.getSite_id());
 
-            String token = jwtUtils.generateToken(gateway.getName(), List.of("gateway"), 1000000000);
+            String token = jwtUtils.generateGatewayToken(gateway.getId(), List.of("gateway"));
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e) {
