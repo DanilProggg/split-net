@@ -5,6 +5,7 @@ import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.globalConfig.usecases.UpdateConfigUseCase;
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPeerPort;
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPubKeyPort;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,10 +39,13 @@ public class WireGuardInitializer implements CommandLineRunner {
     @Value("${wg.ip:100.64.0.1/10}")
     private String ipAddress;
 
-
-
     @Value("${wg.listenPort}")
     private int listenPort;
+
+    @PostConstruct
+    void init() {
+        System.out.println("WG_NET = " + wgNet);
+    }
 
 
     @Override

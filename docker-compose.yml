@@ -14,6 +14,7 @@ services:
       DB_PASS: ${DB_PASS}
       APP_PORT: ${APP_PORT}
       WG_PORT: ${WG_PORT}
+      WG_NET: ${WG_NET}
     cap_add:
       - NET_ADMIN
     devices:
