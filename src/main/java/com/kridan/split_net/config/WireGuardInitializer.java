@@ -95,7 +95,7 @@ public class WireGuardInitializer implements CommandLineRunner {
         updateConfigUseCase.update("privateKey", privateKey);
         updateConfigUseCase.update("publicKey", createWgPubKeyPort.generatePubKey(privateKey));
         updateConfigUseCase.update("network", wgNet);
-        log.info("Global network is {wgNet}");
+        log.info("Global network is {}", wgNet);
 
         // Create interface
         new ProcessBuilder("ip", "link", "add", interfaceName, "type", "wireguard")
