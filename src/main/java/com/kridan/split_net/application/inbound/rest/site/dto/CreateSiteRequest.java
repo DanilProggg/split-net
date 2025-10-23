@@ -9,5 +9,4 @@ public class CreateSiteRequest {
     private String name;
     private String description;
     private String subnet;
-
 }

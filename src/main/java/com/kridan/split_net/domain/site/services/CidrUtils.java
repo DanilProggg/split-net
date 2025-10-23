@@ -59,7 +59,6 @@ public class CidrUtils {
             int mask = 0xFF << (8 - remainingBits);
             if ((childBytes[fullBytes] & mask) != (parentBytes[fullBytes] & mask)) return false;
         }
-
         return true;
     }
 }
