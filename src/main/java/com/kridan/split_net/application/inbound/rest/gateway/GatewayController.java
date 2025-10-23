@@ -2,6 +2,7 @@ package com.kridan.split_net.application.inbound.rest.gateway;
 
 import com.kridan.split_net.application.inbound.rest.dto.JwtResponse;
 import com.kridan.split_net.application.inbound.rest.gateway.dto.CreateGatewayRequest;
+import com.kridan.split_net.application.inbound.rest.gateway.dto.GatewayDto;
 import com.kridan.split_net.domain.gateway.Gateway;
 import com.kridan.split_net.domain.gateway.ports.FindAllGatewaysPort;
 import com.kridan.split_net.domain.gateway.usecases.CreateGatewayUseCase;
@@ -45,10 +46,17 @@ public class GatewayController {
     @GetMapping()
     public ResponseEntity<?> getGateways() {
         try {
-
             //Token for gateways access
-            List<Gateway> gateways = findAllGatewaysPort.findAll();
-            return ResponseEntity.ok(gateways);
+            List<GatewayDto> gatewaysDto = findAllGatewaysPort.findAll().stream()
+                    .map(
+                            gateway -> new GatewayDto(
+                                    gateway.getId(),
+                                    gateway.getName(),
+                                    gateway.getWg_url(),
+                                    gateway.getSite().getId()
+                            )
+                    ).toList();
+            return ResponseEntity.ok(gatewaysDto);
 
         } catch (Exception e) {
             log.error(e.getMessage());

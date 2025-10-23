@@ -1,6 +1,8 @@
 package com.kridan.split_net.application.inbound.rest.site;
 
+import com.kridan.split_net.application.inbound.rest.gateway.dto.GatewayDto;
 import com.kridan.split_net.application.inbound.rest.site.dto.CreateSiteRequest;
+import com.kridan.split_net.application.inbound.rest.site.dto.SiteDto;
 import com.kridan.split_net.domain.site.Site;
 import com.kridan.split_net.domain.site.usecases.CreateSiteUseCase;
 import com.kridan.split_net.domain.site.usecases.GetAllSitesUseCase;
@@ -41,9 +43,24 @@ public class SiteController {
     @GetMapping()
     public ResponseEntity<?> getSites() {
         try {
-            List<Site> sites = getAllSitesUseCase.getAll();
 
-            return ResponseEntity.ok(sites);
+            List<SiteDto> siteDtos = getAllSitesUseCase.getAll().stream()
+                    .map(site -> new SiteDto(
+                            site.getId(),
+                            site.getName(),
+                            site.getDescription(),
+                            site.getSubnet(),
+                            site.getGateways().stream().map(
+                                    gateway -> new GatewayDto(
+                                            gateway.getId(),
+                                            gateway.getName(),
+                                            gateway.getWg_url(),
+                                            gateway.getSite().getId()
+                                    )
+                            ).toList()
+                    )).toList();
+
+            return ResponseEntity.ok(siteDtos);
         } catch (Exception e){
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
