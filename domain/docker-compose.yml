@@ -1,8 +1,8 @@
 services:
   app:
     build:
-      context: .
-      dockerfile: domain/Dockerfile
+      context: ..
+      dockerfile: Dockerfile
     ports:
       - "${WG_PORT}:51820/udp"
       - "${APP_PORT}:8080"
