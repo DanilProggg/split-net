@@ -1,6 +1,10 @@
 package com.kridan.split_net.config;
 
 import com.kridan.split_net.infrastructure.security.JpaUserDetailsService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +15,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -19,10 +24,14 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 
 @Configuration
 @EnableWebSecurity
@@ -46,6 +55,7 @@ public class LocalAuthConfiguration {
                         .anyRequest().denyAll()
                 )
                 .userDetailsService(userDetailsService)
+                .addFilterBefore(new RequestLoggingFilter(), AuthorizationFilter.class)
                 .oauth2ResourceServer(oauth -> oauth
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 );
@@ -78,17 +88,44 @@ public class LocalAuthConfiguration {
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-
-        // Указываем кастомное название claim для ролей
         grantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
-
-        // Добавляем префикс ROLE_ к ролям из JWT
         grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            Collection<GrantedAuthority> authorities = grantedAuthoritiesConverter.convert(jwt);
+
+            // Детальное логирование
+            System.out.println("🔐 === JWT DEBUG INFO ===");
+            System.out.println("📧 Subject: " + jwt.getSubject());
+            System.out.println("🏷️ All claims: " + jwt.getClaims());
+            System.out.println("👥 Roles claim ('roles'): " + jwt.getClaimAsStringList("roles"));
+            System.out.println("🛡️ Extracted authorities:");
+            authorities.forEach(auth -> System.out.println("   - " + auth.getAuthority()));
+            System.out.println("❓ Has ROLE_GATEWAY: " +
+                    authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_GATEWAY")));
+            System.out.println("==========================");
+
+            return authorities;
+        });
 
         return jwtAuthenticationConverter;
+    }
+
+    public static class RequestLoggingFilter extends OncePerRequestFilter {
+        @Override
+        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                        FilterChain filterChain) throws ServletException, IOException {
+            System.out.println("🌐 === REQUEST INFO ===");
+            System.out.println("📍 Path: " + request.getRequestURI());
+            System.out.println("🔐 Auth Header: " + request.getHeader("Authorization"));
+            System.out.println("========================");
+
+            filterChain.doFilter(request, response);
+
+            System.out.println("📡 Response Status: " + response.getStatus());
+            System.out.println("========================");
+        }
     }
 
 
