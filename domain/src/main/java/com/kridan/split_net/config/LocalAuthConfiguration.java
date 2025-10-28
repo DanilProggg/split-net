@@ -46,8 +46,8 @@ public class LocalAuthConfiguration {
                         .anyRequest().denyAll()
                 )
                 .userDetailsService(userDetailsService)
-                .oauth2ResourceServer(
-                        oauth -> oauth.jwt(Customizer.withDefaults())
+                .oauth2ResourceServer(oauth -> oauth
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 );
 
         return http.build();
