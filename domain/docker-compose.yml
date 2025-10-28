@@ -1,7 +1,7 @@
 services:
   app:
     build:
-      context: ..
+      context: .
       dockerfile: Dockerfile
     ports:
       - "${WG_PORT}:51820/udp"
