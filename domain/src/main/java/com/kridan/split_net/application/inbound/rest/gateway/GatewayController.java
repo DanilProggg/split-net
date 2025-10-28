@@ -32,7 +32,11 @@ public class GatewayController {
         try {
 
             //Create gateway
-            Gateway gateway = createGatewayUseCase.create(createGatewayRequest.getName(), createGatewayRequest.getSite_id());
+            Gateway gateway = createGatewayUseCase.create(
+                    createGatewayRequest.getName(),
+                    createGatewayRequest.getIpAddress(),
+                    createGatewayRequest.getSite_id()
+            );
 
             String token = jwtUtils.generateGatewayToken(gateway.getId(), List.of("gateway"));
 
@@ -54,6 +58,7 @@ public class GatewayController {
                                     gateway.getName(),
                                     gateway.getWg_url(),
                                     gateway.getPublicKey(),
+                                    gateway.getIpAddress(),
                                     gateway.getSite().getId()
                             )
                     ).toList();

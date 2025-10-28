@@ -23,12 +23,15 @@ public class Gateway {
     @Column(unique = true)
     private String publicKey;
 
+    private String ipAddress;
+
     @ManyToOne
     @JoinColumn(name = "gateway_id")
     private Site site;
 
-    public Gateway(Site site, String name) {
-        this.site = site;
+    public Gateway(String name, String ipAddress, Site site) {
         this.name = name;
+        this.ipAddress = ipAddress;
+        this.site = site;
     }
 }
