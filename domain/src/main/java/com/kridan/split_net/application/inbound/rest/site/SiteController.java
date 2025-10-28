@@ -56,6 +56,7 @@ public class SiteController {
                                             gateway.getName(),
                                             gateway.getWg_url(),
                                             gateway.getPublicKey(),
+                                            gateway.getIpAddress(),
                                             gateway.getSite().getId()
                                     )
                             ).toList()
