@@ -62,6 +62,7 @@ public class UserController {
             // Generate JWT
             List<String> roles = authentication.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
+                    .map(role -> role.replace("ROLE_", "")) // ← УБИРАЕМ ROLE_ префикс
                     .toList();
             String token = jwtUtils.generateUserToken(authentication.getName(), roles);
 
