@@ -48,7 +48,7 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<?> loginUser(@RequestBody LoginUserDto loginUserDto) {
         try {
-            log.debug("Call endpoint 'singin'");
+            log.debug("Call endpoint 'signin'");
 
             // Auth via AuthenticationManager
             Authentication authentication = authenticationManager.authenticate(

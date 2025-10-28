@@ -34,7 +34,7 @@ public class JwtUtils {
                 .setSubject(user.getId().toString())
                 .setIssuer("self")
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(24/60/60)))
+                .setExpiration(Date.from(now.plusSeconds(24*60*60)))
                 .claim("email", email)
                 .claim("roles", roles)
                 .signWith(key, SignatureAlgorithm.HS256)
