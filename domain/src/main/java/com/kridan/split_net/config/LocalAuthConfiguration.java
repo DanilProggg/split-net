@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,7 @@ import java.util.Collection;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class LocalAuthConfiguration {
 
     private final JpaUserDetailsService userDetailsService;
@@ -50,12 +52,11 @@ public class LocalAuthConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/gateways/config").hasRole("GATEWAY")
+                        .requestMatchers("/api/gateways/config").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().denyAll()
                 )
                 .userDetailsService(userDetailsService)
-                .addFilterBefore(new RequestLoggingFilter(), AuthorizationFilter.class)
                 .oauth2ResourceServer(oauth -> oauth
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 );
@@ -96,37 +97,18 @@ public class LocalAuthConfiguration {
             Collection<GrantedAuthority> authorities = grantedAuthoritiesConverter.convert(jwt);
 
             // Детальное логирование
-            System.out.println("🔐 === JWT DEBUG INFO ===");
-            System.out.println("📧 Subject: " + jwt.getSubject());
-            System.out.println("🏷️ All claims: " + jwt.getClaims());
-            System.out.println("👥 Roles claim ('roles'): " + jwt.getClaimAsStringList("roles"));
-            System.out.println("🛡️ Extracted authorities:");
-            authorities.forEach(auth -> System.out.println("   - " + auth.getAuthority()));
-            System.out.println("❓ Has ROLE_GATEWAY: " +
-                    authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_GATEWAY")));
-            System.out.println("==========================");
+            log.debug("🔐 === JWT DEBUG INFO ===");
+            log.debug("📧 Subject: " + jwt.getSubject());
+            log.debug("🏷️ All claims: " + jwt.getClaims());
+            log.debug("👥 Roles claim ('roles'): " + jwt.getClaimAsStringList("roles"));
+            log.debug("🛡️ Extracted authorities:");
+            authorities.forEach(auth -> log.debug("   - " + auth.getAuthority()));
+            log.debug("==========================");
 
             return authorities;
         });
 
         return jwtAuthenticationConverter;
     }
-
-    public static class RequestLoggingFilter extends OncePerRequestFilter {
-        @Override
-        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                        FilterChain filterChain) throws ServletException, IOException {
-            System.out.println("🌐 === REQUEST INFO ===");
-            System.out.println("📍 Path: " + request.getRequestURI());
-            System.out.println("🔐 Auth Header: " + request.getHeader("Authorization"));
-            System.out.println("========================");
-
-            filterChain.doFilter(request, response);
-
-            System.out.println("📡 Response Status: " + response.getStatus());
-            System.out.println("========================");
-        }
-    }
-
 
 }
