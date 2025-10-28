@@ -16,12 +16,13 @@ public class CreateGatewayService implements CreateGatewayUseCase {
 
 
     @Override
-    public Gateway create(String name, Long site_id) {
+    public Gateway create(String name, String ipAddress, Long site_id) {
 
 
         Gateway gateway = new Gateway(
-                findSitePort.findById(site_id),
-                name
+                name,
+                ipAddress,
+                findSitePort.findById(site_id)
         );
 
         return saveGatewayPort.save(gateway);
