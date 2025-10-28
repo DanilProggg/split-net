@@ -1,7 +1,0 @@
-package com.kridan.split_net.domain.ports.outbound;
-
-import com.kridan.split_net.domain.model.GlobalConfig;
-
-public interface GetGlobalConfigPort {
-    GlobalConfig get(String key);
-}
