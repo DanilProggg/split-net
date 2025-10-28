@@ -39,7 +39,7 @@ public class LocalAuthConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/gateways/config").hasRole("ROLE_GATEWAY")
+                        .requestMatchers("/api/gateways/config").hasRole("GATEWAY")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().denyAll()
                 )
