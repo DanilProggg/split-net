@@ -2,6 +2,7 @@ package com.kridan.split_net.application.inbound.rest;
 
 import com.kridan.split_net.application.inbound.rest.dto.JwtResponse;
 import com.kridan.split_net.application.inbound.rest.dto.LoginUserDto;
+import com.kridan.split_net.infrastructure.security.JpaUserDetailsService;
 import com.kridan.split_net.infrastructure.security.JwtUtils;
 import com.kridan.split_net.domain.user.command.CreateUserCommand;
 import com.kridan.split_net.domain.user.User;
@@ -26,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final CreateUserUseCase createUserUseCase;
-    private final AuthenticationManager authenticationManager;
+    private final JpaUserDetailsService jpaUserDetailsService;
     private final JwtUtils jwtUtils;
 
 
@@ -49,22 +50,14 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestBody LoginUserDto loginUserDto) {
         try {
             log.debug("Call endpoint 'signin'");
+            jpaUserDetailsService.auth(loginUserDto.getEmail(), loginUserDto.getPassword());
+            // Auth
 
-            // Auth via AuthenticationManager
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginUserDto.getUsername(),
-                            loginUserDto.getPassword()
-                    )
-            );
             log.debug("User found");
 
             // Generate JWT
-            List<String> roles = authentication.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .map(role -> role.replace("ROLE_", "")) // ← УБИРАЕМ ROLE_ префикс
-                    .toList();
-            String token = jwtUtils.generateUserToken(authentication.getName(), roles);
+
+            String token = jwtUtils.generateUserToken(loginUserDto.getEmail());
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e){

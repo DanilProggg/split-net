@@ -2,7 +2,6 @@ package com.kridan.split_net.domain.user;
 
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.group.Group;
-import com.kridan.split_net.domain.site.Site;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +34,12 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private Set<Group> groups = new HashSet<>();
 
+    @ElementCollection
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private List<UserRole> userRoles;
+
 }
+
+
