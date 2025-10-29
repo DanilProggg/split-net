@@ -24,7 +24,6 @@ public class CreateUserService implements CreateUserUseCase {
             log.debug("Создание пользователя {}", userEmail);
 
             User user = new User();
-            user.setId(UUID.randomUUID());
             user.setEmail(userEmail);
             user.setUserRoles(Set.of(UserRole.USER));
 
