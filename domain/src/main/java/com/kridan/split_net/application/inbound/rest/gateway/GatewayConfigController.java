@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/gateways/config")
-@Order(1)
 @Slf4j
 @RequiredArgsConstructor
 public class GatewayConfigController {

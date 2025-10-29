@@ -20,7 +20,6 @@ import java.util.Stack;
 
 @RestController
 @RequestMapping("/api/gateways")
-@Order(2)
 @Slf4j
 @RequiredArgsConstructor
 public class GatewayController {
