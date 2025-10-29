@@ -31,10 +31,7 @@ public class JpaUserDetailsService {
                 .filter(userIdentity1 -> userIdentity1.getProvider().equals("LOCAL"))
                 .findFirst()
                 .orElseThrow(()->new RuntimeException("User identity not found"));
-        if(!passwordEncoder.matches(password, userIdentity.getLocalCredentials().getPasswordHash())){
-            return false;
-        }
-        return true;
+        return passwordEncoder.matches(password, userIdentity.getLocalCredentials().getPasswordHash());
     }
 
 }

@@ -40,8 +40,6 @@ import java.util.Collection;
 @Slf4j
 public class LocalAuthConfiguration {
 
-    private final JpaUserDetailsService userDetailsService;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
         http
@@ -92,11 +90,11 @@ public class LocalAuthConfiguration {
             Collection<GrantedAuthority> authorities = grantedAuthoritiesConverter.convert(jwt);
 
             // Детальное логирование
-            log.debug("🔐 === JWT DEBUG INFO ===");
-            log.debug("📧 Subject: " + jwt.getSubject());
-            log.debug("🏷️ All claims: " + jwt.getClaims());
-            log.debug("👥 Roles claim ('roles'): " + jwt.getClaimAsStringList("roles"));
-            log.debug("🛡️ Extracted authorities:");
+            log.debug("=== JWT DEBUG INFO ===");
+            log.debug("Subject: " + jwt.getSubject());
+            log.debug("All claims: " + jwt.getClaims());
+            log.debug("Roles claim ('roles'): " + jwt.getClaimAsStringList("roles"));
+            log.debug("Extracted authorities:");
             authorities.forEach(auth -> log.debug("   - " + auth.getAuthority()));
             log.debug("==========================");
 
