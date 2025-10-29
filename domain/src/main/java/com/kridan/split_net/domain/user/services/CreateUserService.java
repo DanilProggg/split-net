@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +24,7 @@ public class CreateUserService implements CreateUserUseCase {
 
             User user = new User();
             user.setEmail(userEmail);
-            user.setUserRoles(List.of(UserRole.USER));
+            user.setUserRoles(Set.of(UserRole.USER));
 
             User createdUser = saveUserPort.save(user, userPassword);
 
