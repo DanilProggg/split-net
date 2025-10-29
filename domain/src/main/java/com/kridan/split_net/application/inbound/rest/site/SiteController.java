@@ -6,8 +6,6 @@ import com.kridan.split_net.application.inbound.rest.site.dto.SiteDto;
 import com.kridan.split_net.domain.site.Site;
 import com.kridan.split_net.domain.site.usecases.CreateSiteUseCase;
 import com.kridan.split_net.domain.site.usecases.GetAllSitesUseCase;
-import com.kridan.split_net.domain.user.User;
-import com.kridan.split_net.domain.user.command.CreateUserCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
