@@ -5,13 +5,15 @@ import com.kridan.split_net.domain.gateway.GatewayConfig.GatewayConfig;
 import com.kridan.split_net.domain.gateway.usecases.GenerateConfigUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/gateway-config")
+@RequestMapping("/api/gateways/config")
+@Order(1)
 @Slf4j
 @RequiredArgsConstructor
 public class GatewayConfigController {
