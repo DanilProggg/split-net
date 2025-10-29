@@ -1,6 +1,7 @@
 package com.kridan.split_net.infrastructure.security;
 
 import com.kridan.split_net.domain.user.User;
+import com.kridan.split_net.domain.user.UserRole;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -50,7 +51,7 @@ public class JwtUtils {
                 .setIssuer("self")
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plusSeconds(1000000000*60*60)))
-                .claim("roles", List.of("GATEWAY"))
+                .claim("roles", List.of(UserRole.GATEWAY))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
