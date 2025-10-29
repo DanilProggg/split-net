@@ -39,7 +39,7 @@ public class GatewayConfigController {
 
             GatewayConfig gatewayConfig = generateConfigUseCase.generate(gateway_id);
 
-            return ResponseEntity.ok("Get config");
+            return ResponseEntity.ok(gatewayConfig);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
