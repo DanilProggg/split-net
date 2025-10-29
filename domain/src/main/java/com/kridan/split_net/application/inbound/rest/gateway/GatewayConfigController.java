@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/gateways/config")
+@RequestMapping("/api/gateway-config")
 @Slf4j
 @RequiredArgsConstructor
 public class GatewayConfigController {
