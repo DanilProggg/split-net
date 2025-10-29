@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class CreateUserService implements CreateUserUseCase {
             log.debug("Создание пользователя {}", userEmail);
 
             User user = new User();
+            user.setId(UUID.randomUUID());
             user.setEmail(userEmail);
             user.setUserRoles(Set.of(UserRole.USER));
 
