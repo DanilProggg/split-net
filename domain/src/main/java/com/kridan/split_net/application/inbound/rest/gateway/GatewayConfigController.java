@@ -32,10 +32,10 @@ public class GatewayConfigController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getConfig() {
+    public ResponseEntity<?> getConfig(@AuthenticationPrincipal Jwt jwt) {
         try {
 
-            Long gateway_id = 1L;
+            Long gateway_id = Long.valueOf(jwt.getSubject());
 
             GatewayConfig gatewayConfig = generateConfigUseCase.generate(gateway_id);
 
