@@ -11,6 +11,7 @@ import com.kridan.split_net.infrastructure.database.repository.gateway.GatewayRe
 import com.kridan.split_net.infrastructure.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

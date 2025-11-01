@@ -20,6 +20,7 @@ import java.util.*;
 @Table(name = "app_user")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @Column(unique = true, nullable = false)
     private String email;
@@ -38,7 +39,7 @@ public class User {
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private List<UserRole> userRoles;
+    private Set<UserRole> userRoles;
 
 }
 

@@ -1,11 +1,15 @@
 package com.kridan.split_net.domain.user.services;
 
 import com.kridan.split_net.domain.user.User;
+import com.kridan.split_net.domain.user.UserRole;
 import com.kridan.split_net.domain.user.ports.SaveUserPort;
 import com.kridan.split_net.domain.user.usecases.CreateUserUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +23,11 @@ public class CreateUserService implements CreateUserUseCase {
         try {
             log.debug("Создание пользователя {}", userEmail);
 
-            User createdUser = saveUserPort.save(userEmail, userPassword);
+            User user = new User();
+            user.setEmail(userEmail);
+            user.setUserRoles(Set.of(UserRole.USER));
+
+            User createdUser = saveUserPort.save(user, userPassword);
 
             return createdUser;
         } catch (Exception e) {

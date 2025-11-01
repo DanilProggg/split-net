@@ -25,11 +25,9 @@ public class SaveUserAdapter implements SaveUserPort {
 
     @Override
     @Transactional
-    public User save(String email, String password) {
+    public User save(User user, String password) {
 
-        User user = new User()
-                .setId(UUID.randomUUID())
-                .setEmail(email);
+
         User savedUser = userRepository.save(user);
 
         UserIdentity userIdentity = new UserIdentity()
