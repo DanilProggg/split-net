@@ -11,6 +11,7 @@ import com.kridan.split_net.infrastructure.database.repository.gateway.GatewayRe
 import com.kridan.split_net.infrastructure.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class GatewayController {
                     createGatewayRequest.getSite_id()
             );
 
-            String token = jwtUtils.generateGatewayToken(gateway.getId(), List.of("gateway"));
+            String token = jwtUtils.generateGatewayToken(gateway.getId());
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e) {

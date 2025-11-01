@@ -1,6 +1,7 @@
 package com.kridan.split_net.infrastructure.security;
 
 import com.kridan.split_net.domain.user.User;
+import com.kridan.split_net.domain.user.UserRole;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Component
 public class JwtUtils {
@@ -25,7 +26,7 @@ public class JwtUtils {
         this.findUserPort = findUserPort;
     }
 
-    public String generateUserToken(String email, List<String> roles) {
+    public String generateUserToken(String email) {
         Instant now = Instant.now();
 
         User user = findUserPort.findByEmail(email);
@@ -34,22 +35,23 @@ public class JwtUtils {
                 .setSubject(user.getId().toString())
                 .setIssuer("self")
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(24/60/60)))
+                .setExpiration(Date.from(now.plusSeconds(24*60*60)))
                 .claim("email", email)
-                .claim("roles", roles)
+                .claim("roles", user.getUserRoles())
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String generateGatewayToken(Long gatewayId, List<String> roles) {
+    public String generateGatewayToken(Long gatewayId) {
         Instant now = Instant.now();
+
 
         return Jwts.builder()
                 .setSubject(String.valueOf(gatewayId))
                 .setIssuer("self")
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(1000000000/60/60)))
-                .claim("roles", roles)
+                .setExpiration(Date.from(now.plusSeconds(1000000000*60*60)))
+                .claim("roles", Set.of(UserRole.GATEWAY))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }

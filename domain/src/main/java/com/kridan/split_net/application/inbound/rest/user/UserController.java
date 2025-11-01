@@ -1,24 +1,17 @@
-package com.kridan.split_net.application.inbound.rest;
+package com.kridan.split_net.application.inbound.rest.user;
 
 import com.kridan.split_net.application.inbound.rest.dto.JwtResponse;
-import com.kridan.split_net.application.inbound.rest.dto.LoginUserDto;
-import com.kridan.split_net.infrastructure.security.JwtUtils;
-import com.kridan.split_net.domain.user.command.CreateUserCommand;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.usecases.CreateUserUseCase;
+import com.kridan.split_net.infrastructure.security.JpaUserDetailsService;
+import com.kridan.split_net.infrastructure.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -26,16 +19,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final CreateUserUseCase createUserUseCase;
-    private final AuthenticationManager authenticationManager;
+    private final JpaUserDetailsService jpaUserDetailsService;
     private final JwtUtils jwtUtils;
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> createUser(@RequestBody CreateUserCommand command) {
+    public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
         try {
             log.debug("Call endpoint 'singup'");
 
-            User user = createUserUseCase.createUser(command);
+            User user = createUserUseCase.createUser(userDto.getEmail(), userDto.getPassword());
 
             log.debug("User created. UUID: {}", user.getId().toString());
             return ResponseEntity.ok("User created.");
@@ -46,24 +39,17 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> loginUser(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity<?> loginUser(@RequestBody UserDto userDto) {
         try {
-            log.debug("Call endpoint 'singin'");
+            log.debug("Call endpoint 'signin'");
+            jpaUserDetailsService.auth(userDto.getEmail(), userDto.getPassword());
+            // Auth
 
-            // Auth via AuthenticationManager
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginUserDto.getUsername(),
-                            loginUserDto.getPassword()
-                    )
-            );
             log.debug("User found");
 
             // Generate JWT
-            List<String> roles = authentication.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .toList();
-            String token = jwtUtils.generateUserToken(authentication.getName(), roles);
+
+            String token = jwtUtils.generateUserToken(userDto.getEmail());
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e){
