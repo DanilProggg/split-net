@@ -1,6 +1,5 @@
 package com.kridan.split_net.application.inbound.rest.gateway;
 
-import com.kridan.split_net.domain.gateway.usecases.GenerateConfigUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class GatewayConfigController {
 
-    private final GenerateConfigUseCase generateConfigUseCase;
 
     @PostMapping("/health")
     public ResponseEntity<?> initGateway(@AuthenticationPrincipal Jwt jwt) {

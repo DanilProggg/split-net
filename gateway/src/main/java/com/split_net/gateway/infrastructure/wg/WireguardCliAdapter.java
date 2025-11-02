@@ -20,12 +20,13 @@ public class WireguardCliAdapter implements CreateWgPeerPort {
 
     @Override
     public boolean createPeer(String pubkey, String ipAddress) throws IOException, InterruptedException {
-        ShellCommandExecutor shell = new ShellCommandExecutor();
+        /*ShellCommandExecutor shell = new ShellCommandExecutor();
 
         return shell.run(new String[]{
                 "wg", "set", interfaceName,
                 "peer", device.getPublicKey(),
                 "allowed-ips", device.getIpAddress()
-        });
+        });*/
+        return false;
     }
 }
