@@ -2,6 +2,8 @@ package com.kridan.split_net.application.inbound.rest;
 
 import com.kridan.split_net.application.inbound.rest.dto.CreateDeviceRequest;
 import com.kridan.split_net.application.inbound.rest.dto.DeviceDto;
+import com.kridan.split_net.application.outbound.rabbitmq.Event;
+import com.kridan.split_net.application.outbound.rabbitmq.EventPublisherService;
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.device.usecases.CreateDeviceUseCase;
@@ -16,7 +18,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/devices")

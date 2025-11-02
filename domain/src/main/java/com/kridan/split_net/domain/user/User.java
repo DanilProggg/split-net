@@ -25,6 +25,9 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    private boolean requiredLogin;
+    private Date lastLogIn;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserIdentity> identities = new ArrayList<>();

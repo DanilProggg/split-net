@@ -1,0 +1,31 @@
+package com.kridan.split_net.application.outbound.rabbitmq;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
+@Service
+@RequiredArgsConstructor
+public class EventPublisherService {
+
+    private final RabbitTemplate rabbitTemplate;
+
+    public void publishEvent(Map<String, String> peers, String action) {
+
+        //Actions: add, delete, update
+
+        Event event = Event.builder()
+                .peers(peers)
+                .action(action)
+                .build();
+
+        rabbitTemplate.convertAndSend("user.events.exchange", "", event);
+    }
+
+    // Универсальный метод
+    public void publishEvent(Event event) {
+        rabbitTemplate.convertAndSend("user.events.exchange", "", event);
+    }
+}

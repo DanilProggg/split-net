@@ -1,5 +1,6 @@
 package com.kridan.split_net.domain.device.services;
 
+import com.kridan.split_net.application.outbound.rabbitmq.EventPublisherService;
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.device.DeviceConfig;
 import com.kridan.split_net.domain.device.DeviceConfigGenerator;
@@ -16,6 +17,8 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -30,6 +33,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
     private final CreateWgPubKeyPort createWgPubKeyPort;
     private final CreateWgPeerPort createWgPeerPort;
     private final FindUserPort findUserPort;
+    private final EventPublisherService eventPublisherService;
 
     @Override
     public String createDevice(String userId,
@@ -49,6 +53,13 @@ public class CreateDeviceService implements CreateDeviceUseCase {
             );
 
             Device createdDevice = saveDevicePort.save(device);
+
+            //Send event to gateway
+            if(!device.getOwner().isRequiredLogin()){
+                Map<String, String> peer = new HashMap<>();
+                peer.put(device.getPublicKey(), device.getIpAddress());
+                eventPublisherService.publishEvent(peer, "add");
+            }
 
             //Generate configuration
             DeviceConfig deviceConfig = deviceConfigGenerator.generate(devicePrivateKey, ipAddress);
