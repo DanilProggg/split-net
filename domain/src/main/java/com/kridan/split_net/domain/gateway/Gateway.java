@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -24,6 +26,8 @@ public class Gateway {
     private String publicKey;
 
     private String ipAddress;
+
+    private Date lastSeen;
 
     @ManyToOne
     @JoinColumn(name = "gateway_id")

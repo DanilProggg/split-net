@@ -80,14 +80,14 @@ public class GatewayInitializer {
                         .block(); // Блокируем до получения ответа
 
                 if (response.getStatusCode().is2xxSuccessful()) {
-                    log.debug("✅ Initialization successful");
+                    log.debug("Initialization successful");
                     return; // Выходим из функции только при успехе
                 } else {
-                    log.debug("❌ Initialization failed, status: " + response.getStatusCode());
+                    log.debug("Initialization failed, status: " + response.getStatusCode());
                 }
 
             } catch (Exception e) {
-                log.error("❌ Initialization error: " + e.getMessage());
+                log.error("Initialization error: " + e.getMessage());
             }
 
             // Ждем 10 секунд перед следующей попыткой
@@ -96,7 +96,7 @@ public class GatewayInitializer {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                log.error("🚫 Initialization interrupted");
+                log.error("Initialization interrupted");
                 throw new RuntimeException("Initialization interrupted");
             }
         }

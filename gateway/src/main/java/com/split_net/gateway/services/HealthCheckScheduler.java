@@ -51,10 +51,17 @@ public class HealthCheckScheduler {
                     .header("Authorization", "Bearer " + jwtToken)
                     .retrieve()
                     .toBodilessEntity()
-                    .subscribe(
-                            response -> log.debug("Health check OK"),
-                            error -> log.error("Health check FAILED: " + error.getMessage())
-                    );
+                    .doOnSuccess(response -> {
+                        if (response.getStatusCode().is2xxSuccessful()) {
+                            log.debug("Health check OK - Status: {}", response.getStatusCode());
+                        } else {
+                            log.error("Health check FAILED - Status: {}", response.getStatusCode());
+                        }
+                    })
+                    .doOnError(error -> {
+                        log.error("Health check error: {}", error.getMessage());
+                    })
+                    .subscribe(); // ⬅️ Запускаем подписку
             log.debug("Health check to {}", apiUrl+"/api/gateways/health");
 
         } catch (Exception e) {
