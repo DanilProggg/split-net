@@ -56,6 +56,7 @@ public class GatewayController {
                                     gateway.getWg_url(),
                                     gateway.getPublicKey(),
                                     gateway.getIpAddress(),
+                                    gateway.getLastSeen(),
                                     gateway.getSite().getId()
                             )
                     ).toList();
