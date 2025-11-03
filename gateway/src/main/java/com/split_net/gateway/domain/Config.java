@@ -1,5 +1,6 @@
 package com.split_net.gateway.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -12,6 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Config {
     @Id
+    @Column(name = "config_key")
     private String key;
+    @Column(name = "config_value")
     private String value;
 }
