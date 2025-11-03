@@ -16,7 +16,7 @@ public class GatewayConfigController {
 
     private final InitGatewayUseCase initGatewayUseCase;
 
-    @PostMapping()
+    @PostMapping("/init")
     public ResponseEntity<?> initGateway(
             @AuthenticationPrincipal Jwt jwt,
             @RequestParam("gateway_url") String gateway_url,
