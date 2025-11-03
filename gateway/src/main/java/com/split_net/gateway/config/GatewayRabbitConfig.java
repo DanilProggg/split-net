@@ -1,6 +1,5 @@
 package com.split_net.gateway.config;
 
-import com.split_net.gateway.infrastructure.db.config.GatewayConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

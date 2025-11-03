@@ -17,4 +17,5 @@ spring:
       virtual-host: /
 
 gateway:
+  api: "http://192.168.0.108:8080"
   jwtToken: "dasafas"
