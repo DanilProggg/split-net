@@ -12,7 +12,6 @@ spring:
         hibernate:
           ddl-auto: update
 
-
     rabbitmq:
       host: 192.168.0.108
       port: 5672

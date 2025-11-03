@@ -41,6 +41,13 @@ public class WireguardService {
 
             privateKey = createWgPrivKeyPort.generatePrivKey();
 
+            // Сохраняем ключ в файл
+            try (FileWriter writer = new FileWriter(keyFile)) {
+                writer.write(privateKey);
+            }
+
+            log.info("Private key generated and saved to " + keyFile.getAbsolutePath());
+
         } else {
             // Если файл существует, читаем его содержимое
             try {

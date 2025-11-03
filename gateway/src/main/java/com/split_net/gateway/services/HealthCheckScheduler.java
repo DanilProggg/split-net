@@ -43,7 +43,6 @@ public class HealthCheckScheduler {
         // Запускаем каждую минуту с начальной задержкой 0
         scheduler.scheduleAtFixedRate(() -> {
             if (gatewayState.isHealthCheckEnabled()) {
-                log.debug("Health check attempt");
                 performHealthCheck();
             }
         }, 0, 1, TimeUnit.MINUTES);
@@ -61,7 +60,7 @@ public class HealthCheckScheduler {
                     .block(Duration.ofSeconds(10));
 
             if (response.getStatusCode().is2xxSuccessful()) {
-                log.info("Health check SUCCESS - Status: {}", response.getStatusCode());
+                log.debug("Health check SUCCESS - Status: {}", response.getStatusCode());
             } else {
                 log.warn("Health check HTTP WARNING - Status: {}", response.getStatusCode());
             }
