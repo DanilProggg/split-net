@@ -17,6 +17,10 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17-jdk-slim
 WORKDIR /app
 
+RUN apt-get update && \
+    apt-get install -y wireguard-tools && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy .jar file from target
 COPY --from=build /app/target/*.jar app.jar
 
