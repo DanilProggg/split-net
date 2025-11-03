@@ -47,7 +47,7 @@ public class HealthCheckScheduler {
     private void performHealthCheck() {
         try {
             webClient.post()
-                    .uri(apiUrl+"/api/gateways/health")
+                    .uri(apiUrl+"/api/gateway/health")
                     .header("Authorization", "Bearer " + jwtToken)
                     .retrieve()
                     .toBodilessEntity()
