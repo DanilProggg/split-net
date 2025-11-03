@@ -1,10 +1,7 @@
 package com.split_net.gateway.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +14,6 @@ public class GatewayRabbitConfig {
 
     private final JwtConfig jwtConfig;
 
-
     @Bean
     public Queue gatewayQueue() {
         String gatewayId = jwtConfig.getSubject();
@@ -25,8 +21,11 @@ public class GatewayRabbitConfig {
     }
 
     @Bean
-    public Binding binding(Queue gatewayQueue, FanoutExchange userEventsExchange) {
-        return BindingBuilder.bind(gatewayQueue).to(userEventsExchange);
+    public Declarables declarables() {
+        FanoutExchange exchange = new FanoutExchange("user.events.exchange");
+        Binding binding = BindingBuilder.bind(gatewayQueue()).to(exchange);
+
+        return new Declarables(exchange, binding);
     }
 
     @Bean

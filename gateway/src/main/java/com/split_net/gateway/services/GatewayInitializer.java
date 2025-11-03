@@ -4,7 +4,10 @@ import com.split_net.gateway.config.JwtConfig;
 import com.split_net.gateway.domain.Config;
 import com.split_net.gateway.domain.GatewayState;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,16 +18,20 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class GatewayInitializer {
 
-    @Value("${gateway.url}")
-    private final String gatewayUrl;
+    @Value("${gateway.wg.interface.ip}")
+    private String wg_ip;
+    @Value("${gateway.wg.interface.port}")
+    private String wg_port;
+
 
     @Value("${gateway.api}")
-    private final String apiUrl;
+    private String apiUrl;
 
     @Value("${gateway.jwtToken}")
-    private final String jwtToken;
+    private String jwtToken;
 
     private final WebClient webClient;
     private final GatewayState gatewayState;
@@ -35,18 +42,23 @@ public class GatewayInitializer {
     private final ConfigService configService;
 
 
+    @EventListener(ApplicationReadyEvent.class)
     public void initialize() throws IOException, InterruptedException {
         //Выполняем первоначальную инициализацию
 
+
         wireguardService.setup();
+        log.debug("Wireguard initialized");
 
         performInitialization();
+        log.debug("Http init query done");
 
         //Помечаем как инициализирован
         gatewayState.setInitialized(true);
 
         //Запускаем health check каждую минуту
         healthCheckScheduler.startHealthChecks();
+        log.debug("Health checker is started");
 
         //Включаем RabbitMQ
         rabbitMQStarter.startRabbitMQ();
@@ -57,7 +69,7 @@ public class GatewayInitializer {
             try {
 
                 Map<String, String> requestBody = Map.of(
-                        "gatewayUrl", gatewayUrl,
+                        "gatewayUrl", wg_ip + ":" + wg_port,
                         "publicKey", configService.getValue("publicKey")
                 );
 
@@ -70,23 +82,23 @@ public class GatewayInitializer {
                         .block(); // Блокируем до получения ответа
 
                 if (response.getStatusCode().is2xxSuccessful()) {
-                    System.out.println("✅ Initialization successful");
+                    log.debug("✅ Initialization successful");
                     return; // Выходим из функции только при успехе
                 } else {
-                    System.out.println("❌ Initialization failed, status: " + response.getStatusCode());
+                    log.debug("❌ Initialization failed, status: " + response.getStatusCode());
                 }
 
             } catch (Exception e) {
-                System.out.println("❌ Initialization error: " + e.getMessage());
+                log.error("❌ Initialization error: " + e.getMessage());
             }
 
             // Ждем 10 секунд перед следующей попыткой
             try {
-                System.out.println("🕒 Retrying in 10 seconds...");
+                log.debug("🕒 Retrying in 10 seconds...");
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                System.out.println("🚫 Initialization interrupted");
+                log.error("🚫 Initialization interrupted");
                 throw new RuntimeException("Initialization interrupted");
             }
         }

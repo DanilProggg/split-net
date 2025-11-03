@@ -8,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 @Service
 @RequiredArgsConstructor
@@ -19,16 +16,15 @@ import java.nio.file.Files;
 public class WireguardService {
 
     @Value("${gateway.wg.interface.ip}")
-    private final String ip;
+    private String ip;
 
     @Value("${gateway.wg.interface.port}")
-    private final int port;
+    private int port;
 
     private final JwtConfig jwtConfig;
     private final ConfigService configService;
     private final CreateWgPubKeyPort createWgPubKeyPort;
     private final CreateWgPrivKeyPort createWgPrivKeyPort;
-
 
     public void setup() throws IOException, InterruptedException {
 

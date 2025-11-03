@@ -1,20 +1,18 @@
 package com.split_net.gateway.services;
 
 import com.split_net.gateway.domain.GatewayState;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class RabbitMQStarter {
 
     private final GatewayState gatewayState;
     private final RabbitListenerEndpointRegistry rabbitListenerRegistry;
-
-    public RabbitMQStarter(GatewayState gatewayState,
-                           RabbitListenerEndpointRegistry rabbitListenerRegistry) {
-        this.gatewayState = gatewayState;
-        this.rabbitListenerRegistry = rabbitListenerRegistry;
-    }
 
     public void startRabbitMQ() {
         try {
@@ -26,10 +24,10 @@ public class RabbitMQStarter {
             });
 
             gatewayState.setHealthCheckEnabled(true);
-            System.out.println("RabbitMQ started successfully");
+            log.debug("RabbitMQ started successfully");
 
         } catch (Exception e) {
-            System.out.println("Failed to start RabbitMQ: " + e.getMessage());
+            log.error("Failed to start RabbitMQ: " + e.getMessage());
         }
     }
 }

@@ -16,10 +16,15 @@ spring:
       password: guest
       virtual-host: /
 
+logging:
+  level:
+    com.split_net.gateway: DEBUG
+    root: INFO
+
 gateway:
   wg:
     interface:
       ip: "192.168.0.108"
       port: 51820
   api: "http://192.168.0.108:8080"
-  jwtToken: "dasafas"
+  jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaXNzIjoic2VsZiIsImlhdCI6MTc2MjE3MDc4MSwiZXhwIjoyNTc5NTc2NzMzLCJyb2xlcyI6WyJHQVRFV0FZIl0sImlwIjoiMTAwLjY0LjEuMSJ9.VNhUxV1vBe0I52MMhTDe1sRbpKELyOyWdtPxLsa75xA"
