@@ -36,6 +36,13 @@ ENV WG_HOST=${WG_HOST}
 ENV API=${API}
 ENV TOKEN=${TOKEN}
 
+# Default wg port
+ENV WG_PORT=51820
+
+RUN if echo "${WG_HOST}" | grep -q ":"; then \
+        WG_PORT=$(echo "${WG_HOST}" | cut -d: -f2); \
+    fi
+
 EXPOSE ${WG_PORT}
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
