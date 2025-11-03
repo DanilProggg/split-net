@@ -72,7 +72,7 @@ public class GatewayInitializer {
                 );
 
                 ResponseEntity<Void> response = webClient.post()
-                        .uri(apiUrl + "/api/gateways//config/init")
+                        .uri(apiUrl + "/api/gateways/config/init")
                         .header("Authorization", "Bearer " + jwtToken)
                         .bodyValue(requestBody)
                         .retrieve()

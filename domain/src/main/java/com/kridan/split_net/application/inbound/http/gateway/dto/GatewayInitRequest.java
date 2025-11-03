@@ -6,5 +6,6 @@ import lombok.Getter;
 @Data
 @Getter
 public class GatewayInitRequest {
-    private String wg_url;
+    private String gatewayUrl;
+    private String publicKey;
 }
