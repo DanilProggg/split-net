@@ -9,14 +9,14 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/gateways")
+@RequestMapping("/api/gateways/config")
 @Slf4j
 @RequiredArgsConstructor
 public class GatewayConfigController {
 
     private final InitGatewayUseCase initGatewayUseCase;
 
-    @PostMapping("/config")
+    @PostMapping()
     public ResponseEntity<?> initGateway(
             @AuthenticationPrincipal Jwt jwt,
             @RequestParam("gateway_url") String gateway_url,
