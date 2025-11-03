@@ -5,12 +5,17 @@ import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import java.net.ConnectException;
+import java.time.Duration;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Service
 @RequiredArgsConstructor
@@ -46,26 +51,32 @@ public class HealthCheckScheduler {
 
     private void performHealthCheck() {
         try {
-            webClient.post()
+
+            log.debug("Health check to {}", apiUrl+"/api/gateway/health");
+            ResponseEntity<Void> response = webClient.post()
                     .uri(apiUrl+"/api/gateway/health")
                     .header("Authorization", "Bearer " + jwtToken)
                     .retrieve()
                     .toBodilessEntity()
-                    .doOnSuccess(response -> {
-                        if (response.getStatusCode().is2xxSuccessful()) {
-                            log.debug("Health check OK - Status: {}", response.getStatusCode());
-                        } else {
-                            log.error("Health check FAILED - Status: {}", response.getStatusCode());
-                        }
-                    })
-                    .doOnError(error -> {
-                        log.error("Health check error: {}", error.getMessage());
-                    })
-                    .subscribe(); // ⬅️ Запускаем подписку
-            log.debug("Health check to {}", apiUrl+"/api/gateways/health");
+                    .block(Duration.ofSeconds(10));
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("Health check SUCCESS - Status: {}", response.getStatusCode());
+            } else {
+                log.warn("Health check HTTP WARNING - Status: {}", response.getStatusCode());
+            }
+
+
+        } catch (WebClientResponseException e) {
+            // Ошибки HTTP (4xx, 5xx)
+            log.warn("Health check HTTP ERROR - Status: {}, Body: {}",
+                    e.getStatusCode(), e.getResponseBodyAsString());
 
         } catch (Exception e) {
-            log.error("Health check error: " + e.getMessage());
+            // Все остальные ошибки
+            log.error("Health check UNEXPECTED ERROR: {}", e.getMessage());
+            // Для отладки можно добавить stack trace на DEBUG уровне
+            log.debug("Stack trace for health check error:", e);
         }
     }
 
