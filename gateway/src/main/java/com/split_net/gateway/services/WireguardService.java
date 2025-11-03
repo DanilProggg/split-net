@@ -8,7 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 @Service
 @RequiredArgsConstructor
@@ -27,21 +31,32 @@ public class WireguardService {
 
         String privateKey;
 
-        try{
-            privateKey = configService.getValue("privateKey");
-            log.info("Key already exists");
-        } catch (Exception e){
-            //Gen new key
+        File keyFile = new File("/etc/vpn/keys/wg0.key");
+
+        // key check
+        if (!keyFile.exists()) {
+            log.info("Private key not found, generating new one...");
+
+            keyFile.getParentFile().mkdirs();
+
             privateKey = createWgPrivKeyPort.generatePrivKey();
-            configService.save("privateKey", privateKey);
 
-            String publicKey = createWgPubKeyPort.generatePubKey(privateKey);
-            configService.save("publicKey", publicKey);
+        } else {
+            // Если файл существует, читаем его содержимое
+            try {
+                privateKey = Files.readString(keyFile.toPath()).trim();
 
-            log.info("Private and public have been generated and saved");
+                log.info("Private key exists, using existing one.");
+            } catch (IOException e) {
+                throw new RuntimeException("Error reading existing WireGuard key", e);
+            }
         }
 
+        //Save to global config
+        configService.save("privateKey", privateKey);
+        configService.save("publicKey", createWgPubKeyPort.generatePubKey(privateKey));
 
+        // Create interface
         new ProcessBuilder("ip", "link", "add", "wg0", "type", "wireguard")
                 .inheritIO()
                 .start()
@@ -49,14 +64,14 @@ public class WireguardService {
 
         // Configure private key and port
         new ProcessBuilder("wg", "set", "wg0",
-                "listen-port", String.valueOf(wg_url.split(":")[1]),
-                "private-key", privateKey)
+                "listen-port", String.valueOf(wg_url.split(":")[1].trim()),
+                "private-key", "/etc/vpn/keys/wg0.key")
                 .inheritIO()
                 .start()
                 .waitFor();
 
         // Set IP address
-        new ProcessBuilder("ip", "addr", "add", jwtConfig.getParamAsString("ip") , "dev", "wg0")
+        new ProcessBuilder("ip", "addr", "add", jwtConfig.getParamAsString("ip"), "dev", "wg0")
                 .inheritIO()
                 .start()
                 .waitFor();
@@ -67,5 +82,8 @@ public class WireguardService {
                 .inheritIO()
                 .start()
                 .waitFor();
+
+        log.info("WireGuard interface wg0 created succesful.");
+
     }
 }
