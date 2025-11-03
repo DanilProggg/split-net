@@ -1,26 +1,45 @@
 package com.split_net.gateway.services;
 
+import com.split_net.gateway.config.JwtConfig;
+import com.split_net.gateway.domain.Config;
 import com.split_net.gateway.domain.GatewayState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.io.IOException;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class GatewayInitializer {
 
+    @Value("${gateway.url}")
+    private final String gatewayUrl;
+
     @Value("${gateway.api}")
     private final String apiUrl;
+
+    @Value("${gateway.jwtToken}")
+    private final String jwtToken;
 
     private final WebClient webClient;
     private final GatewayState gatewayState;
     private final HealthCheckScheduler healthCheckScheduler;
     private final RabbitMQStarter rabbitMQStarter;
+    private final WireguardService wireguardService;
 
-    public void initialize() {
+    private final ConfigService configService;
+
+
+    public void initialize() throws IOException, InterruptedException {
         //Выполняем первоначальную инициализацию
+
+        wireguardService.setup();
+
         performInitialization();
 
         //Помечаем как инициализирован
@@ -36,8 +55,16 @@ public class GatewayInitializer {
     private void performInitialization() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                ResponseEntity<Void> response = webClient.get()
+
+                Map<String, String> requestBody = Map.of(
+                        "gatewayUrl", gatewayUrl,
+                        "publicKey", configService.getValue("publicKey")
+                );
+
+                ResponseEntity<Void> response = webClient.post()
                         .uri(apiUrl + "/api/gateways/init")
+                        .header("Authorization", "Bearer " + jwtToken)
+                        .bodyValue(requestBody)
                         .retrieve()
                         .toBodilessEntity()
                         .block(); // Блокируем до получения ответа

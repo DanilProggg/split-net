@@ -2,6 +2,8 @@ package com.split_net.gateway.services;
 
 import com.split_net.gateway.domain.GatewayState;
 import jakarta.annotation.PreDestroy;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -10,15 +12,20 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class HealthCheckScheduler {
+
+
+    private final String apiUrl;
 
     private final WebClient webClient;
     private final GatewayState gatewayState;
     private ScheduledExecutorService scheduler;
 
-    public HealthCheckScheduler(GatewayState gatewayState) {
+    public HealthCheckScheduler(GatewayState gatewayState, @Value("${gateway.apiUrl}") String apiUrl) {
         this.webClient = WebClient.builder().build();
         this.gatewayState = gatewayState;
+        this.apiUrl = apiUrl;
     }
 
     public void startHealthChecks() {

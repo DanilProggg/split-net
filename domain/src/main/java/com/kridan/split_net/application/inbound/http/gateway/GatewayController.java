@@ -35,7 +35,7 @@ public class GatewayController {
                     createGatewayRequest.getSite_id()
             );
 
-            String token = jwtUtils.generateGatewayToken(gateway.getId());
+            String token = jwtUtils.generateGatewayToken(gateway.getId(), gateway.getIpAddress());
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e) {

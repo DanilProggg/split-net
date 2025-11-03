@@ -15,12 +15,12 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class GatewayRabbitConfig {
 
-    private final GatewayConfig gatewayConfig;
+    private final JwtConfig jwtConfig;
 
 
     @Bean
     public Queue gatewayQueue() {
-        String gatewayId = gatewayConfig.getSubject();
+        String gatewayId = jwtConfig.getSubject();
         return new Queue("gateway." + gatewayId + ".events", true);
     }
 

@@ -1,6 +1,7 @@
 package com.split_net.gateway.infrastructure.wg;
 
 
+
 import com.split_net.gateway.domain.wireguard.ports.CreateWgPrivKeyPort;
 import com.split_net.gateway.domain.wireguard.ports.CreateWgPubKeyPort;
 import org.springframework.stereotype.Component;
