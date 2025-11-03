@@ -12,8 +12,10 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class HealthCheckService implements HealthCheckUseCase {
-    private FindGatewayPort findGatewayPort;
-    private SaveGatewayPort saveGatewayPort;
+
+    private final FindGatewayPort findGatewayPort;
+    private final SaveGatewayPort saveGatewayPort;
+
     @Override
     public void lastSeenUpdate(Long gateway_id) {
         Gateway gateway = findGatewayPort.findById(gateway_id);
