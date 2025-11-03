@@ -8,7 +8,6 @@ import com.kridan.split_net.domain.device.DeviceFactory;
 import com.kridan.split_net.domain.device.ports.SaveDevicePort;
 import com.kridan.split_net.domain.device.usecases.CreateDeviceUseCase;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
-import com.kridan.split_net.domain.wireguard.ports.CreateWgPeerPort;
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPrivKeyPort;
 import com.kridan.split_net.domain.wireguard.ports.CreateWgPubKeyPort;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,6 @@ public class CreateDeviceService implements CreateDeviceUseCase {
     private final SaveDevicePort saveDevicePort;
     private final CreateWgPrivKeyPort createWgPrivKeyPort;
     private final CreateWgPubKeyPort createWgPubKeyPort;
-    private final CreateWgPeerPort createWgPeerPort;
     private final FindUserPort findUserPort;
     private final EventPublisherService eventPublisherService;
 
@@ -68,9 +66,6 @@ public class CreateDeviceService implements CreateDeviceUseCase {
             //Logging
             Device realDevice = (Device) Hibernate.unproxy(createdDevice);
             log.debug("Добавлено устройство: {}", realDevice.toString());
-
-            //Adding peer
-            createWgPeerPort.createPeer(createdDevice);
 
             return deviceConfig.toWireguardFormat();
 
