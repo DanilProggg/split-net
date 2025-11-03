@@ -52,8 +52,8 @@ public class HealthCheckScheduler {
                     .retrieve()
                     .toBodilessEntity()
                     .subscribe(
-                            response -> System.out.println("Health check OK"),
-                            error -> System.out.println("Health check FAILED: " + error.getMessage())
+                            response -> log.debug("Health check OK"),
+                            error -> log.error("Health check FAILED: " + error.getMessage())
                     );
             log.debug("Health check to {}", apiUrl+"/api/gateways/health");
 

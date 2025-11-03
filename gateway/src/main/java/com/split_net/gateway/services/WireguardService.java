@@ -15,11 +15,8 @@ import java.io.IOException;
 @Slf4j
 public class WireguardService {
 
-    @Value("${gateway.wg.interface.ip}")
-    private String ip;
-
-    @Value("${gateway.wg.interface.port}")
-    private int port;
+    @Value("${gateway.wg.url}")
+    private String wg_url;
 
     private final JwtConfig jwtConfig;
     private final ConfigService configService;
@@ -52,7 +49,7 @@ public class WireguardService {
 
         // Configure private key and port
         new ProcessBuilder("wg", "set", "wg0",
-                "listen-port", String.valueOf(port),
+                "listen-port", String.valueOf(wg_url.split(":")[1]),
                 "private-key", privateKey)
                 .inheritIO()
                 .start()

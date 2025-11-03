@@ -21,10 +21,8 @@ import java.util.Map;
 @Slf4j
 public class GatewayInitializer {
 
-    @Value("${gateway.wg.interface.ip}")
-    private String wg_ip;
-    @Value("${gateway.wg.interface.port}")
-    private String wg_port;
+    @Value("${gateway.wg.url}")
+    private String wg_url;
 
 
     @Value("${gateway.api}")
@@ -69,7 +67,7 @@ public class GatewayInitializer {
             try {
 
                 Map<String, String> requestBody = Map.of(
-                        "gatewayUrl", wg_ip + ":" + wg_port,
+                        "gatewayUrl", wg_url,
                         "publicKey", configService.getValue("publicKey")
                 );
 

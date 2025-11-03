@@ -17,28 +17,25 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17-jdk-slim
 WORKDIR /app
 
+# Install iproute2 and wg-tools
+RUN apt-get update && \
+    apt-get install -y iproute2 wireguard-tools && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy .jar file from target
 COPY --from=build /app/target/*.jar app.jar
 
 # Args for build
-ARG DB_HOST
-ARG DB_PORT
-ARG DB_NAME
-ARG DB_USER
-ARG DB_PASS
-ARG APP_PORT
-ARG WG_NET
+ARG WG_HOST
+ARG API
+ARG TOKEN
 
 
 # Set .env
-ENV DB_HOST=${DB_HOST}
-ENV DB_PORT=${DB_PORT}
-ENV DB_NAME=${DB_NAME}
-ENV DB_USER=${DB_USER}
-ENV DB_PASS=${DB_PASS}
-ENV APP_PORT=${APP_PORT}
-ENV WG_NET=${WG_NET}
+ENV WG_HOST=${WG_HOST}
+ENV API=${API}
+ENV TOKEN=${TOKEN}
 
-EXPOSE ${APP_PORT}
+EXPOSE ${WG_PORT}
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
