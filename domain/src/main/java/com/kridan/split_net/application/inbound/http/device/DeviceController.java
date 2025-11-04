@@ -34,7 +34,7 @@ public class DeviceController {
 
 
     //Create device
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<?> createDevice(@AuthenticationPrincipal Jwt jwt, @RequestBody CreateDeviceRequest createDeviceRequest) {
         try {
             String email = jwt.getClaim("email");

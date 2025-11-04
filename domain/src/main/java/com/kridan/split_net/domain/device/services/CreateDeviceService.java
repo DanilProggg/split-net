@@ -24,8 +24,8 @@ public class CreateDeviceService implements CreateDeviceUseCase {
 
     @Override
     public Device createDevice(String userId,
-                                                  String name,
-                                                  String pubkey) throws IOException, InterruptedException {
+                               String name,
+                               String pubkey) throws IOException, InterruptedException {
         try {
 
             String ipAddress = "100.64.1.1";
