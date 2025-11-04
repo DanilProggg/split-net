@@ -30,7 +30,7 @@ public class ActivateDeviceService implements ActivateDeviceUseCase {
 
         Device device = findDevicePort.findById(device_id);
 
-        if(isPeriodExpired(device.getLastActivation().toInstant(), 24) || device.getLastActivation() == null){
+        if(device.getLastActivation() == null || isPeriodExpired(device.getLastActivation().toInstant(), 24)){
             //Send event to gateway
             Peer peer = new Peer();
             peer.setIp(device.getIpAddress());
