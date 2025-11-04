@@ -16,8 +16,8 @@ public class PeerService {
     Peer create(String pubkey, String localIp, Date deleteAt){
         Peer peer = new Peer();
         peer.setPubkey(pubkey);
-        peer.setLocalIp(localIp);
-        peer.setDeleteAt(deleteAt);
+        peer.setIp(localIp);
+        peer.setExpiredAt(deleteAt);
 
         return peerRepository.save(peer);
     }
