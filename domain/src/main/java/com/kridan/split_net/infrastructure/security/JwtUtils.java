@@ -26,7 +26,11 @@ public class JwtUtils {
         this.findUserPort = findUserPort;
     }
 
-    public String generateUserToken(String email) {
+    public String generateUserToken(String email){
+        return generateUserToken(email, 24);
+    }
+
+    public String generateUserToken(String email, int hoursToExpired) {
         Instant now = Instant.now();
 
         User user = findUserPort.findByEmail(email);
@@ -35,7 +39,7 @@ public class JwtUtils {
                 .setSubject(user.getId().toString())
                 .setIssuer("self")
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(24*60*60)))
+                .setExpiration(Date.from(now.plusSeconds((long) hoursToExpired *60*60)))
                 .claim("email", email)
                 .claim("roles", user.getUserRoles())
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -50,7 +54,7 @@ public class JwtUtils {
                 .setSubject(String.valueOf(gatewayId))
                 .setIssuer("self")
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(1000000000*60*60)))
+                .setExpiration(Date.from(now.plusSeconds(1000000000L *60*60)))
                 .claim("roles", Set.of(UserRole.GATEWAY))
                 .claim("ip", ip)
                 .signWith(key, SignatureAlgorithm.HS256)

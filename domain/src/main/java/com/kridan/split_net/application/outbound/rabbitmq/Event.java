@@ -1,5 +1,6 @@
 package com.kridan.split_net.application.outbound.rabbitmq;
 
+import com.kridan.split_net.domain.device.Peer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class Event {
 
-    Map<String, String> peers;
+    private Peer peer;
     //Update | Delete | Add
     private String action;
 }

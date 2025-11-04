@@ -25,6 +25,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    private int reauthIntervalHours;
+
     private boolean requiredLogin;
     private Date lastLogIn;
 

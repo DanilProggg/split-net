@@ -20,7 +20,6 @@ public class Peer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String pubkey;
-    private String localIp;
-
-    private Date deleteAt;
+    private String ip;
+    private Date expiredAt;
 }

@@ -12,8 +12,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event {
-
-    Map<String, String> peers;
+    Peer peer;
     //Update | Delete | Add
     private String action;
 }

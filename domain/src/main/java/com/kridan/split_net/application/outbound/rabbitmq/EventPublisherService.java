@@ -1,5 +1,6 @@
 package com.kridan.split_net.application.outbound.rabbitmq;
 
+import com.kridan.split_net.domain.device.Peer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,12 @@ public class EventPublisherService {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void publishEvent(Map<String, String> peers, String action) {
+    public void publishEvent(Peer peer, String action) {
 
         //Actions: add, delete, update
 
         Event event = Event.builder()
-                .peers(peers)
+                .peer(peer)
                 .action(action)
                 .build();
 

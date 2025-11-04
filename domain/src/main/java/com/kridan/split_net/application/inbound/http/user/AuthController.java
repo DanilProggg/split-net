@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-public class UserController {
+public class AuthController {
     private final CreateUserUseCase createUserUseCase;
     private final JpaUserDetailsService jpaUserDetailsService;
     private final JwtUtils jwtUtils;
@@ -41,13 +41,7 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<?> loginUser(@RequestBody UserDto userDto) {
         try {
-            log.debug("Call endpoint 'signin'");
             jpaUserDetailsService.auth(userDto.getEmail(), userDto.getPassword());
-            // Auth
-
-            log.debug("User found");
-
-            // Generate JWT
 
             String token = jwtUtils.generateUserToken(userDto.getEmail());
 

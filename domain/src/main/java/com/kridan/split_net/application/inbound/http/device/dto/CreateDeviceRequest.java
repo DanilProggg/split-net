@@ -1,4 +1,4 @@
-package com.kridan.split_net.application.inbound.http.dto;
+package com.kridan.split_net.application.inbound.http.device.dto;
 
 import lombok.Data;
 import lombok.Getter;
@@ -7,6 +7,5 @@ import lombok.Getter;
 @Getter
 public class CreateDeviceRequest {
     private String deviceName;
-    private String ipAddress;
-    private Long subnetId;
+    private String pubkey;
 }

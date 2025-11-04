@@ -20,7 +20,7 @@ public class Gateway {
     @Column(nullable = false, unique = true)
     private String name;
 
-    private String wg_url;
+    private String wgUrl;
 
     @Column(unique = true)
     private String publicKey;

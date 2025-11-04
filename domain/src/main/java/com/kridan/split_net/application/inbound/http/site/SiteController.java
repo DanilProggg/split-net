@@ -52,7 +52,7 @@ public class SiteController {
                                     gateway -> new GatewayDto(
                                             gateway.getId(),
                                             gateway.getName(),
-                                            gateway.getWg_url(),
+                                            gateway.getWgUrl(),
                                             gateway.getPublicKey(),
                                             gateway.getIpAddress(),
                                             gateway.getLastSeen(),
