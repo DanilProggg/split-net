@@ -102,7 +102,7 @@ public class DeviceController {
         }
     }
 
-    @GetMapping("/{uuid}/сonfig")
+    @GetMapping("/{uuid}/config")
     public ResponseEntity<?> getConfig(@AuthenticationPrincipal Jwt jwt, @PathVariable String deviceUuid) {
         try {
 
