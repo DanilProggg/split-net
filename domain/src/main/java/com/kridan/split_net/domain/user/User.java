@@ -16,7 +16,6 @@ import java.util.*;
 @Getter
 @Setter
 @Accessors(chain = true)
-@ToString
 @Table(name = "app_user")
 public class User {
     @Id

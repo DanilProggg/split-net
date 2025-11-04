@@ -16,7 +16,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Accessors(chain = true)
-@ToString
 public class Device {
     @Id
     private UUID id;
