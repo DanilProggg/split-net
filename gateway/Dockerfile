@@ -1,5 +1,5 @@
 # 1. Build stage
-FROM eclipse-temurin:17-jdk AS build
+FROM maven:3.9.2-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Копируем pom.xml и качаем зависимости
@@ -14,7 +14,7 @@ RUN mvn clean package -DskipTests
 
 # -----------------------
 # 2. Runtime stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
 # Install iproute2 and wg-tools
