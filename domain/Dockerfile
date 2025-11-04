@@ -1,5 +1,5 @@
 # 1. Build stage
-FROM eclipse-temurin:17-jdk AS build
+FROM maven:3.9.2-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Копируем pom.xml и качаем зависимости
