@@ -1,6 +1,7 @@
 package com.split_net.gateway.services;
 
 import com.split_net.gateway.config.JwtConfig;
+import com.split_net.gateway.domain.Peer;
 import com.split_net.gateway.domain.wireguard.ports.CreateWgPrivKeyPort;
 import com.split_net.gateway.domain.wireguard.ports.CreateWgPubKeyPort;
 import lombok.RequiredArgsConstructor;
@@ -93,4 +94,5 @@ public class WireguardService {
         log.info("WireGuard interface wg0 created succesful.");
 
     }
+
 }
