@@ -11,8 +11,8 @@ import java.util.UUID;
 public class DeviceFactory {
 
     public Device create(User user,
-                         String ipAddress,
                          String name,
+                         String ipAddress,
                          String devicePublicKey
                          ) {
 

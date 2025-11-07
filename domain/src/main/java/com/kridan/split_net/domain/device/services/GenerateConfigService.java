@@ -24,7 +24,7 @@ public class GenerateConfigService implements GenerateConfigUseCase {
         List<Map<String, String>> listOfMaps = findAllGatewaysPort.findAll().stream()
                 .map(gateway -> {
                     Map<String, String> map = new HashMap<>();
-                    map.put("id", gateway.getId().toString());
+                    map.put("allowed_id", gateway.getId().toString());
                     map.put("pubkey", gateway.getPublicKey());
                     map.put("ip", gateway.getSite().getSubnet());
                     map.put("url", gateway.getWgUrl());
