@@ -3,8 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "51820:51820/udp"
+    network_mode: host
     environment:
       WG_URL: ${WG_URL}
       API: ${API}
