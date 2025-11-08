@@ -1,23 +1,25 @@
 spring:
-    application:
-        name: gateway
-    datasource:
-        url: jdbc:h2:file:/data/db
-        username: sa
-        password: password
-        driverClassName: org.h2.Driver
-    jpa:
-        database-platform: org.hibernate.dialect.H2Dialect
-        show-sql: true
-        hibernate:
-          ddl-auto: update
+  main:
+    web-application-type: none
+  application:
+    name: gateway
+  datasource:
+    url: jdbc:h2:file:/data/db
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 
-    rabbitmq:
-      host: 192.168.0.108
-      port: 5672
-      username: guest
-      password: guest
-      virtual-host: /
+  rabbitmq:
+    host: 192.168.0.108
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
 
 logging:
   level:
