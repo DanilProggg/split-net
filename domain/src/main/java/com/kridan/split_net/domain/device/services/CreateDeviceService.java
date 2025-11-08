@@ -28,7 +28,7 @@ public class CreateDeviceService implements CreateDeviceUseCase {
                                String pubkey) throws IOException, InterruptedException {
         try {
 
-            String ipAddress = "100.64.1.1";
+            String ipAddress = "100.64.100.1";
 
             //Make dhcp for IP
             Device device = deviceFactory.create(
