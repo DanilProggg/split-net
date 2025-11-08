@@ -19,7 +19,7 @@ WORKDIR /app
 
 # Install iproute2 and wg-tools
 RUN apt-get update && \
-    apt-get install -y iproute2 wireguard-tools && \
+    apt-get install -y iproute2 wireguard-tools iputils-ping && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy .jar file from target
