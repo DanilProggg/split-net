@@ -4,9 +4,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${WG_PORT}:51820/udp"
+      - "51820:51820/udp"
     environment:
-      WG_HOST: ${WG_HOST}
+      WG_URL: ${WG_URL}
       API: ${API}
       TOKEN: ${TOKEN}
     cap_add:

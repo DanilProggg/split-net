@@ -26,21 +26,21 @@ RUN apt-get update && \
 COPY --from=build /app/target/*.jar app.jar
 
 # Args for build
-ARG WG_HOST
+ARG WG_URL
 ARG API
 ARG TOKEN
 
 
 # Set .env
-ENV WG_HOST=${WG_HOST}
+ENV WG_URL=${WG_URL}
 ENV API=${API}
 ENV TOKEN=${TOKEN}
 
 # Default wg port
 ENV WG_PORT=51820
 
-RUN if echo "${WG_HOST}" | grep -q ":"; then \
-        WG_PORT=$(echo "${WG_HOST}" | cut -d: -f2); \
+RUN if echo "${WG_URL}" | grep -q ":"; then \
+        WG_PORT=$(echo "${WG_URL}" | cut -d: -f2); \
     fi
 
 EXPOSE ${WG_PORT}
