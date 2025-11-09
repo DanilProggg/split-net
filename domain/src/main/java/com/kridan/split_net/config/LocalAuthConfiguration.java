@@ -1,19 +1,11 @@
 package com.kridan.split_net.config;
 
-import com.kridan.split_net.infrastructure.security.JpaUserDetailsService;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,12 +18,9 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.AuthorizationFilter;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
@@ -42,27 +31,6 @@ import java.util.Collection;
 public class LocalAuthConfiguration {
 
     @Bean
-    @Order(1)
-    public SecurityFilterChain panelSecurity(HttpSecurity http) throws Exception {
-        http
-                // защищаем /panel/** и обслуживаем /login
-                .securityMatcher("/panel/**")
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/logout").permitAll()
-                        .anyRequest().hasRole("ADMIN")
-                )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/panel", true)
-                        .permitAll()
-                )
-                .logout(logout -> logout.permitAll());
-
-        return http.build();
-    }
-
-    @Bean
-    @Order(2)
     public SecurityFilterChain apiSecurity(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
