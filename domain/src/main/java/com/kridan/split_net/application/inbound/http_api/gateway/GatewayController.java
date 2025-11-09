@@ -1,8 +1,8 @@
-package com.kridan.split_net.application.inbound.http.gateway;
+package com.kridan.split_net.application.inbound.http_api.gateway;
 
-import com.kridan.split_net.application.inbound.http.dto.JwtResponse;
-import com.kridan.split_net.application.inbound.http.gateway.dto.CreateGatewayRequest;
-import com.kridan.split_net.application.inbound.http.gateway.dto.GatewayDto;
+import com.kridan.split_net.application.inbound.http_api.dto.JwtResponse;
+import com.kridan.split_net.application.inbound.http_api.gateway.dto.CreateGatewayRequest;
+import com.kridan.split_net.application.inbound.http_api.gateway.dto.GatewayDto;
 import com.kridan.split_net.domain.gateway.Gateway;
 import com.kridan.split_net.domain.gateway.ports.FindAllGatewaysPort;
 import com.kridan.split_net.domain.gateway.usecases.CreateGatewayUseCase;

@@ -1,8 +1,8 @@
-package com.kridan.split_net.application.inbound.http.site;
+package com.kridan.split_net.application.inbound.http_api.site;
 
-import com.kridan.split_net.application.inbound.http.gateway.dto.GatewayDto;
-import com.kridan.split_net.application.inbound.http.site.dto.CreateSiteRequest;
-import com.kridan.split_net.application.inbound.http.site.dto.SiteDto;
+import com.kridan.split_net.application.inbound.http_api.gateway.dto.GatewayDto;
+import com.kridan.split_net.application.inbound.http_api.site.dto.CreateSiteRequest;
+import com.kridan.split_net.application.inbound.http_api.site.dto.SiteDto;
 import com.kridan.split_net.domain.site.Site;
 import com.kridan.split_net.domain.site.usecases.CreateSiteUseCase;
 import com.kridan.split_net.domain.site.usecases.GetAllSitesUseCase;

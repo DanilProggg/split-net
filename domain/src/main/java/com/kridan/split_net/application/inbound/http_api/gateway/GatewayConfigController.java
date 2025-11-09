@@ -1,7 +1,6 @@
-package com.kridan.split_net.application.inbound.http.gateway;
+package com.kridan.split_net.application.inbound.http_api.gateway;
 
-import com.kridan.split_net.application.inbound.http.gateway.dto.GatewayInitRequest;
-import com.kridan.split_net.domain.gateway.Gateway;
+import com.kridan.split_net.application.inbound.http_api.gateway.dto.GatewayInitRequest;
 import com.kridan.split_net.domain.gateway.usecases.HealthCheckUseCase;
 import com.kridan.split_net.domain.gateway.usecases.InitGatewayUseCase;
 import lombok.RequiredArgsConstructor;

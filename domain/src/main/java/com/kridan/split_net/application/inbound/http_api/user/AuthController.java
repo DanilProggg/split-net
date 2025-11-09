@@ -1,6 +1,6 @@
-package com.kridan.split_net.application.inbound.http.user;
+package com.kridan.split_net.application.inbound.http_api.user;
 
-import com.kridan.split_net.application.inbound.http.dto.JwtResponse;
+import com.kridan.split_net.application.inbound.http_api.dto.JwtResponse;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.usecases.CreateUserUseCase;
 import com.kridan.split_net.infrastructure.security.JpaUserDetailsService;

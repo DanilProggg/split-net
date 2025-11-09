@@ -1,4 +1,4 @@
-package com.kridan.split_net.application.inbound.http.gateway.dto;
+package com.kridan.split_net.application.inbound.http_api.gateway.dto;
 
 import lombok.Data;
 import lombok.Getter;
