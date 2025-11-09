@@ -45,12 +45,15 @@ public class LocalAuthConfiguration {
     @Order(1)
     public SecurityFilterChain panelSecurity(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/panel/**") // работает только для этих путей
+                // защищаем /panel/** и обслуживаем /login
+                .securityMatcher("/panel/**", "/login", "/logout")
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/logout").permitAll()
                         .anyRequest().hasRole("ADMIN")
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // страница логина
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/panel", true)
                         .permitAll()
                 )
                 .logout(logout -> logout.permitAll());
