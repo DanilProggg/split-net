@@ -1,4 +1,4 @@
-package com.kridan.split_net.application.inbound.http_api.dto;
+package com.kridan.split_net.application.inbound.http.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

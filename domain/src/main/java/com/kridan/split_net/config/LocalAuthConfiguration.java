@@ -41,8 +41,6 @@ public class LocalAuthConfiguration {
                         .anyRequest().hasRole("ADMIN")
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")               // Thymeleaf шаблон формы
-                        .loginProcessingUrl("/login")      // POST URL формы
                         .defaultSuccessUrl("/panel", true)
                         .permitAll()
                 )

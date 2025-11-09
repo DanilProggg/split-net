@@ -1,6 +1,6 @@
-package com.kridan.split_net.application.inbound.http_api;
+package com.kridan.split_net.application.inbound.http.api;
 
-import com.kridan.split_net.application.inbound.http_api.dto.CreateGroupRequest;
+import com.kridan.split_net.application.inbound.http.api.dto.CreateGroupRequest;
 import com.kridan.split_net.domain.group.Group;
 import com.kridan.split_net.domain.group.usecases.CreateGroupUseCase;
 import com.kridan.split_net.domain.group.usecases.GetAllGroupUseCase;

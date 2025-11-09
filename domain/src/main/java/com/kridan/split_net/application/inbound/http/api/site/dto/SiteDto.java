@@ -1,6 +1,6 @@
-package com.kridan.split_net.application.inbound.http_api.site.dto;
+package com.kridan.split_net.application.inbound.http.api.site.dto;
 
-import com.kridan.split_net.application.inbound.http_api.gateway.dto.GatewayDto;
+import com.kridan.split_net.application.inbound.http.api.gateway.dto.GatewayDto;
 import lombok.Data;
 import lombok.Getter;
 

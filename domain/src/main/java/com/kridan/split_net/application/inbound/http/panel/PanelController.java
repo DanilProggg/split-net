@@ -1,4 +1,4 @@
-package com.kridan.split_net.application.inbound.http_panel;
+package com.kridan.split_net.application.inbound.http.panel;
 
 import com.kridan.split_net.domain.gateway.Gateway;
 import com.kridan.split_net.domain.site.Site;

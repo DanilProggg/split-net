@@ -1,4 +1,4 @@
-package com.kridan.split_net.application.inbound.http_api.user;
+package com.kridan.split_net.application.inbound.http.api.user;
 
 import lombok.Data;
 

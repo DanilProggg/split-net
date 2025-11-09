@@ -1,7 +1,7 @@
-package com.kridan.split_net.application.inbound.http_api.device;
+package com.kridan.split_net.application.inbound.http.api.device;
 
-import com.kridan.split_net.application.inbound.http_api.device.dto.CreateDeviceRequest;
-import com.kridan.split_net.application.inbound.http_api.device.dto.DeviceDto;
+import com.kridan.split_net.application.inbound.http.api.device.dto.CreateDeviceRequest;
+import com.kridan.split_net.application.inbound.http.api.device.dto.DeviceDto;
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.device.ports.FindDevicePort;
 import com.kridan.split_net.domain.device.usecases.ActivateDeviceUseCase;
