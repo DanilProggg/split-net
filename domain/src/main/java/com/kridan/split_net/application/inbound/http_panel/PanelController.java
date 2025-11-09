@@ -14,7 +14,7 @@ import java.util.List;
 public class PanelController {
     @GetMapping
     public String index() {
-        return "index"; // => templates/index.html
+        return "index";
     }
 
     @GetMapping("/gateways")
