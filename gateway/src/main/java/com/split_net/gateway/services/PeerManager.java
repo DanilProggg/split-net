@@ -44,13 +44,13 @@ public class PeerManager {
 
             if (delayMinutes <= 0) {
                 log.warn("Peer {} has already expired, removing immediately", publicKey);
-                removePeer(publicKey);
+                removePeer(peer);
                 return;
             }
 
             // Создаем таймер на удаление
             ScheduledFuture<?> timer = scheduler.schedule(() -> {
-                removePeer(publicKey);
+                removePeer(peer);
             }, delayMinutes, TimeUnit.MINUTES);
 
             // Сохраняем таймер (отменяем предыдущий если был)
@@ -67,31 +67,25 @@ public class PeerManager {
         }
     }
 
+
     /**
      * Удаляет пир из WireGuard и отменяет таймер
      */
     public void removePeer(Peer peer) {
-        removePeer(peer.getPubkey());
-    }
-
-    /**
-     * Удаляет пир из WireGuard и отменяет таймер
-     */
-    public void removePeer(String publicKey) {
         try {
-            log.info("Removing peer: {}", publicKey);
+            log.info("Removing peer: {}", peer.getPubkey());
 
             // Удаляем пир из WireGuard
-            removePeerFromWireGuard(publicKey);
+            removePeerFromWireGuard(peer);
 
             // Отменяем таймер
-            cancelPeerTimer(publicKey);
+            cancelPeerTimer(peer.getPubkey());
 
-            log.info("Peer {} removed successfully", publicKey);
+            log.info("Peer {} removed successfully", peer.getPubkey());
 
         } catch (Exception e) {
-            log.error("Failed to remove peer: {}", publicKey, e);
-            throw new RuntimeException("Failed to remove peer: " + publicKey, e);
+            log.error("Failed to remove peer: {}", peer.getPubkey(), e);
+            throw new RuntimeException("Failed to remove peer: " + peer.getPubkey(), e);
         }
     }
 
@@ -114,12 +108,22 @@ public class PeerManager {
             throw new RuntimeException("WireGuard command failed: " + errorOutput);
         }
 
+        Process process2 = new ProcessBuilder("ip", "route", "add", peer.getIp(), "dev", interfaceName)
+                .redirectErrorStream(true)
+                .start();
+
+        int exitCode2 = process.waitFor();
+        if (exitCode2 != 0) {
+            String errorOutput = new String(process.getInputStream().readAllBytes());
+            throw new RuntimeException("Add route command failed: " + errorOutput);
+        }
+
         // Поднимаем интерфейс
         ensureInterfaceUp();
     }
 
-    private void removePeerFromWireGuard(String publicKey) throws Exception {
-        Process process = new ProcessBuilder("wg", "set", interfaceName, "peer", publicKey, "remove")
+    private void removePeerFromWireGuard(Peer peer) throws Exception {
+        Process process = new ProcessBuilder("wg", "set", interfaceName, "peer", peer.getPubkey(), "remove")
                 .redirectErrorStream(true)
                 .start();
 
@@ -127,6 +131,16 @@ public class PeerManager {
         if (exitCode != 0) {
             String errorOutput = new String(process.getInputStream().readAllBytes());
             throw new RuntimeException("Failed to remove peer: " + errorOutput);
+        }
+
+        Process process2 = new ProcessBuilder("ip", "route", "delete", peer.getIp())
+                .redirectErrorStream(true)
+                .start();
+
+        int exitCode2 = process.waitFor();
+        if (exitCode2 != 0) {
+            String errorOutput = new String(process.getInputStream().readAllBytes());
+            throw new RuntimeException("Delete route command failed: " + errorOutput);
         }
     }
 
