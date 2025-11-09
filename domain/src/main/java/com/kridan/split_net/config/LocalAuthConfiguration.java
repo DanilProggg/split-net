@@ -32,31 +32,6 @@ import java.util.Collection;
 public class LocalAuthConfiguration {
 
     @Bean
-    @Order(1)
-    public SecurityFilterChain panelSecurity(HttpSecurity http) throws Exception {
-        http
-                .securityMatcher("/panel/**", "/login", "/logout") // только эти URL
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/logout").permitAll()
-                        .anyRequest().hasRole("ADMIN")
-                )
-                .formLogin(form -> form
-                        .defaultSuccessUrl("/panel", true)
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                )
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
-
-        return http.build();
-    }
-
-    @Bean
-    @Order(2)
     public SecurityFilterChain apiSecurity(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
         http
                 .securityMatcher("/api/**")
