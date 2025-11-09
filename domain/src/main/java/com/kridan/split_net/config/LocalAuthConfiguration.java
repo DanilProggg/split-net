@@ -50,6 +50,7 @@ public class LocalAuthConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/panel/**").hasRole("ADMIN")
                         .requestMatchers("/api/gateway/**").hasRole("GATEWAY")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().denyAll()
