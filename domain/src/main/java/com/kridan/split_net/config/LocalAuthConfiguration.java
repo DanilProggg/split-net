@@ -70,7 +70,6 @@ public class LocalAuthConfiguration {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/api/gateway/**").hasRole("GATEWAY")
                         .requestMatchers("/api/**").authenticated()
-                        .requestMatchers("/panel/**").permitAll()
                         .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer(oauth -> oauth
