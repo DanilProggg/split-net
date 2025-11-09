@@ -46,7 +46,7 @@ public class LocalAuthConfiguration {
     public SecurityFilterChain panelSecurity(HttpSecurity http) throws Exception {
         http
                 // защищаем /panel/** и обслуживаем /login
-                .securityMatcher("/panel/**", "/login", "/logout")
+                .securityMatcher("/panel/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/logout").permitAll()
                         .anyRequest().hasRole("ADMIN")
