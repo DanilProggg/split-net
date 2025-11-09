@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -41,7 +42,25 @@ import java.util.Collection;
 public class LocalAuthConfiguration {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
+    @Order(1)
+    public SecurityFilterChain panelSecurity(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/panel/**") // работает только для этих путей
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().hasRole("ADMIN")
+                )
+                .formLogin(form -> form
+                        .loginPage("/login") // страница логина
+                        .permitAll()
+                )
+                .logout(logout -> logout.permitAll());
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
+    public SecurityFilterChain apiSecurity(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session
@@ -50,7 +69,6 @@ public class LocalAuthConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/panel/**").hasRole("ADMIN")
                         .requestMatchers("/api/gateway/**").hasRole("GATEWAY")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().denyAll()

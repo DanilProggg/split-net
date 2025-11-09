@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -40,10 +38,8 @@ public class ActivateDeviceService implements ActivateDeviceUseCase {
         }
     }
 
-
     public boolean isPeriodExpired(Instant lastTime, long hours) {
         Instant now = Instant.now();
         return lastTime.plus(Duration.ofHours(hours)).isBefore(now);
     }
-
 }
