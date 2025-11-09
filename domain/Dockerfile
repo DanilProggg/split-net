@@ -14,12 +14,11 @@ RUN mvn clean package -DskipTests
 
 # -----------------------
 # 2. Runtime stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
-# Install iproute2 and wg-tools
 RUN apt-get update && \
-    apt-get install -y iproute2 wireguard-tools && \
+    apt-get install -y wireguard-tools && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy .jar file from target
@@ -32,7 +31,6 @@ ARG DB_NAME
 ARG DB_USER
 ARG DB_PASS
 ARG APP_PORT
-ARG WG_PORT
 ARG WG_NET
 
 
@@ -43,10 +41,8 @@ ENV DB_NAME=${DB_NAME}
 ENV DB_USER=${DB_USER}
 ENV DB_PASS=${DB_PASS}
 ENV APP_PORT=${APP_PORT}
-ENV WG_PORT=${WG_PORT}
 ENV WG_NET=${WG_NET}
 
 EXPOSE ${APP_PORT}
-EXPOSE ${WG_PORT}
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

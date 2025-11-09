@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +16,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Accessors(chain = true)
-@ToString
 public class Device {
     @Id
     private UUID id;
@@ -28,6 +28,8 @@ public class Device {
 
     @Column(unique = true, nullable = false)
     private String ipAddress;
+
+    private Date lastActivation;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

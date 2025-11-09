@@ -1,15 +1,10 @@
 package com.kridan.split_net.domain.device.services;
 
 import com.kridan.split_net.domain.device.Device;
-import com.kridan.split_net.domain.device.DeviceConfig;
-import com.kridan.split_net.domain.device.DeviceConfigGenerator;
 import com.kridan.split_net.domain.device.DeviceFactory;
 import com.kridan.split_net.domain.device.ports.SaveDevicePort;
 import com.kridan.split_net.domain.device.usecases.CreateDeviceUseCase;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
-import com.kridan.split_net.domain.wireguard.ports.CreateWgPeerPort;
-import com.kridan.split_net.domain.wireguard.ports.CreateWgPrivKeyPort;
-import com.kridan.split_net.domain.wireguard.ports.CreateWgPubKeyPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
@@ -24,45 +19,33 @@ import java.util.UUID;
 public class CreateDeviceService implements CreateDeviceUseCase {
 
     private final DeviceFactory deviceFactory;
-    private final DeviceConfigGenerator deviceConfigGenerator;
     private final SaveDevicePort saveDevicePort;
-    private final CreateWgPrivKeyPort createWgPrivKeyPort;
-    private final CreateWgPubKeyPort createWgPubKeyPort;
-    private final CreateWgPeerPort createWgPeerPort;
     private final FindUserPort findUserPort;
 
     @Override
-    public String createDevice(String userId,
-                               String deviceName,
-                               String ipAddress) throws IOException, InterruptedException {
+    public Device createDevice(String userId,
+                               String name,
+                               String pubkey) throws IOException, InterruptedException {
         try {
 
-            //Device`s private/public key
-            String devicePrivateKey = createWgPrivKeyPort.generatePrivKey();
-            String devicePublicKey = createWgPubKeyPort.generatePubKey(devicePrivateKey);
+            String ipAddress = "100.64.100.1";
 
+            //Make dhcp for IP
             Device device = deviceFactory.create(
                     findUserPort.findById(UUID.fromString(userId)),
-                    deviceName,
+                    name,
                     ipAddress,
-                    devicePublicKey
+                    pubkey
             );
 
             Device createdDevice = saveDevicePort.save(device);
-
-            //Generate configuration
-            DeviceConfig deviceConfig = deviceConfigGenerator.generate(devicePrivateKey, ipAddress);
-
 
             //Logging
             Device realDevice = (Device) Hibernate.unproxy(createdDevice);
             log.debug("Добавлено устройство: {}", realDevice.toString());
 
-            //Adding peer
-            createWgPeerPort.createPeer(createdDevice);
 
-            return deviceConfig.toWireguardFormat();
-
+            return createdDevice;
         } catch (Exception e){
             log.error(e.getMessage());
             throw e;

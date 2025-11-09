@@ -16,7 +16,6 @@ import java.util.*;
 @Getter
 @Setter
 @Accessors(chain = true)
-@ToString
 @Table(name = "app_user")
 public class User {
     @Id
@@ -24,6 +23,11 @@ public class User {
     private UUID id;
     @Column(unique = true, nullable = false)
     private String email;
+
+    private int reauthIntervalHours;
+
+    private boolean requiredLogin;
+    private Date lastLogIn;
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

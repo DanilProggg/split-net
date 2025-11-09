@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "51820:51820/udp"
+    environment:
+      WG_URL: ${WG_URL}
+      API: ${API}
+      TOKEN: ${TOKEN}
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - keys:/etc/vpn/keys
+
+volumes:
+  keys:

@@ -18,15 +18,15 @@ public class WireguardCliAdapter implements CreateWgPeerPort {
     private final ShellCommandExecutor shellCommandExecutor;
     //Добавление пира через shell
 
-
     @Override
     public boolean createPeer(String pubkey, String ipAddress) throws IOException, InterruptedException {
-        ShellCommandExecutor shell = new ShellCommandExecutor();
+        /*ShellCommandExecutor shell = new ShellCommandExecutor();
 
         return shell.run(new String[]{
                 "wg", "set", interfaceName,
                 "peer", device.getPublicKey(),
                 "allowed-ips", device.getIpAddress()
-        });
+        });*/
+        return false;
     }
 }

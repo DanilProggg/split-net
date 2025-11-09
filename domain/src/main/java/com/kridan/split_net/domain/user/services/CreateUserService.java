@@ -25,6 +25,8 @@ public class CreateUserService implements CreateUserUseCase {
 
             User user = new User();
             user.setEmail(userEmail);
+            user.setRequiredLogin(false);
+            user.setReauthIntervalHours(24);
             user.setUserRoles(Set.of(UserRole.USER));
 
             User createdUser = saveUserPort.save(user, userPassword);
