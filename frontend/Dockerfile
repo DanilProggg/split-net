@@ -1,6 +1,6 @@
 FROM nginx:1.27-alpine
 
-COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 COPY static/ /usr/share/nginx/html/
 
