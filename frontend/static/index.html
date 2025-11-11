@@ -9,9 +9,10 @@
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
         <script src="https://unpkg.com/htmx-extensions@latest/dist/json-template.js"></script>
         <script>
-            document.body.addEventListener('htmx:configRequest', function(evt){
-                // evt.detail — это объект с XHR/fetch
-                evt.detail.headers['Authorization'] = 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhNTE2NmMwNi1kYTgzLTQzZGMtYWIxYy1lMTI4ZmIyZDVjYmIiLCJpc3MiOiJzZWxmIiwiaWF0IjoxNzYyODk5ODcwLCJleHAiOjE3NjI5ODYyNzAsImVtYWlsIjoidGVzdCIsInJvbGVzIjpbIlVTRVIiXX0.5OHzzHqG_0Mn8Fvk7JO1dtHX6Sw73BkOOYv-kWHGQ24";
+            document.addEventListener("DOMContentLoaded", function() {
+                document.body.addEventListener('htmx:configRequest', function(evt) {
+                    evt.detail.headers['Authorization'] = 'Bearer eyJhbGciOi...';
+                });
             });
         </script>
     </head>
