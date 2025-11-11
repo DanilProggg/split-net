@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Headline&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
 body {
-    font-family: "Stack Sans Headline", sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 button {
@@ -14,10 +15,48 @@ button {
     font-size: 16px;
 }
 
-a:hover{
+button:hover{
     background: oklch(87% 0 0);
+    cursor: pointer;
 }
 
 main {
     heigth: calc()
+}
+
+#content {
+    padding: 0 40px;
+    background: #FCFCFC;
+
+}
+
+.submenu_title {
+    padding: 20px 0;
+    font-size: 28px;
+}
+
+.site_unit {
+    padding: 20px 10px;
+    width: 100%;
+    background: white;
+    border: 2px solid grey;
+    border-radius: 12px 12px 0 0;
+}
+
+.gateway_units {
+    padding: 20px 10px;
+    width: 100%;
+    border: 2px solid grey;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+}
+
+.gateway_unit-title {
+    padding: 0 0 15px 0;
+}
+
+.gateway_unit {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
 }
