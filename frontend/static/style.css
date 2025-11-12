@@ -27,7 +27,7 @@ main {
 
 #content {
     padding: 0 40px;
-    background: #f5f3e;
+    background: #f5f3e9;
 }
 
 .site_unit {
@@ -35,7 +35,7 @@ main {
     width: 100%;
     background: white;
     border: 2px solid grey;
-    border-radius: 12px 12px 0 0;
+    border-radius: 3px 3px 0 0;
 }
 
 .gateway_units {
@@ -44,7 +44,7 @@ main {
     background: white;
     border: 2px solid grey;
     border-top: none;
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 3px 3px;
 }
 
 .gateway_unit-title {
