@@ -4,8 +4,8 @@
         <title>VPN Панель</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css">
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <link rel="stylesheet" href="style.css">
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
         <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/client-side-templates.js"></script>
         <script src="https://unpkg.com/mustache@latest"></script>
@@ -49,29 +49,32 @@ bg-neutral
 <!-- Templates -->
 <!-- Шаблон для Sites -->
 <template id="site-template" type="x-tmpl-mustache">
-    <div class="submenu_title">Sites</div>
+    <div class="submenu_title">Сайты</div>
 
     {{#.}}
     <div class="site_unit">
-        <div>{{name}}</div>
-        <div>{{description}}</div>
-        <div>{{subnet}}</div>
+        <div>Название: {{name}}</div>
+        <div>Описание: {{description}}</div>
+        <div>Подсеть: {{subnet}}</div>
     </div>
 
     <div class="gateway_units">
         <h4 class="text-md pb-3">Gateways</h4>
 
         <div class="gateway_unit gateway_unit-title">
-            <div>Name</div>
-            <div>Extern IP</div>
-            <div>Status</div>
+            <div>Название</div>
+            <div>Внешний IP</div>
+            <div>Статус</div>
         </div>
 
         {{#gateways}}
         <div class="gateway_unit">
             <div>{{name}}</div>
-            <div>{{ipAddress}}</div>
-            <div>{{active}}</div>
+            <div>{{wg_url}}</div>
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full animate-pulse-dot {{#active}}bg-green-500{{/active}}{{^active}}bg-red-500{{/active}}"></div>
+                <span class="text-sm">{{#active}}Online{{/active}}{{^active}}Offline{{/active}}</span>
+            </div>
         </div>
         {{/gateways}}
     </div>
