@@ -7,7 +7,8 @@
         <link rel="stylesheet" href="style.css">
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-        <script src="https://unpkg.com/htmx-extensions@latest/dist/json-template.js"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/client-side-templates.js"></script>
+        <script src="https://unpkg.com/mustache@latest"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 document.body.addEventListener('htmx:configRequest', function(evt) {
@@ -31,11 +32,13 @@ bg-neutral
 </header>
 <main class="flex flex-row h-[calc(100vh-60px)]">
     <nav class="flex flex-col w-64 px-3 bg-neutral-800">
-        <button hx-get="http://192.168.0.108/api/sites"
+        <button
+                hx-get="/api/sites"
+                hx-ext="client-side-templates"
+                hx-trigger="click"
                 hx-target="#content"
                 hx-swap="innerHTML"
-                hx-ext="json-template"
-                data-template="#site-template">Sites</button>
+                mustache-template="site-template">Sites</button>
         <button hx-get="/partials/users.html" hx-target="#content" hx-swap="innerHTML">Users</button>
     </nav>
     <section id="content" class="grow">
@@ -44,32 +47,32 @@ bg-neutral
 
 
 <!-- Templates -->
-<!-- Шаблон для json-template -->
-<template id="site-template">
+<!-- Шаблон для Sites -->
+<template id="site-template" type="x-tmpl-mustache">
     <div class="submenu_title">Sites</div>
 
     <div class="site_unit">
-        <div data-key="name">Name</div>
-        <div data-key="description">Description</div>
-        <div data-key="subnet">Subnet</div>
+        <div>{{name}}</div>
+        <div>{{description}}</div>
+        <div>{{subnet}}</div>
     </div>
 
     <div class="gateway_units">
         <h4 class="text-md pb-3">Gateways</h4>
 
-        <!-- Шапка остаётся статичной -->
         <div class="gateway_unit gateway_unit-title">
             <div>Name</div>
             <div>Extern IP</div>
             <div>Status</div>
         </div>
 
-        <!-- Динамические шлюзы -->
-        <div class="gateway_unit" data-each="gateways">
-            <div data-key="name"></div>
-            <div data-key="ipAddress"></div>
-            <div data-key="lastSeen"></div>
+        {{#gateways}}
+        <div class="gateway_unit">
+            <div>{{name}}</div>
+            <div>{{ipAddress}}</div>
+            <div>{{lastSeen}}</div>
         </div>
+        {{/gateways}}
     </div>
 </template>
 
