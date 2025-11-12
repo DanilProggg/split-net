@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wdth,wght@75..100,200..900&display=swap" rel="stylesheet">
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Source Sans 3 Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    color: #3D3D3D;
 }
 
 button {
@@ -68,4 +69,8 @@ main {
 }
 .animate-pulse-dot {
   animation: pulse-dot 1.5s infinite;
+}
+
+.text-color-secondary {
+    color: #888888;
 }

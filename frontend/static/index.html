@@ -53,15 +53,15 @@ bg-neutral
 
     {{#.}}
     <div class="site_unit">
-        <div>Название: {{name}}</div>
-        <div>Описание: {{description}}</div>
-        <div>Подсеть: {{subnet}}</div>
+        <div class="font-size-xl">{{name}}</div>
+        <div class="text-color-secondary font-size-xs">{{description}}</div>
+        <div class="font-size-sm text-color-secondary">{{subnet}}</div>
     </div>
 
     <div class="gateway_units">
         <h4 class="text-md pb-3">Шлюзы</h4>
 
-        <div class="gateway_unit gateway_unit-title">
+        <div class="gateway_unit gateway_unit-title text-color-secondary">
             <div>Название</div>
             <div>Внешний IP</div>
             <div>Статус</div>
