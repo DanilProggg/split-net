@@ -49,9 +49,9 @@ bg-neutral
 <!-- Templates -->
 <!-- Шаблон для Sites -->
 <template id="site-template" type="x-tmpl-mustache">
-    {{#this}}
     <div class="submenu_title">Sites</div>
 
+    {{#.}}
     <div class="site_unit">
         <div>{{name}}</div>
         <div>{{description}}</div>
@@ -75,7 +75,7 @@ bg-neutral
         </div>
         {{/gateways}}
     </div>
-    {{/this}}
+    {{/.}}
 </template>
 
 
