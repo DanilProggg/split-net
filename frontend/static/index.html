@@ -53,7 +53,7 @@ bg-neutral
     <div class="py-5 text-black">Сайты</div>
 
     {{#.}}
-    <div class="shadow rounded-sm bg-white px-6 pb-3">
+    <div class="shadow-md rounded-sm bg-white px-6 pb-3">
         <div class="site_unit">
             <div class="text-2xl text-[#3d3d3d]">{{name}}</div>
             <div class="text-color-secondary text-xs">{{description}}</div>
@@ -62,14 +62,14 @@ bg-neutral
         <br>
         <div class="gateway_units">
             <h4 class="text-[#3d3d3d] text-2xl pb-3">Шлюзы</h4>
-            <div class="gateway_unit gateway_unit-title text-color-secondary">
+            <div class="gateway_unit gateway_unit-title text-color-secondary px-2 bg-[#4f4f4f]">
                 <div>Название</div>
                 <div>Внешний IP</div>
                 <div>Статус</div>
             </div>
 
             {{#gateways}}
-            <div class="gateway_unit">
+            <div class="gateway_unit px-2">
                 <div>{{name}}</div>
                 <div>{{wg_url}}</div>
                 <div class="flex items-center gap-2">
