@@ -26,7 +26,7 @@ main {
 
 #content {
     padding: 0 40px;
-    background: #FCFCFC;
+    background: #FFFDF5;
 
 }
 
@@ -46,6 +46,7 @@ main {
 .gateway_units {
     padding: 20px 10px;
     width: 100%;
+    background: white;
     border: 2px solid grey;
     border-top: none;
     border-radius: 0 0 12px 12px;
