@@ -38,6 +38,7 @@ bg-neutral
                 hx-trigger="click"
                 hx-target="#content"
                 hx-swap="innerHTML"
+
                 mustache-template="site-template">Sites</button>
         <button hx-get="/partials/users.html" hx-target="#content" hx-swap="innerHTML">Users</button>
     </nav>
@@ -49,22 +50,22 @@ bg-neutral
 <!-- Templates -->
 <!-- Шаблон для Sites -->
 <template id="site-template" type="x-tmpl-mustache">
-    <div class="submenu_title">Сайты</div>
+    <div class="py-5 text-3xl">Сайты</div>
 
     {{#.}}
     <div class="site_unit">
-        <div class="font-size-xl">{{name}}</div>
-        <div class="text-color-secondary font-size-xs">{{description}}</div>
-        <div class="font-size-sm text-color-secondary">{{subnet}}</div>
+        <div class="text-2xl">{{name}}</div>
+        <div class="text-color-secondary text-xs">{{description}}</div>
+        <div class="text-sm text-color-secondary">{{subnet}}</div>
     </div>
 
     <div class="gateway_units">
         <h4 class="text-md pb-3">Шлюзы</h4>
 
         <div class="gateway_unit gateway_unit-title text-color-secondary">
-            <div>НАЗВАНИЕ</div>
-            <div>ВНЕШНИЙ IP</div>
-            <div>СТАТУС</div>
+            <div>Название</div>
+            <div>Внешний IP</div>
+            <div>Статус</div>
         </div>
 
         {{#gateways}}

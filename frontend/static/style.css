@@ -27,13 +27,7 @@ main {
 
 #content {
     padding: 0 40px;
-    background: #FFFDF5;
-
-}
-
-.submenu_title {
-    padding: 20px 0;
-    font-size: 28px;
+    background: #f5f3e;
 }
 
 .site_unit {
