@@ -52,7 +52,3 @@ main {
 .animate-pulse-dot {
   animation: pulse-dot 1.5s infinite;
 }
-
-.text-color-secondary {
-    color: #888888;
-}
