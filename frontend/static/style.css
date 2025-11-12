@@ -39,10 +39,6 @@ main {
     width: 100%;
 }
 
-.gateway_unit-title {
-    padding: 0 0 15px 0;
-}
-
 .gateway_unit {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
