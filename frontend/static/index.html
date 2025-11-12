@@ -49,6 +49,7 @@ bg-neutral
 <!-- Templates -->
 <!-- Шаблон для Sites -->
 <template id="site-template" type="x-tmpl-mustache">
+    {{#this}}
     <div class="submenu_title">Sites</div>
 
     <div class="site_unit">
@@ -70,11 +71,13 @@ bg-neutral
         <div class="gateway_unit">
             <div>{{name}}</div>
             <div>{{ipAddress}}</div>
-            <div>{{lastSeen}}</div>
+            <div>{{active}}</div>
         </div>
         {{/gateways}}
     </div>
+    {{/this}}
 </template>
+👉 {{#this}} го
 
 
 </body>
