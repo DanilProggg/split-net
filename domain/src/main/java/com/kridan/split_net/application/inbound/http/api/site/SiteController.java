@@ -27,8 +27,7 @@ public class SiteController {
         try {
             Site site = createSiteUseCase.create(
                     createSiteRequest.getName(),
-                    createSiteRequest.getDescription(),
-                    createSiteRequest.getSubnet()
+                    createSiteRequest.getDescription()
             );
 
             return ResponseEntity.ok(site);
@@ -47,7 +46,7 @@ public class SiteController {
                             site.getId(),
                             site.getName(),
                             site.getDescription(),
-                            site.getSubnet(),
+                            site.getCreatedAt(),
                             site.getGateways().stream().map(
                                     gateway -> new GatewayDto(
                                             gateway.getId(),

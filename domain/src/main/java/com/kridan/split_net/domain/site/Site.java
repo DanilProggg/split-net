@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,15 +24,15 @@ public class Site {
 
     private String description;
 
-    @Column(nullable = false, unique = true)
-    private String subnet;
+    private Date createdAt;
+
 
     @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Gateway> gateways = new HashSet<>();
 
-    public Site(String name, String description, String subnet) {
+    public Site(String name, String description) {
         this.name = name;
         this.description = description;
-        this.subnet = subnet;
+        this.createdAt = new Date();
     }
 }

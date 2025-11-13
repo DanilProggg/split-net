@@ -47,7 +47,6 @@ public class GatewayController {
     @GetMapping()
     public ResponseEntity<?> getGateways() {
         try {
-            //Token for gateways access
             List<GatewayDto> gatewaysDto = findAllGatewaysPort.findAll().stream()
                     .map(
                             gateway -> new GatewayDto(

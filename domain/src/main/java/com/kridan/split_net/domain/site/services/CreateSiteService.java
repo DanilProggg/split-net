@@ -23,33 +23,15 @@ public class CreateSiteService implements CreateSiteUseCase {
 
 
     @Override
-    public Site create(String name, String description, String subnet) {
+    public Site create(String name, String description) {
 
-        try {
-
-
-            String globalSubnet = getGlobalConfigPort.get("network").getValue();
-            if(!CidrUtils.isSubnetOf(subnet,globalSubnet)) {
-                throw new InvalidSubnetException(String.format("%s is not contain %s", globalSubnet, subnet));
-            }
-            List<String> siteSubnets = getAllSitesUseCase.getAll().stream()
-                    .map(Site::getSubnet).toList();
-
-            if(CidrUtils.overlapsAny(subnet, siteSubnets)){
-                throw new InvalidSubnetException(String.format("%s subnet is overlaping with existing network", globalSubnet, subnet));
-            }
 
             Site site = new Site(
                     name,
-                    description,
-                    subnet
+                    description
             );
             return saveSitePort.save(site);
 
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
     }
 }

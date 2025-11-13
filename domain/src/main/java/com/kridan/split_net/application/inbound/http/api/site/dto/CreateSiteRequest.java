@@ -8,5 +8,4 @@ import lombok.Getter;
 public class CreateSiteRequest {
     private String name;
     private String description;
-    private String subnet;
 }
