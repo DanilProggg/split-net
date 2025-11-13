@@ -6,6 +6,7 @@ import com.kridan.split_net.application.inbound.http.api.site.dto.SiteDto;
 import com.kridan.split_net.domain.site.Site;
 import com.kridan.split_net.domain.site.usecases.CreateSiteUseCase;
 import com.kridan.split_net.domain.site.usecases.GetAllSitesUseCase;
+import com.kridan.split_net.domain.site.usecases.GetSiteUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class SiteController {
 
     private final CreateSiteUseCase createSiteUseCase;
     private final GetAllSitesUseCase  getAllSitesUseCase;
+    private final GetSiteUseCase getSiteUseCase;
 
     @PostMapping()
     public ResponseEntity<?> createSite(@RequestBody CreateSiteRequest createSiteRequest) {
@@ -31,6 +33,38 @@ public class SiteController {
             );
 
             return ResponseEntity.ok(site);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body("An error occurred");
+        }
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<?> getSite(@RequestParam("id") Long id) {
+        try {
+
+            Site site = getSiteUseCase.get(id);
+
+            SiteDto siteDto = new SiteDto(
+                    site.getId(),
+                    site.getName(),
+                    site.getDescription(),
+                    site.getCreatedAt(),
+                    site.getGateways().stream().map(
+                            gateway -> new GatewayDto(
+                                    gateway.getId(),
+                                    gateway.getName(),
+                                    gateway.getWgUrl(),
+                                    gateway.getPublicKey(),
+                                    gateway.getIpAddress(),
+                                    gateway.getLastSeen(),
+                                    gateway.getSite().getId()
+                            )
+                    ).toList()
+            );
+
+
+            return ResponseEntity.ok(siteDto);
         } catch (Exception e){
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
