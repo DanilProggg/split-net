@@ -22,7 +22,12 @@ public class GatewayDto {
         this.wg_url = wg_url;
         this.publicKey = publicKey;
         this.ipAddress = ipAddress;
-        this.isActive = (System.currentTimeMillis() - lastSeen.getTime()) < 2 * 60 * 1000;
+        if(lastSeen != null){
+            this.isActive = (System.currentTimeMillis() - lastSeen.getTime()) < 2 * 60 * 1000;
+        } else {
+            this.isActive = false;
+        }
+
         this.site_id = site_id;
     }
 }
