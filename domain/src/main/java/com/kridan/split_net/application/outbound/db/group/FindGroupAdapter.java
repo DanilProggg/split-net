@@ -16,6 +16,12 @@ public class FindGroupAdapter implements FindGroupPort, FindAllGroupPort {
     private final GroupRepository groupRepository;
 
     @Override
+    public Group findById(Long group_id) {
+        return groupRepository.findById(group_id)
+                .orElseThrow(()->new RuntimeException("Group not found by given ID"));
+    }
+
+    @Override
     public Group findByName(String name) {
         return groupRepository.findByName(name)
                 .orElseThrow(()->new RuntimeException("Group not found by given name"));

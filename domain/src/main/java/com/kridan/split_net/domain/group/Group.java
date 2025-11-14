@@ -1,6 +1,6 @@
 package com.kridan.split_net.domain.group;
 
-import com.kridan.split_net.domain.accessControlRule.AccessControlRule;
+import com.kridan.split_net.domain.resource.Resource;
 import com.kridan.split_net.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class Group {
     private String description;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AccessControlRule> rules = new ArrayList<>();
+    private List<Resource> resources = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

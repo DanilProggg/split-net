@@ -1,4 +1,4 @@
-package com.kridan.split_net.application.inbound.http.api;
+package com.kridan.split_net.application.inbound.http.api.group;
 
 import com.kridan.split_net.application.inbound.http.api.dto.CreateGroupRequest;
 import com.kridan.split_net.domain.group.Group;

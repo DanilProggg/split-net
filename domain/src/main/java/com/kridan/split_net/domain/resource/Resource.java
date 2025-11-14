@@ -1,23 +1,21 @@
-package com.kridan.split_net.domain.accessControlRule;
+package com.kridan.split_net.domain.resource;
 
 import com.kridan.split_net.domain.group.Group;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class AccessControlRule {
+@AllArgsConstructor
+@Builder
+public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String destination; //CIDR or IP
-
-    private String type; // "allow"
 
     @ManyToOne
     @JoinColumn(name = "group_id")
