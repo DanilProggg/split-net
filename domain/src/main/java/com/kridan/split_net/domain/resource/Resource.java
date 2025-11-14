@@ -15,6 +15,7 @@ public class Resource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String destination; //CIDR or IP
 
     @ManyToOne
