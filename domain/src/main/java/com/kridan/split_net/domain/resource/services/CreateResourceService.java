@@ -15,14 +15,14 @@ public class CreateResourceService implements CreateResourceUseCase {
     private final FindGroupPort findGroupPort;
 
     @Override
-    public Resource create(String destination, Long group_id) {
+    public Resource save(String destination, Long group_id) {
 
         Resource resource = Resource.builder()
                 .destination(destination)
                 .group(findGroupPort.findById(group_id))
                 .build();
 
-        return resource;
+        return saveResourcePort.create(resource);
 
     }
 }

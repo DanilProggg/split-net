@@ -24,7 +24,7 @@ public class ResourceController {
     public ResponseEntity<?> createResource(@RequestBody CreateResourceRequest createResourceRequest, @PathVariable("group_id") Long group_id) {
         try {
 
-            Resource resource = createResourceUseCase.create(
+            Resource resource = createResourceUseCase.save(
                     createResourceRequest.getDestination(), group_id);
 
             return ResponseEntity.ok(resource);
