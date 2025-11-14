@@ -21,7 +21,7 @@ public class ResourceController {
     private final GetAllResourcesUseCase getAllResourcesUseCase;
 
     @PostMapping("/{group_id}")
-    public ResponseEntity<?> createResource(@RequestBody CreateResourceRequest createResourceRequest, @RequestParam("group_id") Long group_id) {
+    public ResponseEntity<?> createResource(@RequestBody CreateResourceRequest createResourceRequest, @PathVariable("group_id") Long group_id) {
         try {
 
             Resource resource = createResourceUseCase.create(

@@ -42,7 +42,7 @@ public class GroupController {
     }
 
     @PostMapping("/{group_id}/users/{user_id}")
-    public ResponseEntity<?> addUserToGroup(@RequestParam("group_id") Long group_id, @RequestParam("user_id") String user_id){
+    public ResponseEntity<?> addUserToGroup(@PathVariable("group_id") Long group_id, @PathVariable("user_id") String user_id){
         try {
             Group group = addUserToGroupUseCase.add(group_id, user_id);
 
