@@ -24,8 +24,8 @@ public class WireguardService {
     private final CreateWgPubKeyPort createWgPubKeyPort;
     private final CreateWgPrivKeyPort createWgPrivKeyPort;
 
-    public void setup() throws IOException, InterruptedException {
 
+    public void genKeys() throws IOException, InterruptedException {
         String privateKey;
 
         File keyFile = new File("/etc/vpn/keys/wg0.key");
@@ -59,6 +59,14 @@ public class WireguardService {
         //Save to global config
         configService.save("privateKey", privateKey);
         configService.save("publicKey", createWgPubKeyPort.generatePubKey(privateKey));
+    }
+
+    public void setup() throws IOException, InterruptedException {
+
+        String ip = configService.getValue("ip");
+        if (ip == null || ip.isBlank()) {
+            throw new IllegalStateException("IP address is not set in configService");
+        }
 
         // Create interface
         new ProcessBuilder("ip", "link", "add", "wg0", "type", "wireguard")
@@ -75,7 +83,7 @@ public class WireguardService {
                 .waitFor();
 
         // Set IP address
-        new ProcessBuilder("ip", "addr", "add", configService.getValue("ip"), "dev", "wg0")
+        new ProcessBuilder("ip", "addr", "add", ip, "dev", "wg0")
                 .inheritIO()
                 .start()
                 .waitFor();

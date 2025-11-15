@@ -48,6 +48,8 @@ public class GatewayInitializer {
     public void initialize() throws IOException, InterruptedException {
         //Выполняем первоначальную инициализацию
 
+        wireguardService.genKeys();
+
         performInitialization();
         log.debug("Http init query done");
 

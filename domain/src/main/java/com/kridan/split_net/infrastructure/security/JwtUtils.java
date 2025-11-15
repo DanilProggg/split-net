@@ -51,12 +51,12 @@ public class JwtUtils {
 
 
         return Jwts.builder()
-                .setSubject(String.valueOf(gatewayId))
+                .setSubject(gatewayId)
                 .setIssuer("self")
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plusSeconds(1000000000L *60*60)))
                 .claim("roles", Set.of(UserRole.GATEWAY))
-                .claim("site", "")
+                .claim("site", siteId)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
