@@ -1,6 +1,7 @@
 package com.kridan.split_net.application.inbound.http.api.gateway;
 
 import com.kridan.split_net.application.inbound.http.api.gateway.dto.GatewayInitRequest;
+import com.kridan.split_net.application.inbound.http.api.gateway.dto.GatewayInitResponse;
 import com.kridan.split_net.domain.gateway.Gateway;
 import com.kridan.split_net.domain.gateway.ports.FindGatewayPort;
 import com.kridan.split_net.domain.gateway.usecases.CreateGatewayUseCase;
@@ -40,9 +41,10 @@ public class GatewayConfigController {
                 );
 
                 log.debug("Gateway found {}. Refresh info", jwt.getSubject());
+                return ResponseEntity.ok("Gateway data updated");
 
             } catch (Exception e) {
-                createGatewayUseCase.create(
+                Gateway gateway = createGatewayUseCase.create(
                         jwt.getSubject(),
                         gatewayInitRequest.getHostname(),
                         jwt.getClaim("site")
@@ -56,9 +58,10 @@ public class GatewayConfigController {
                 );
 
                 log.debug("Gateway not found. Register gateway {}", jwt.getSubject());
+                return ResponseEntity.ok(new GatewayInitResponse(gateway.getIpAddress()));
             }
 
-            return ResponseEntity.ok("OK");
+
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");

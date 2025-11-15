@@ -3,6 +3,7 @@ package com.split_net.gateway.services;
 import com.split_net.gateway.config.JwtConfig;
 import com.split_net.gateway.domain.Config;
 import com.split_net.gateway.domain.GatewayState;
+import com.split_net.gateway.services.dto.GatewayInitResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.Map;
@@ -46,12 +48,11 @@ public class GatewayInitializer {
     public void initialize() throws IOException, InterruptedException {
         //Выполняем первоначальную инициализацию
 
+        performInitialization();
+        log.debug("Http init query done");
 
         wireguardService.setup();
         log.debug("Wireguard initialized");
-
-        performInitialization();
-        log.debug("Http init query done");
 
         //Помечаем как инициализирован
         gatewayState.setInitialized(true);
@@ -74,20 +75,19 @@ public class GatewayInitializer {
                         "publicKey", configService.getValue("publicKey")
                 );
 
-                ResponseEntity<Void> response = webClient.post()
+                GatewayInitResponse response = webClient.post()
                         .uri(apiUrl + "/api/gateway/init")
                         .header("Authorization", "Bearer " + jwtToken)
                         .bodyValue(requestBody)
                         .retrieve()
-                        .toBodilessEntity()
+                        .onStatus(status -> !status.is2xxSuccessful(),
+                                clientResponse -> Mono.error(new RuntimeException("Gateway init failed: " + clientResponse.statusCode())))
+
+                        .bodyToMono(GatewayInitResponse.class)
                         .block(); // Блокируем до получения ответа
 
-                if (response.getStatusCode().is2xxSuccessful()) {
-                    log.debug("Initialization successful");
-                    return; // Выходим из функции только при успехе
-                } else {
-                    log.debug("Initialization failed, status: " + response.getStatusCode());
-                }
+                configService.save("ip", response.getIp());
+                log.debug("Initialization successful");
 
             } catch (Exception e) {
                 log.error("Initialization error: " + e.getMessage());

@@ -23,7 +23,6 @@ public class WireguardService {
     @Value("${gateway.wg.url}")
     private String wg_url;
 
-    private final JwtConfig jwtConfig;
     private final ConfigService configService;
     private final CreateWgPubKeyPort createWgPubKeyPort;
     private final CreateWgPrivKeyPort createWgPrivKeyPort;
