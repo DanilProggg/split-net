@@ -1,7 +1,5 @@
 package com.split_net.gateway.services;
 
-import com.split_net.gateway.config.JwtConfig;
-import com.split_net.gateway.domain.Peer;
 import com.split_net.gateway.domain.wireguard.ports.CreateWgPrivKeyPort;
 import com.split_net.gateway.domain.wireguard.ports.CreateWgPubKeyPort;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 @Service
@@ -78,7 +75,7 @@ public class WireguardService {
                 .waitFor();
 
         // Set IP address
-        new ProcessBuilder("ip", "addr", "add", jwtConfig.getParamAsString("ip"), "dev", "wg0")
+        new ProcessBuilder("ip", "addr", "add", configService.getValue("ip"), "dev", "wg0")
                 .inheritIO()
                 .start()
                 .waitFor();
