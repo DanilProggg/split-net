@@ -52,7 +52,7 @@ public class SiteController {
                     site.getCreatedAt(),
                     site.getGateways().stream().map(
                             gateway -> new GatewayDto(
-                                    gateway.getId(),
+                                    gateway.getGatewayId().toString(),
                                     gateway.getName(),
                                     gateway.getWgUrl(),
                                     gateway.getPublicKey(),
@@ -83,7 +83,7 @@ public class SiteController {
                             site.getCreatedAt(),
                             site.getGateways().stream().map(
                                     gateway -> new GatewayDto(
-                                            gateway.getId(),
+                                            gateway.getGatewayId().toString(),
                                             gateway.getName(),
                                             gateway.getWgUrl(),
                                             gateway.getPublicKey(),
