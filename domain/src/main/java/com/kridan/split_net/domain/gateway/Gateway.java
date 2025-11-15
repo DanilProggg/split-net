@@ -31,7 +31,7 @@ public class Gateway {
     private Date lastSeen;
 
     @ManyToOne
-    @JoinColumn(name = "gateway_id")
+    @JoinColumn(name = "site_id")
     private Site site;
 
 }
