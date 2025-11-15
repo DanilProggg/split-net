@@ -88,8 +88,13 @@ public class GatewayInitializer {
                         .bodyToMono(GatewayInitResponse.class)
                         .block(); // Блокируем до получения ответа
 
-                configService.save("ip", response.getIp());
-                log.debug("Initialization successful");
+                if (response != null && response.getIp() != null) {
+                    configService.save("ip", response.getIp());
+                    log.debug("Initialization successful with IP: {}", response.getIp());
+                    break; // выходим из цикла только если IP получен
+                } else {
+                    log.warn("Initialization response received but IP is null, retrying...");
+                }
 
             } catch (Exception e) {
                 log.error("Initialization error: " + e.getMessage());
