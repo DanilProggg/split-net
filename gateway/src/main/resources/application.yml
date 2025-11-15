@@ -27,6 +27,7 @@ logging:
     root: INFO
 
 gateway:
+  name: ${GATEWAY_NAME}
   wg:
     url: ${WG_URL}
   api: ${API}

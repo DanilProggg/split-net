@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 @Getter
 public class GatewayDto {
-    private Long gateway_id;
+    private String gateway_id;
     private String name;
     private String wg_url;
     private String publicKey;
@@ -16,7 +16,7 @@ public class GatewayDto {
     private boolean isActive;
     private Long site_id;
 
-    public GatewayDto(Long gateway_id, String name, String wg_url, String publicKey, String ipAddress, Date lastSeen, Long site_id) {
+    public GatewayDto(String gateway_id, String name, String wg_url, String publicKey, String ipAddress, Date lastSeen, Long site_id) {
         this.gateway_id = gateway_id;
         this.name = name;
         this.wg_url = wg_url;

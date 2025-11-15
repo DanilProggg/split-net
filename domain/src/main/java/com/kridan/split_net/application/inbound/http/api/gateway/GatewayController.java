@@ -35,7 +35,7 @@ public class GatewayController {
                     createGatewayRequest.getSite_id()
             );
 
-            String token = jwtUtils.generateGatewayToken(gateway.getId(), gateway.getIpAddress());
+            String token = jwtUtils.generateGatewayToken(gateway.getGatewayId().toString(), gateway.getIpAddress());
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class GatewayController {
             List<GatewayDto> gatewaysDto = findAllGatewaysPort.findAll().stream()
                     .map(
                             gateway -> new GatewayDto(
-                                    gateway.getId(),
+                                    gateway.getGatewayId().toString(),
                                     gateway.getName(),
                                     gateway.getWgUrl(),
                                     gateway.getPublicKey(),

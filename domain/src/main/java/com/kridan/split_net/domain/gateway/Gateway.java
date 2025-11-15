@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -14,8 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Gateway {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID gatewayId;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -33,7 +33,8 @@ public class Gateway {
     @JoinColumn(name = "gateway_id")
     private Site site;
 
-    public Gateway(String name, String ipAddress, Site site) {
+    public Gateway(UUID gatewayId, String name, String ipAddress, Site site) {
+        this.gatewayId = gatewayId;
         this.name = name;
         this.ipAddress = ipAddress;
         this.site = site;

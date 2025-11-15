@@ -24,12 +24,14 @@ public class GatewayInitializer {
     @Value("${gateway.wg.url}")
     private String wg_url;
 
-
     @Value("${gateway.api}")
     private String apiUrl;
 
     @Value("${gateway.jwtToken}")
     private String jwtToken;
+
+    @Value("${gateway.name}")
+    private String gatewayName;
 
     private final WebClient webClient;
     private final GatewayState gatewayState;
@@ -67,6 +69,7 @@ public class GatewayInitializer {
             try {
 
                 Map<String, String> requestBody = Map.of(
+                        "gatewayName", gatewayName,
                         "gatewayUrl", wg_url,
                         "publicKey", configService.getValue("publicKey")
                 );

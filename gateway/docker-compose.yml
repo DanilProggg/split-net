@@ -6,6 +6,7 @@ services:
     ports:
       - "51820:51820/udp"
     environment:
+      GATEWAY_NAME: ${HOSTNAME}
       WG_URL: ${WG_URL}
       API: ${API}
       TOKEN: ${TOKEN}
