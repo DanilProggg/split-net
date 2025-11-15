@@ -24,15 +24,9 @@ public class CreateGatewayService implements CreateGatewayUseCase {
         Gateway gateway = Gateway.builder()
                 .gatewayId(UUID.fromString(gatewayId))
                 .name(name)
+                .ipAddress("100.64.0.1")
                 .site(findSitePort.findById(siteId))
                 .build();
-
-        Gateway gateway = new Gateway(
-                UUID.randomUUID(),
-                name,
-                "100.64.0.1",
-                findSitePort.findById(site_id)
-        );
 
         return saveGatewayPort.save(gateway);
     }
