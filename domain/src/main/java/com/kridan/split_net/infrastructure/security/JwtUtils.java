@@ -46,7 +46,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String generateGatewayToken(String gatewayId, String ip) {
+    public String generateGatewayToken(String gatewayId, Long siteId) {
         Instant now = Instant.now();
 
 
@@ -56,7 +56,7 @@ public class JwtUtils {
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plusSeconds(1000000000L *60*60)))
                 .claim("roles", Set.of(UserRole.GATEWAY))
-                .claim("ip", ip)
+                .claim("site", "")
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }

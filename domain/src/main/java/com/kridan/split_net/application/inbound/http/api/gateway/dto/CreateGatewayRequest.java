@@ -6,7 +6,5 @@ import lombok.Getter;
 @Data
 @Getter
 public class CreateGatewayRequest {
-    private String name;
     private Long site_id;
-    private String ipAddress;
 }

@@ -7,6 +7,8 @@ import com.kridan.split_net.domain.site.ports.FindSitePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class CreateGatewayService implements CreateGatewayUseCase {
@@ -16,12 +18,19 @@ public class CreateGatewayService implements CreateGatewayUseCase {
 
 
     @Override
-    public Gateway create(String name, String ipAddress, Long site_id) {
+    public Gateway create(String gatewayId, String name, Long siteId) {
 
+
+        Gateway gateway = Gateway.builder()
+                .gatewayId(UUID.fromString(gatewayId))
+                .name(name)
+                .site(findSitePort.findById(siteId))
+                .build();
 
         Gateway gateway = new Gateway(
+                UUID.randomUUID(),
                 name,
-                ipAddress,
+                "100.64.0.1",
                 findSitePort.findById(site_id)
         );
 

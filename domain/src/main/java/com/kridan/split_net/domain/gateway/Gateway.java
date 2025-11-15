@@ -2,6 +2,7 @@ package com.kridan.split_net.domain.gateway;
 
 import com.kridan.split_net.domain.site.Site;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class Gateway {
     @Id
     private UUID gatewayId;
@@ -33,10 +34,4 @@ public class Gateway {
     @JoinColumn(name = "gateway_id")
     private Site site;
 
-    public Gateway(UUID gatewayId, String name, String ipAddress, Site site) {
-        this.gatewayId = gatewayId;
-        this.name = name;
-        this.ipAddress = ipAddress;
-        this.site = site;
-    }
 }

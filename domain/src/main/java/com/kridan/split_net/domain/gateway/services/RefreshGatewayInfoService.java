@@ -15,8 +15,9 @@ public class RefreshGatewayInfoService implements RefreshGatewayInfoUseCase {
     private final SaveGatewayPort saveGatewayPort;
 
     @Override
-    public void refresh(Long gateway_id, String publicKey, String wg_url) {
+    public void refresh(String gateway_id, String hostname, String publicKey, String wg_url) {
         Gateway gw = findGatewayPort.findById(gateway_id);
+        gw.setName(hostname);
         gw.setPublicKey(publicKey);
         gw.setWgUrl(wg_url);
         saveGatewayPort.save(gw);

@@ -15,7 +15,7 @@ public class InitGatewayService implements InitGatewayUseCase {
     private final SaveGatewayPort saveGatewayPort;
 
     @Override
-    public Gateway init(Long gateway_id, String pubkey, String url) {
+    public Gateway init(String gateway_id, String hostname, String pubkey, String url) {
         Gateway gateway = findGatewayPort.findById(gateway_id);
         gateway.setWgUrl(url);
         gateway.setPublicKey(pubkey);

@@ -17,7 +17,7 @@ public class HealthCheckService implements HealthCheckUseCase {
     private final SaveGatewayPort saveGatewayPort;
 
     @Override
-    public void lastSeenUpdate(Long gateway_id) {
+    public void lastSeenUpdate(String gateway_id) {
         Gateway gateway = findGatewayPort.findById(gateway_id);
         gateway.setLastSeen(new Date());
         saveGatewayPort.save(gateway);

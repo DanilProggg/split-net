@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +17,8 @@ public class FindGatewayAdapter implements FindGatewayPort, FindAllGatewaysPort 
     private final GatewayRepository gatewayRepository;
 
     @Override
-    public Gateway findById(Long id) {
-        return gatewayRepository.findById(id).orElseThrow(
+    public Gateway findById(String id) {
+        return gatewayRepository.findById(UUID.fromString(id)).orElseThrow(
                 ()->new RuntimeException("Gateway not found")
         );
     }
