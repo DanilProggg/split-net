@@ -3,6 +3,7 @@ package com.kridan.split_net.domain.device.services;
 import com.kridan.split_net.domain.device.usecases.GenerateConfigUseCase;
 import com.kridan.split_net.domain.gateway.ports.FindAllGatewaysPort;
 import com.kridan.split_net.domain.group.Group;
+import com.kridan.split_net.domain.policy.Policy;
 import com.kridan.split_net.domain.resource.Resource;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
@@ -29,8 +30,10 @@ public class GenerateConfigService implements GenerateConfigUseCase {
 
 
         String allowedIps = groups.stream()
-                .flatMap(group -> group.getResources().stream())
+                .flatMap(group -> group.getPolicies().stream())
+                .map(Policy::getResource)
                 .map(Resource::getDestination)
+                .distinct()
                 .collect(Collectors.joining(","));
 
 
