@@ -20,12 +20,14 @@ public class ResourceController {
     private final CreateResourceUseCase createResourceUseCase;
     private final GetAllResourcesUseCase getAllResourcesUseCase;
 
-    @PostMapping("/{group_id}")
-    public ResponseEntity<?> createResource(@RequestBody CreateResourceRequest createResourceRequest, @PathVariable("group_id") Long group_id) {
+    @PostMapping()
+    public ResponseEntity<?> createResource(@RequestBody CreateResourceRequest createResourceRequest) {
         try {
 
-            Resource resource = createResourceUseCase.save(
-                    createResourceRequest.getDestination(), group_id);
+            Resource resource = createResourceUseCase.create(
+                    createResourceRequest.getDestination(),
+                    createResourceRequest.getSite_id()
+            );
 
             return ResponseEntity.ok(resource);
         } catch (Exception e) {

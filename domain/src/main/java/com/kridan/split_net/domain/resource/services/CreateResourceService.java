@@ -4,6 +4,7 @@ import com.kridan.split_net.domain.resource.Resource;
 import com.kridan.split_net.domain.resource.ports.SaveResourcePort;
 import com.kridan.split_net.domain.resource.usecases.CreateResourceUseCase;
 import com.kridan.split_net.domain.group.ports.FindGroupPort;
+import com.kridan.split_net.domain.site.ports.FindSitePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +13,17 @@ import org.springframework.stereotype.Service;
 public class CreateResourceService implements CreateResourceUseCase {
 
     private final SaveResourcePort saveResourcePort;
-    private final FindGroupPort findGroupPort;
+    private final FindSitePort findSitePort;
 
     @Override
-    public Resource save(String destination, Long group_id) {
+    public Resource create(String destination, Long site_id) {
 
         Resource resource = Resource.builder()
                 .destination(destination)
-                .group(findGroupPort.findById(group_id))
+                .site(findSitePort.findById(site_id))
                 .build();
 
-        return saveResourcePort.create(resource);
+        return saveResourcePort.save(resource);
 
     }
 }

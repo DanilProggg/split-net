@@ -13,7 +13,7 @@ public class SaveResourceAdapter implements SaveResourcePort {
     private final ResourceRepository resourceRepository;
 
     @Override
-    public Resource create(Resource resource) {
+    public Resource save(Resource resource) {
         return resourceRepository.save(resource);
     }
 }

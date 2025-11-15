@@ -62,21 +62,6 @@ public class GroupController {
         }
     }
 
-    @PostMapping("/{group_id}/resources/")
-    public ResponseEntity<?> createResource(@RequestBody CreateResourceRequest createResourceRequest, @PathVariable("group_id") Long group_id) {
-        try {
-
-            Resource resource = createResourceUseCase.save(
-                    createResourceRequest.getDestination(), group_id);
-
-            return ResponseEntity.ok(resource);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().body("An error occurred");
-        }
-    }
-
-
 
     @GetMapping()
     public ResponseEntity<?> getGroups() {

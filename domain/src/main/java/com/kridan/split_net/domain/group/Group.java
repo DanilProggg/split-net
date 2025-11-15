@@ -1,5 +1,6 @@
 package com.kridan.split_net.domain.group;
 
+import com.kridan.split_net.domain.policy.Policy;
 import com.kridan.split_net.domain.resource.Resource;
 import com.kridan.split_net.domain.user.User;
 import jakarta.persistence.*;
@@ -26,7 +27,7 @@ public class Group {
     private String description;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Resource> resources = new HashSet<>();
+    private Set<Policy> policies = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
