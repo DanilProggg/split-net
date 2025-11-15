@@ -7,7 +7,7 @@ import lombok.Getter;
 @Data
 @Getter
 @AllArgsConstructor
-public class ResourceDto {
-    private Long id;
+public class PolicyDto {
+    private String policyId;
     private String destination;
 }

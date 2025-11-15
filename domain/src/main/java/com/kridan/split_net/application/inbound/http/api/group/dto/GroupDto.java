@@ -14,6 +14,6 @@ public class GroupDto {
     private Long id;
     private String name;
     private String description;
-    private Set<ResourceDto> resources;
+    private Set<PolicyDto> policies;
     private Set<UserDto> users;
 }
