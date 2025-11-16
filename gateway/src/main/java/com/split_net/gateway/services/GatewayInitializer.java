@@ -88,6 +88,9 @@ public class GatewayInitializer {
                         .bodyToMono(GatewayInitResponse.class)
                         .block(); // Блокируем до получения ответа
 
+
+                log.debug("Received response: {}", response);
+
                 if (response != null && response.getIp() != null) {
                     configService.save("ip", response.getIp());
                     log.debug("Initialization successful with IP: {}", response.getIp());
