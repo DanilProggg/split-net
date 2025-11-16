@@ -71,7 +71,7 @@ public class GatewayInitializer {
             try {
 
                 Map<String, String> requestBody = Map.of(
-                        "gatewayName", gatewayName,
+                        "hostname", gatewayName,
                         "gatewayUrl", wg_url,
                         "publicKey", configService.getValue("publicKey")
                 );
