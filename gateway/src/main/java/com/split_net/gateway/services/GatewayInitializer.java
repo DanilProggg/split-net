@@ -52,7 +52,7 @@ public class GatewayInitializer {
         performInitialization();
         log.info("Http init query done");
 
-        wireguardService.setup();
+        // wireguardService.setup();
         log.debug("Wireguard initialized");
 
         //Помечаем как инициализирован
