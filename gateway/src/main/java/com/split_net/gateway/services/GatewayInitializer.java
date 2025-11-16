@@ -47,12 +47,12 @@ public class GatewayInitializer {
         log.debug("WG URL: {}", wg_url);
         log.debug("NAME: {}", gatewayName);
 
-        // wireguardService.genKeys();
+        wireguardService.genKeys();
 
         performInitialization();
         log.info("Http init query done");
 
-        wireguardService.setup();
+        // wireguardService.setup();
         log.debug("Wireguard initialized");
 
         //Помечаем как инициализирован
