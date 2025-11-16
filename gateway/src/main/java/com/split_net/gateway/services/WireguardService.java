@@ -63,39 +63,39 @@ public class WireguardService {
 
     public void setup() throws IOException, InterruptedException {
 
-//        String ip = configService.getValue("ip");
-//        if (ip == null || ip.isBlank()) {
-//            throw new IllegalStateException("IP address is not set in configService");
-//        }
-//
-//        // Create interface
-//        new ProcessBuilder("ip", "link", "add", "wg0", "type", "wireguard")
-//                .inheritIO()
-//                .start()
-//                .waitFor();
-//
-//        // Configure private key and port
-//        new ProcessBuilder("wg", "set", "wg0",
-//                "listen-port", String.valueOf(wg_url.split(":")[1].trim()),
-//                "private-key", "/etc/vpn/keys/wg0.key")
-//                .inheritIO()
-//                .start()
-//                .waitFor();
-//
-//        // Set IP address
-//        new ProcessBuilder("ip", "addr", "add", ip, "dev", "wg0")
-//                .inheritIO()
-//                .start()
-//                .waitFor();
-//
-//
-//        // Interface link up
-//        new ProcessBuilder("ip", "link", "set", "up", "dev", "wg0")
-//                .inheritIO()
-//                .start()
-//                .waitFor();
-//
-//        log.info("WireGuard interface wg0 created succesful.");
+        String ip = configService.getValue("ip");
+        if (ip == null || ip.isBlank()) {
+            throw new IllegalStateException("IP address is not set in configService");
+        }
+
+        // Create interface
+        new ProcessBuilder("ip", "link", "add", "wg0", "type", "wireguard")
+                .inheritIO()
+                .start()
+                .waitFor();
+
+        // Configure private key and port
+        new ProcessBuilder("wg", "set", "wg0",
+                "listen-port", String.valueOf(wg_url.split(":")[1].trim()),
+                "private-key", "/etc/vpn/keys/wg0.key")
+                .inheritIO()
+                .start()
+                .waitFor();
+
+        // Set IP address
+        new ProcessBuilder("ip", "addr", "add", ip, "dev", "wg0")
+                .inheritIO()
+                .start()
+                .waitFor();
+
+
+        // Interface link up
+        new ProcessBuilder("ip", "link", "set", "up", "dev", "wg0")
+                .inheritIO()
+                .start()
+                .waitFor();
+
+        log.info("WireGuard interface wg0 created succesful.");
 
     }
 
