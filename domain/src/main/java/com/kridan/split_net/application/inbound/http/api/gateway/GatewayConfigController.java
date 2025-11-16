@@ -31,6 +31,8 @@ public class GatewayConfigController {
     public ResponseEntity<?> initGateway(@AuthenticationPrincipal Jwt jwt, @RequestBody GatewayInitRequest gatewayInitRequest) {
         try {
 
+            log.debug("Request gateway init: {}", gatewayInitRequest);
+
             try {
                 findGatewayPort.findById(jwt.getSubject()); //Error if gateway not found
                 refreshGatewayInfoUseCase.refresh(
