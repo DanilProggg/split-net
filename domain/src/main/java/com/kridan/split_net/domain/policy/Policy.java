@@ -2,11 +2,12 @@ package com.kridan.split_net.domain.policy;
 
 import com.kridan.split_net.domain.group.Group;
 import com.kridan.split_net.domain.resource.Resource;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity

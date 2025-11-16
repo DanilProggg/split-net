@@ -2,10 +2,7 @@ package com.kridan.split_net.domain.gateway;
 
 import com.kridan.split_net.domain.site.Site;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.UUID;
@@ -13,7 +10,9 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Builder
+@AllArgsConstructor
 
 public class Gateway {
 
