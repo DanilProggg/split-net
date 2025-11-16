@@ -34,7 +34,7 @@ public class GatewayConfigController {
             log.debug("Request gateway init: {}", gatewayInitRequest);
 
             try {
-                findGatewayPort.findById(jwt.getSubject()); //Error if gateway not found
+                Gateway gateway = findGatewayPort.findById(jwt.getSubject()); //Error if gateway not found
                 refreshGatewayInfoUseCase.refresh(
                         jwt.getSubject(),
                         gatewayInitRequest.getHostname(),
@@ -43,7 +43,7 @@ public class GatewayConfigController {
                 );
 
                 log.debug("Gateway found {}. Refresh info", jwt.getSubject());
-                return ResponseEntity.ok("Gateway data updated");
+                return ResponseEntity.ok(new GatewayInitResponse(gateway.getIpAddress()));
 
             } catch (Exception e) {
                 Gateway gateway = createGatewayUseCase.create(
