@@ -50,7 +50,7 @@ public class GatewayInitializer {
         wireguardService.genKeys();
 
         performInitialization();
-        log.debug("Http init query done");
+        log.info("Http init query done");
 
         wireguardService.setup();
         log.debug("Wireguard initialized");
@@ -88,7 +88,7 @@ public class GatewayInitializer {
                         .block(); // Блокируем до получения ответа
 
 
-                log.debug("Received response: {}", response);
+                log.info("Received response: {}", response);
 
                 if (response != null && response.getIp() != null) {
                     configService.save("ip", response.getIp());
