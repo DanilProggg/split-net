@@ -17,9 +17,6 @@ import java.util.UUID;
 
 public class Gateway {
 
-    public Gateway() {
-    }
-
     @Id
     private UUID gatewayId;
 
