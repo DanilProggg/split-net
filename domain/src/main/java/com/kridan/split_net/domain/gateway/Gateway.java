@@ -14,7 +14,12 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+
 public class Gateway {
+
+    public Gateway() {
+    }
+
     @Id
     private UUID gatewayId;
 
@@ -35,3 +40,5 @@ public class Gateway {
     private Site site;
 
 }
+
+
