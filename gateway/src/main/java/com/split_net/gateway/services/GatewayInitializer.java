@@ -1,7 +1,5 @@
 package com.split_net.gateway.services;
 
-import com.split_net.gateway.config.JwtConfig;
-import com.split_net.gateway.domain.Config;
 import com.split_net.gateway.domain.GatewayState;
 import com.split_net.gateway.services.dto.GatewayInitResponse;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -47,6 +43,9 @@ public class GatewayInitializer {
     @EventListener(ApplicationReadyEvent.class)
     public void initialize() throws IOException, InterruptedException {
         //Выполняем первоначальную инициализацию
+
+        log.debug("WG URL: {}", wg_url);
+        log.debug("NAME: {}", gatewayName);
 
         wireguardService.genKeys();
 
