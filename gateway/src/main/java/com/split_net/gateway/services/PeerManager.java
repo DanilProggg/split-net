@@ -62,7 +62,7 @@ public class PeerManager {
             log.info("Peer {} added successfully, will be removed in {} minutes", publicKey, delayMinutes);
 
         } catch (Exception e) {
-            log.error("Failed to add peer: {}", publicKey, e);
+            log.error("Failed to add peer: {}. Exception: {}", publicKey, e.getMessage());
             throw new RuntimeException("Failed to add peer: " + publicKey, e);
         }
     }
@@ -84,7 +84,7 @@ public class PeerManager {
             log.info("Peer {} removed successfully", peer.getPubkey());
 
         } catch (Exception e) {
-            log.error("Failed to remove peer: {}", peer.getPubkey(), e);
+            log.error("Failed to remove peer: {}. Exception: {}", peer.getPubkey(), e.getMessage());
             throw new RuntimeException("Failed to remove peer: " + peer.getPubkey(), e);
         }
     }
