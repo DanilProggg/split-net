@@ -25,9 +25,17 @@
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
 
+                const jsonBody = JSON.stringify({
+                    email: email,
+                    password: password
+                });
+
                 // Отправляем запрос на аутентификацию
                 htmx.ajax('POST', auth_api, {
-                    values: { email: email, password: password },
+                    body: jsonBody,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     swap: 'none',
                     handler: function(xhr) {
                         if (xhr.status === 200) {
