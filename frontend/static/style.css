@@ -4,7 +4,7 @@ body {
     font-family: "Source Sans 3 Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-button {
+nav button {
     padding: 5px 10px;
     border-radius: 10px;
     border: rgb(196, 196, 196) solid 1px;
