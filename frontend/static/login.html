@@ -8,59 +8,49 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const auth_api = '/api/auth/signin';
-            // Проверяем есть ли токен в localStorage
-            const token = localStorage.getItem('authToken');
-            if (token) {
-                // Если токен есть, перенаправляем на защищенную страницу
-                window.location.href = '/dashboard';
-            }
-
-            // Обработчик отправки формы
-            document.querySelector('form').addEventListener('submit', function(e) {
+           document.querySelector('form').addEventListener('submit', async function(e) {
                 e.preventDefault();
 
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
+                const button = e.target.querySelector('button[type="submit"]');
+                button.disabled = true;
 
-                const jsonBody = JSON.stringify({
-                    email: email,
-                    password: password
-                });
+                try {
+                    const response = await fetch('/api/auth/signin', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    });
 
-                // Отправляем запрос на аутентификацию
-                htmx.ajax('POST', auth_api, {
-                    body: jsonBody,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    swap: 'none',
-                    handler: function(xhr) {
-                        if (xhr.status === 200) {
-                            const response = JSON.parse(xhr.responseText);
-                            const token = response.token;
-
-                            // Сохраняем токен в localStorage
-                            localStorage.setItem('authToken', token);
-
-                            // Перенаправляем на защищенную страницу
-                            window.location.href = '/';
-                        } else {
-                            alert('Ошибка аутентификации');
-                        }
+                    if (response.status === 200) {
+                        const result = await response.json();
+                        localStorage.setItem('authToken', result.token);
+                        window.location.href = '/';
+                    } else if (response.status === 401) {
+                        alert('Неверный email или пароль');
+                    } else {
+                        alert('Ошибка сервера: ' + response.status);
                     }
-                });
-            });
+                } catch (error) {
+                    alert('Ошибка сети: ' + error.message);
+                } finally {
+                    button.disabled = false;
+                }
+           });
 
-            // Добавляем токен ко всем htmx запросам
-            document.body.addEventListener('htmx:configRequest', function(evt) {
+           // Добавляем токен ко всем htmx запросам
+           document.body.addEventListener('htmx:configRequest', function(evt) {
                 const token = localStorage.getItem('authToken');
                 if (token) {
                     evt.detail.headers['Authorization'] = 'Bearer ' + token;
                 }
-            });
+           });
         });
     </script>
 </head>
