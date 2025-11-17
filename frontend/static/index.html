@@ -10,10 +10,48 @@
         <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/client-side-templates.js"></script>
         <script src="https://unpkg.com/mustache@latest"></script>
         <script>
+            // Функция для проверки JWT токена
+            function checkToken() {
+                const token = localStorage.getItem('authToken');
+                const authApi = '/auth/signin';
+
+                // Если токена нет
+                if (!token) {
+                    window.location.href = authApi;
+                    return;
+                }
+
+                // Парсим токен
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    const expirationTime = new Date(payload.exp).getTime();
+                    const currentTime = Math.floor(Date.now() / 1000);
+
+                    // Проверяем expiration
+                    if (expirationTime < currentTime) {
+                        console.log('Token expired');
+                        localStorage.removeItem('authToken');
+                        window.location.href = authApi;
+                        return false;
+                    }
+
+                    // Токен валиден, добавляем к запросам
+                    document.body.addEventListener('htmx:configRequest', function(evt) {
+                        evt.detail.headers['Authorization'] = 'Bearer ' + token;
+                    });
+
+                } catch (e) {
+                    // Если ошибка парсинга - считаем токен невалидным
+                    localStorage.removeItem('authToken');
+                    window.location.href = authApi;
+                }
+            }
+
             document.addEventListener("DOMContentLoaded", function() {
-                document.body.addEventListener('htmx:configRequest', function(evt) {
-                    evt.detail.headers['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhNTE2NmMwNi1kYTgzLTQzZGMtYWIxYy1lMTI4ZmIyZDVjYmIiLCJpc3MiOiJzZWxmIiwiaWF0IjoxNzYzMDYzNTk2LCJleHAiOjE3NjMxNDk5OTYsImVtYWlsIjoidGVzdCIsInJvbGVzIjpbIlVTRVIiXX0._zqieKrFKaBbTye-Wqnr-0kdcwuzttdG-_uDwLS9jTA';
-                });
+                checkToken(); // Проверяем при загрузке
+
+                // Периодическая проверка (каждую минуту)
+                setInterval(checkToken, 60000);
             });
         </script>
     </head>
