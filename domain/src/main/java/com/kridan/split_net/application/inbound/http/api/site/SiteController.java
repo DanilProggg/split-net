@@ -4,9 +4,9 @@ import com.kridan.split_net.application.inbound.http.api.gateway.dto.GatewayDto;
 import com.kridan.split_net.application.inbound.http.api.site.dto.CreateSiteRequest;
 import com.kridan.split_net.application.inbound.http.api.site.dto.SiteDto;
 import com.kridan.split_net.domain.site.Site;
+import com.kridan.split_net.domain.site.ports.FindSitePort;
 import com.kridan.split_net.domain.site.usecases.CreateSiteUseCase;
 import com.kridan.split_net.domain.site.usecases.GetAllSitesUseCase;
-import com.kridan.split_net.domain.site.usecases.GetSiteUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class SiteController {
 
     private final CreateSiteUseCase createSiteUseCase;
     private final GetAllSitesUseCase  getAllSitesUseCase;
-    private final GetSiteUseCase getSiteUseCase;
+    private final FindSitePort findSitePort;
 
     @PostMapping()
     public ResponseEntity<?> createSite(@RequestBody CreateSiteRequest createSiteRequest) {
@@ -40,10 +40,10 @@ public class SiteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSite(@RequestParam("id") Long id) {
+    public ResponseEntity<?> getSite(@PathVariable("id") Long id) {
         try {
 
-            Site site = getSiteUseCase.get(id);
+            Site site = findSitePort.findById(id);
 
             SiteDto siteDto = new SiteDto(
                     site.getId(),
