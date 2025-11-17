@@ -13,11 +13,11 @@
             // Функция для проверки JWT токена
             function checkToken() {
                 const token = localStorage.getItem('authToken');
-                const authApi = '/auth/signin';
+                const authForm = '/login.html';
 
                 // Если токена нет
                 if (!token) {
-                    window.location.href = authApi;
+                    window.location.href = authForm;
                     return;
                 }
 
@@ -31,7 +31,7 @@
                     if (expirationTime < currentTime) {
                         console.log('Token expired');
                         localStorage.removeItem('authToken');
-                        window.location.href = authApi;
+                        window.location.href = authForm;
                         return false;
                     }
 
@@ -43,7 +43,7 @@
                 } catch (e) {
                     // Если ошибка парсинга - считаем токен невалидным
                     localStorage.removeItem('authToken');
-                    window.location.href = authApi;
+                    window.location.href = authForm;
                 }
             }
 
