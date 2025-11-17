@@ -29,16 +29,6 @@ main {
     background: #f5f3e9;
 }
 
-.site_unit {
-    padding: 20px 10px;
-    width: 100%;
-}
-
-.gateway_units {
-    padding: 20px 10px;
-    width: 100%;
-}
-
 .gateway_unit {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
