@@ -89,14 +89,14 @@ bg-neutral
 <!-- Список Sites-->
 <template id="sites-list-template">
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
-        <div class="text-[#3d3d3d] text-2xl">
+        <div class="mx-6text-[#3d3d3d] text-2xl">
             Сайты
         </div>
-        <div class="w-full text-[14px] text-[#4f4f4f] bg-[#F6F6F6]">
+        <div class="my-3 w-full text-[14px] text-[#4f4f4f] bg-[#F6F6F6]">
             Сайт
         </div>
         {{#.}}
-        <button class="text-[14px] text-accent-500 hover:underline"
+        <button class="my-3 border-0 text-[14px] text-violet-500 hover:underline"
                 hx-get="/api/sites/{{site_id}}"
                 hx-ext="client-side-templates"
                 hx-trigger="click"
@@ -117,7 +117,7 @@ bg-neutral
     {{#.}}
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
         <div class="site_unit">
-            <div class="text-2xl text-[#3d3d3d]">{{name}}</div>
+            <div class="text-2xl text-[#3d3d3d]">Сайт: {{name}}</div>
             <div class="text-[#4f4f4f] text-xs">{{description}}</div>
         </div>
         <br>
