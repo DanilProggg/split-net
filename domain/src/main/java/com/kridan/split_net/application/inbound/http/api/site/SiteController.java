@@ -39,7 +39,7 @@ public class SiteController {
         }
     }
 
-    @GetMapping("/{uuid}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getSite(@RequestParam("id") Long id) {
         try {
 
