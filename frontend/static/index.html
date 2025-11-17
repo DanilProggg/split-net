@@ -89,14 +89,14 @@ bg-neutral
 <!-- Список Sites-->
 <template id="sites-list-template">
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
-        <div class="mx-6 px-[10px] py-[20px] text-[#3d3d3d] text-2xl">
+        <div class="mx-6 px-2 py-[20px] text-[#3d3d3d] text-2xl">
             Сайты
         </div>
-        <div class="my-3 w-full text-[14px] text-[#4f4f4f] bg-[#F6F6F6]">
+        <div class="px-2 my-2 w-full text-[14px] text-[#4f4f4f] bg-[#F6F6F6]">
             Сайт
         </div>
         {{#.}}
-        <button class="my-3 border-0 text-[14px] text-[#4805ff] hover:underline hover:cursor-pointer"
+        <button class="my-3 px-2 border-0 text-[14px] text-[#4805ff] hover:underline hover:cursor-pointer"
                 hx-get="/api/sites/{{site_id}}"
                 hx-ext="client-side-templates"
                 hx-trigger="click"
@@ -130,14 +130,14 @@ bg-neutral
                     <span class="text-lg">+</span> Развернуть шлюз
                 </a>
             </div>
-            <div class="mb-2 px-2 text-[#4f4f4f] bg-[#F6F6F6]">
+            <div class="mb-2 px-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
                 <div>Название</div>
                 <div>Внешний IP</div>
                 <div>Статус</div>
             </div>
 
             {{#gateways}}
-            <div class="px-2">
+            <div class="px-2 grid grid-cols-3 gap-[10px]">
                 <div>{{name}}</div>
                 <div>{{wg_url}}</div>
                 <div class="flex items-center gap-2">

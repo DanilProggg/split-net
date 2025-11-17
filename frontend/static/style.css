@@ -29,12 +29,6 @@ main {
     background: #f5f3e9;
 }
 
-.gateway_unit {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-}
-
 @keyframes pulse-dot {
   0%, 100% { transform: scale(0.9); opacity: 0.9; }
   50% { transform: scale(1.2); opacity: 1; }
