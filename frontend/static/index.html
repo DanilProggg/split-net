@@ -77,7 +77,7 @@ bg-neutral
                 hx-target="#content"
                 hx-swap="innerHTML"
 
-                mustache-template="site-template">Sites</button>
+                mustache-template="sites-list-template">Sites</button>
         <button hx-get="/partials/users.html" hx-target="#content" hx-swap="innerHTML">Users</button>
     </nav>
     <section id="content" class="grow">
@@ -87,7 +87,7 @@ bg-neutral
 
 <!-- Templates -->
 <!-- Список Sites-->
-<template>
+<template id="sites-list-template">
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
         <div class="text-[#3d3d3d] text-2xl">
             Сайты
@@ -96,7 +96,14 @@ bg-neutral
             Сайт
         </div>
         {{#.}}
-        <button class="text-[14px] text-accent-500 hover:underline">
+        <button class="text-[14px] text-accent-500 hover:underline"
+                hx-get="/api/sites/{{site_id}}"
+                hx-ext="client-side-templates"
+                hx-trigger="click"
+                hx-target="#content"
+                hx-swap="innerHTML"
+                mustache-template="site-template"
+        >
             {{name}}
         </button>
         {{/.}}
@@ -112,7 +119,6 @@ bg-neutral
         <div class="site_unit">
             <div class="text-2xl text-[#3d3d3d]">{{name}}</div>
             <div class="text-[#4f4f4f] text-xs">{{description}}</div>
-            <div class="text-sm text-[#4f4f4f]">{{subnet}}</div>
         </div>
         <br>
         <div class="gateway_units">
