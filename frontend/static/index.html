@@ -124,11 +124,21 @@ bg-neutral
         <div class="">
             <div class="flex justify-between mb-4">
                 <div class="text-[#3d3d3d] text-2xl">Шлюзы</div>
-                <a class="flex items-center gap-2 px-3 rounded-sm
+                <button hx-ext="client-side-templates"
+                        hx-trigger="click"
+                        hx-target="#content"
+                        hx-swap="innerHTML"
+                        mustache-template="deploy-gateway"
+
+                        hx-post="/api/gateways"
+                        hx-vals='js:{"site_id": {{site_id}}}'
+                        hx-headers='js:{"Content-Type": "application/json"}'
+
+                        class="flex items-center gap-2 px-3 rounded-sm
                         bg-purple-700 text-white text-sm font-medium
                         hover:bg-purple-800 hover:cursor-pointer transition-colors">
                     <span class="text-lg">+</span> Развернуть шлюз
-                </a>
+                </button>
             </div>
             <div class="mb-2 px-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
                 <div>Название</div>
@@ -153,40 +163,19 @@ bg-neutral
 
 <!-- Шаблон для Deploy Gateway -->
 <template id="deploy-gateway" type="x-tmpl-mustache">
-
-
+    {{#.}}
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
         <div class="">
             <div class="py-[20px] text-2xl text-[#3d3d3d]">Развернуть шлюз</div>
-            <div class="text-[#4f4f4f] text-xs">{{description}}</div>
         </div>
         <br>
-        <div class="">
-            <div class="flex justify-between mb-4">
-                <div class="text-[#3d3d3d] text-2xl">Шлюзы</div>
-                <a class="flex items-center gap-2 px-3 rounded-sm
-                        bg-purple-700 text-white text-sm font-medium
-                        hover:bg-purple-800 hover:cursor-pointer transition-colors">
-                    <span class="text-lg">+</span> Развернуть шлюз
-                </a>
-            </div>
-            <div class="mb-2 px-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
-                <div>Название</div>
-                <div>Внешний IP</div>
-                <div>Статус</div>
-            </div>
-
-            <div class="px-2 grid grid-cols-3 gap-[10px]">
-                <div>{{name}}</div>
-                <div>{{wg_url}}</div>
-                <div class="flex items-center gap-2">
-                    <div class="w-3 h-3 rounded-full animate-pulse-dot {{#active}}bg-green-500{{/active}}{{^active}}bg-red-500{{/active}}"></div>
-                    <span class="text-sm">{{#active}}Онлайн{{/active}}{{^active}}Недоступен{{/active}}</span>
-                </div>
+        <div class="text-[14px] text-[#4f4f4f] bg-[#F6F6F6]">
+            <div class="p-2">
+                Token: {{token}}
             </div>
         </div>
     </div>
-
+    {{/.}}
 </template>
 
 
