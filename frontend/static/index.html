@@ -131,8 +131,7 @@ bg-neutral
                         mustache-template="deploy-gateway"
 
                         hx-post="/api/gateways"
-                        hx-vals='js:{"site_id": {{site_id}}}'
-                        hx-headers='js:{"Content-Type": "application/json"}'
+                        hx-vals='{"site_id": {{site_id}}}'
 
                         class="flex items-center gap-2 px-3 rounded-sm
                         bg-purple-700 text-white text-sm font-medium
