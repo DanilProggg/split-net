@@ -113,22 +113,6 @@ bg-neutral
 
 <!-- Шаблон для Site -->
 <template id="site-template" type="x-tmpl-mustache">
-    <script>
-        function deployGateway(siteId) {
-            htmx.ajax('POST', '/api/gateways', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    site_id: siteId
-                }),
-                target: '#content',
-                swap: 'innerHTML',
-                handler: function(xhr) {
-                }
-            });
-        }
-    </script>
 
     {{#.}}
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
@@ -144,8 +128,6 @@ bg-neutral
                 <button onclick="deployGateway({{site_id}})"
                         hx-ext="client-side-templates"
                         mustache-template="deploy-gateway"
-                        hx-target="#content"
-                        hx-swap="innerHTML"
 
                         class="flex items-center gap-2 px-3 rounded-sm
                         bg-purple-700 text-white text-sm font-medium
@@ -172,6 +154,22 @@ bg-neutral
         </div>
     </div>
     {{/.}}
+    <script>
+        function deployGateway(siteId) {
+            htmx.ajax('POST', '/api/gateways', {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    site_id: siteId
+                }),
+                target: '#content',
+                swap: 'innerHTML',
+                handler: function(xhr) {
+                }
+            });
+        }
+    </script>
 </template>
 
 <!-- Шаблон для Deploy Gateway -->
