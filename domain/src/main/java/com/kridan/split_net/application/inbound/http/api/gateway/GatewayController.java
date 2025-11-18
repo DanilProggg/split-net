@@ -23,7 +23,7 @@ public class GatewayController {
     private final FindAllGatewaysPort findAllGatewaysPort;
     private final JwtUtils jwtUtils;
 
-    @PostMapping(produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping()
     public ResponseEntity<?> createGateway(@RequestBody CreateGatewayRequest createGatewayRequest) {
         try {
 
