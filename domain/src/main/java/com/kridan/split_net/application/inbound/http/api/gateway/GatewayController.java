@@ -4,8 +4,6 @@ import com.kridan.split_net.application.inbound.http.api.dto.JwtResponse;
 import com.kridan.split_net.application.inbound.http.api.gateway.dto.CreateGatewayRequest;
 import com.kridan.split_net.application.inbound.http.api.gateway.dto.GatewayDto;
 import com.kridan.split_net.domain.gateway.ports.FindAllGatewaysPort;
-import com.kridan.split_net.domain.gateway.usecases.CreateGatewayUseCase;
-import com.kridan.split_net.domain.gateway.usecases.GenerateDockerCommandUseCase;
 import com.kridan.split_net.infrastructure.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +20,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GatewayController {
 
-    private final GenerateDockerCommandUseCase generateDockerCommandUseCase;
     private final FindAllGatewaysPort findAllGatewaysPort;
     private final JwtUtils jwtUtils;
 
@@ -31,9 +28,8 @@ public class GatewayController {
         try {
 
             String token = jwtUtils.generateGatewayToken(UUID.randomUUID().toString(), createGatewayRequest.getSite_id());
-            String command = generateDockerCommandUseCase.generate(token);
 
-            return ResponseEntity.ok(command);
+            return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
