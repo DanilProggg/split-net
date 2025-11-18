@@ -175,6 +175,7 @@ bg-neutral
 
 <script>
     function deployGateway(siteId) {
+        console.log('TEST: deployGateway called with', siteId);
         htmx.ajax('POST', '/api/gateways', {
             headers: {
                 'Content-Type': 'application/json'
