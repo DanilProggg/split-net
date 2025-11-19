@@ -175,17 +175,19 @@ bg-neutral
 
 
 <script>
-    function deployGateway(siteId) {
+function deployGateway(siteId) {
     const token = localStorage.getItem('authToken');
 
-    htmx.ajax('POST', '/api/gateways', JSON.stringify({
-        site_id: siteId
-    }), {
+    htmx.ajax('POST', '/api/gateways', {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
-        }
+        },
+        body: JSON.stringify({ site_id: siteId }),
+        target: '#content',
+        swap: 'innerHTML'
     });
+
 }
 </script>
 
