@@ -16,10 +16,10 @@ public class UserController {
     private final FindUserPort findUserPort;
 
     @GetMapping("/{name}/page/{page}")
-    public ResponseEntity<?> getUsers(@PathVariable("name") String userName, @PathVariable("page") int userPage) {
+    public ResponseEntity<?> getUsers(@RequestBody PageUsersDto pageUsersDto) {
         try {
 
-            Page<User> page = findUserPort.searchByEmail(userName, userPage);
+            Page<User> page = findUserPort.searchByEmail(pageUsersDto.getEmail(), pageUsersDto.getPage());
 
             return ResponseEntity.ok(page);
         } catch (Exception e){
