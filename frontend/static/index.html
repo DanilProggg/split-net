@@ -48,14 +48,16 @@
                 setInterval(checkToken, 60000);
             });
 
-            // Лисенер для подмены urlencoded на JSON
-            document.body.addEventListener("htmx:configRequest", function (event) {
-                let detail = event.detail;
+            htmx.defineExtension('jsonize', {
+                onEvent: function(name, evt) {
+                    if (name === "htmx:configRequest") {
+                        evt.detail.headers['Content-Type'] = 'application/json';
+                    }
+                },
 
-                if (detail.values) {
-                    detail.headers['Content-Type'] = 'application/json';
-                    detail.body = JSON.stringify(detail.values);
-                    detail.values = {};
+                // Переопределяем генерацию тела запроса
+                encodeParameters: function(xhr, parameters, elt) {
+                    return JSON.stringify(parameters);  // превращаем параметры в JSON
                 }
             });
 
@@ -185,12 +187,13 @@ function deployGateway(siteId) {
     const token = localStorage.getItem('authToken');
 
     htmx.ajax('POST', '/api/gateways', {
-        target: '#content',
+        target: '#content',       // куда вставлять ответ
         swap: 'innerHTML',
-
-        values: {
-            site_id: siteId
-        }
+        values: { site_id: siteId }, // параметры запроса
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        extensions: ['jsonize']    // подключаем наш extension
     });
 }
 </script>
