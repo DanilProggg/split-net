@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final FindUserPort findUserPort;
 
-    @GetMapping("/page")
-    public ResponseEntity<?> getUsers(@RequestBody PageUsersDto pageUsersDto) {
+    @GetMapping("/{page}")
+    public ResponseEntity<?> getUsers(@RequestBody PageUsersDto pageUsersDto, @PathVariable("page") int page) {
         try {
 
-            Page<User> page = findUserPort.searchByEmail(pageUsersDto.getEmail(), pageUsersDto.getPage());
+            Page<User> userPage = findUserPort.searchByEmail(pageUsersDto.getEmail(), page);
 
             return ResponseEntity.ok(page);
         } catch (Exception e){

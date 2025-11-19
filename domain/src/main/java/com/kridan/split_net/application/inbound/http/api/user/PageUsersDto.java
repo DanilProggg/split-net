@@ -7,5 +7,4 @@ import lombok.Getter;
 @Getter
 public class PageUsersDto {
     private String email;
-    private int page;
 }
