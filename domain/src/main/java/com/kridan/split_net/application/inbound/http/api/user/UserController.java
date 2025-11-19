@@ -1,5 +1,6 @@
 package com.kridan.split_net.application.inbound.http.api.user;
 
+import com.kridan.split_net.application.inbound.http.api.user.dto.UserDto;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,21 @@ public class UserController {
     public ResponseEntity<?> getUsers() {
         try {
 
-            List<User> users = findUserPort.findAll();
+            List<UserDto> usersDto = findUserPort.findAll().stream()
+                    .map(
+                            user -> {
+                                return new UserDto(
+                                  user.getId().toString(),
+                                  user.getEmail(),
+                                  user.getReauthIntervalHours(),
+                                  user.isRequiredLogin(),
+                                  user.getLastLogIn()
+                                );
+                            }
+                    ).toList();
 
-            return ResponseEntity.ok(users);
+
+            return ResponseEntity.ok(usersDto);
         } catch (Exception e){
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");

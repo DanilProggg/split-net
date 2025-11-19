@@ -1,6 +1,7 @@
 package com.kridan.split_net.application.inbound.http.api.user;
 
 import com.kridan.split_net.application.inbound.http.api.dto.JwtResponse;
+import com.kridan.split_net.application.inbound.http.api.user.dto.AuthUserDto;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.usecases.CreateUserUseCase;
 import com.kridan.split_net.infrastructure.security.JpaUserDetailsService;
@@ -24,7 +25,7 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> createUser(@RequestBody AuthUserDto userDto) {
         try {
             log.debug("Call endpoint 'singup'");
 
@@ -39,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> loginUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> loginUser(@RequestBody AuthUserDto userDto) {
         try {
             jpaUserDetailsService.auth(userDto.getEmail(), userDto.getPassword());
 
