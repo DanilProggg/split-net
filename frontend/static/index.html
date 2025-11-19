@@ -181,13 +181,15 @@ function deployGateway(siteId) {
     htmx.ajax('POST', '/api/gateways', {
         target: '#content',
         swap: 'innerHTML',
-        values: {
-            site_id: siteId
-        },
+
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
-        }
+        },
+
+        body: JSON.stringify({
+            site_id: siteId
+        })
     });
 }
 </script>
