@@ -15,19 +15,16 @@
                 const token = localStorage.getItem('authToken');
                 const authForm = '/login.html';
 
-                // Если токена нет
                 if (!token) {
                     window.location.href = authForm;
                     return;
                 }
 
-                // Парсим токен
                 try {
                     const payload = JSON.parse(atob(token.split('.')[1]));
                     const expirationTime = new Date(payload.exp).getTime();
                     const currentTime = Math.floor(Date.now() / 1000);
 
-                    // Проверяем expiration
                     if (expirationTime < currentTime) {
                         console.log('Token expired');
                         localStorage.removeItem('authToken');
@@ -35,24 +32,33 @@
                         return false;
                     }
 
-                    // Токен валиден, добавляем к запросам
+                    // Добавляем к запросам
                     document.body.addEventListener('htmx:configRequest', function(evt) {
                         evt.detail.headers['Authorization'] = 'Bearer ' + token;
                     });
 
                 } catch (e) {
-                    // Если ошибка парсинга - считаем токен невалидным
                     localStorage.removeItem('authToken');
                     window.location.href = authForm;
                 }
             }
 
             document.addEventListener("DOMContentLoaded", function() {
-                checkToken(); // Проверяем при загрузке
-
-                // Периодическая проверка (каждую минуту)
+                checkToken();
                 setInterval(checkToken, 60000);
             });
+
+            // Лисенер для подмены urlencoded на JSON
+            document.body.addEventListener("htmx:configRequest", function (event) {
+                let detail = event.detail;
+
+                if (detail.values) {
+                    detail.headers['Content-Type'] = 'application/json';
+                    detail.body = JSON.stringify(detail.values);
+                    detail.values = {};
+                }
+            });
+
         </script>
     </head>
 <body>
@@ -182,12 +188,9 @@ function deployGateway(siteId) {
         target: '#content',
         swap: 'innerHTML',
 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        },
-
-        source: { site_id: siteId }
+        values: {
+            site_id: siteId
+        }
     });
 }
 </script>
