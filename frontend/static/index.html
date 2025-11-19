@@ -187,9 +187,7 @@ function deployGateway(siteId) {
             'Authorization': 'Bearer ' + token
         },
 
-        body: JSON.stringify({
-            site_id: siteId
-        })
+        source: { site_id: siteId }
     });
 }
 </script>
