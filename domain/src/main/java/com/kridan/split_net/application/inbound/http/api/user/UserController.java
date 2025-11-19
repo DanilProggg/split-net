@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final FindUserPort findUserPort;
 
-    @GetMapping("/{name}/page/{page}")
+    @GetMapping("/page")
     public ResponseEntity<?> getUsers(@RequestBody PageUsersDto pageUsersDto) {
         try {
 
