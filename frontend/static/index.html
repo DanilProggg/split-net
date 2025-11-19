@@ -170,142 +170,49 @@ bg-neutral
 </template>
 
 <script>
-class HtmxJSONInterceptor {
-    constructor() {
-        this.init();
-    }
-
-    init() {
-        document.addEventListener('htmx:beforeRequest', this.handleRequest.bind(this));
-    }
-
-    handleRequest(event) {
+    // Простой перехватчик только для htmx
+    document.addEventListener('htmx:beforeRequest', function(event) {
         const detail = event.detail;
 
-        // Проверяем условия для перехвата
-        if (!this.shouldIntercept(detail)) {
-            return;
-        }
+        // Проверяем, есть ли параметры для преобразования
+        if (detail.parameters && Object.keys(detail.parameters).length > 0) {
+            // Отменяем оригинальный запрос
+            event.preventDefault();
 
-        // Отменяем оригинальный запрос
-        event.preventDefault();
-        event.stopPropagation();
-
-        // Отправляем кастомный запрос
-        this.sendJSONRequest(detail);
-    }
-
-    shouldIntercept(detail) {
-        // Перехватываем только POST/PUT/PATCH с параметрами
-        return ['POST', 'PUT', 'PATCH'].includes(detail.verb) &&
-               detail.parameters &&
-               Object.keys(detail.parameters).length > 0;
-    }
-
-    async sendJSONRequest(detail) {
-        try {
-            // Подготовка тела запроса
+            // Преобразуем параметры в JSON
             const jsonBody = JSON.stringify(detail.parameters);
 
-            // Отправка запроса
-            const response = await fetch(detail.path, {
+            // Отправляем модифицированный запрос
+            fetch(detail.path, {
                 method: detail.verb,
                 headers: {
                     'Content-Type': 'application/json',
-                    ...this.cleanHeaders(detail.headers)
+                    ...Object.fromEntries(
+                        Object.entries(detail.headers || {}).filter(
+                            ([key]) => !key.toLowerCase().includes('content-type')
+                        )
+                    )
                 },
                 body: jsonBody
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Request failed');
+                return response.text();
+            })
+            .then(html => {
+                // Обновляем target элемент
+                if (detail.target) {
+                    const targetElement = document.querySelector(detail.target);
+                    if (targetElement) {
+                        targetElement.innerHTML = html;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Request failed:', error);
             });
-
-            // Обработка ответа
-            await this.handleResponse(response, detail);
-
-        } catch (error) {
-            this.handleError(error, detail);
         }
-    }
-
-    cleanHeaders(headers) {
-        // Удаляем стандартные заголовки htmx которые могут мешать
-        const clean = {...headers};
-        delete clean['Content-Type'];
-        delete clean['content-type'];
-        return clean;
-    }
-
-    async handleResponse(response, detail) {
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        // Если есть целевой элемент для обновления
-        if (detail.target) {
-            const html = await response.text();
-            const targetElement = document.querySelector(detail.target);
-
-            if (targetElement) {
-                // Применяем swap стратегию htmx
-                this.applySwap(targetElement, html, detail.swap);
-
-                // Триггерим события htmx
-                this.triggerHtmxEvents('afterSwap', {
-                    target: targetElement,
-                    request: detail.xhr,
-                    response: response
-                });
-            }
-        }
-
-        // Триггерим событие успешного запроса
-        this.triggerHtmxEvents('afterRequest', {
-            request: detail.xhr,
-            response: response
-        });
-    }
-
-    applySwap(targetElement, html, swapStrategy = 'innerHTML') {
-        switch (swapStrategy) {
-            case 'innerHTML':
-                targetElement.innerHTML = html;
-                break;
-            case 'outerHTML':
-                targetElement.outerHTML = html;
-                break;
-            case 'beforebegin':
-                targetElement.insertAdjacentHTML('beforebegin', html);
-                break;
-            case 'afterbegin':
-                targetElement.insertAdjacentHTML('afterbegin', html);
-                break;
-            case 'beforeend':
-                targetElement.insertAdjacentHTML('beforeend', html);
-                break;
-            case 'afterend':
-                targetElement.insertAdjacentHTML('afterend', html);
-                break;
-            default:
-                targetElement.innerHTML = html;
-        }
-    }
-
-    handleError(error, detail) {
-        console.error('Request failed:', error);
-
-        this.triggerHtmxEvents('responseError', {
-            error: error,
-            request: detail.xhr
-        });
-    }
-
-    triggerHtmxEvents(eventName, detail) {
-        document.dispatchEvent(new CustomEvent(`htmx:${eventName}`, {
-            detail: detail
-        }));
-    }
-}
-
-// Инициализация перехватчика
-new HtmxJSONInterceptor();
+});
 </script>
 
 
