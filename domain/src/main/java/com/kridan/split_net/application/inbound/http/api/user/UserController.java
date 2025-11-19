@@ -21,7 +21,7 @@ public class UserController {
 
             Page<User> userPage = findUserPort.searchByEmail(pageUsersDto.getEmail(), page);
 
-            return ResponseEntity.ok(page);
+            return ResponseEntity.ok(userPage);
         } catch (Exception e){
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
