@@ -154,21 +154,7 @@ bg-neutral
         </div>
     </div>
     {{/.}}
-    <script>
-        function deployGateway(siteId) {
-        const token = localStorage.getItem('authToken');
-
-        htmx.ajax('POST', '/api/gateways', JSON.stringify({
-            site_id: siteId
-        }), {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }
-        });
-    }
-    </script>
-</template>
+    </template>
 
 <!-- Шаблон для Deploy Gateway -->
 <template id="deploy-gateway" type="x-tmpl-mustache">
@@ -188,7 +174,20 @@ bg-neutral
 </template>
 
 
+<script>
+    function deployGateway(siteId) {
+    const token = localStorage.getItem('authToken');
 
+    htmx.ajax('POST', '/api/gateways', JSON.stringify({
+        site_id: siteId
+    }), {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    });
+}
+</script>
 
 </body>
 </html>
