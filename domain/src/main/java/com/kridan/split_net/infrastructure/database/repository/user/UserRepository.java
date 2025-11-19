@@ -16,11 +16,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByEmail(String email);
 
     @Query("""
-        select u from User u
-        where :email is null 
-           or :email = '' 
-           or u.email like %:emailPart%
-        order by u.email asc
+        SELECT u FROM User u
+        WHERE (:emailPart IS NULL OR :emailPart = '' OR u.email LIKE CONCAT('%', :emailPart, '%'))
+        ORDER BY u.email ASC
     """)
     Page<User> searchByEmail(@Param("emailPart") String emailPart, Pageable pageable);
 }
