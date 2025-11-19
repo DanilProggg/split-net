@@ -72,9 +72,13 @@ bg-neutral
                 hx-trigger="click"
                 hx-target="#content"
                 hx-swap="innerHTML"
-
-                mustache-template="sites-list-template">Sites</button>
-        <button hx-get="/partials/users.html" hx-target="#content" hx-swap="innerHTML">Users</button>
+                mustache-template="sites-list-template">Сайты</button>
+        <button hx-get="/api/users"
+                hx-ext="client-side-templates"
+                hx-trigger="click"
+                hx-target="#content"
+                hx-swap="innerHTML"
+                mustache-template="users-template">Пользователи</button>
     </nav>
     <section id="content" class="grow">
     </section>
@@ -166,6 +170,38 @@ bg-neutral
             <p class="p-2 break-all select-all">
                 {{token}}
             </p>
+        </div>
+    </div>
+    {{/.}}
+</template>
+
+<!-- Users -->
+<template id="users-template" type="x-tmpl-mustache">
+    {{#.}}
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="flex justify-between mb-4">
+            <div class="text-[#3d3d3d] text-2xl">Шлюзы</div>
+
+            <button hx-post=""
+                    hx-target="#content"
+                    hx-ext="client-side-templates"
+                    mustache-template=""
+                    class="flex items-center gap-2 px-3 rounded-sm
+                               bg-purple-700 text-white text-sm font-medium
+                               hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                <span class="text-lg">+</span> Добавить пользователя
+            </button>
+        </div>
+        <div class="mb-2 px-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
+            <div>ID</div>
+            <div>Email</div>
+            <div>Последний вход</div>
+        </div>
+
+        <div class="px-2 grid grid-cols-3 gap-[10px]">
+            <div>{{user_id}}</div>
+            <div>{{email}}</div>
+            <div>{{lastLogIn}}</div>
         </div>
     </div>
     {{/.}}
