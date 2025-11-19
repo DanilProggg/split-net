@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("/api/users")
@@ -19,9 +21,9 @@ public class UserController {
     public ResponseEntity<?> getUsers(@RequestBody PageUsersDto pageUsersDto, @PathVariable("page") int page) {
         try {
 
-            Page<User> userPage = findUserPort.searchByEmail(pageUsersDto.getEmail(), page);
+            List<User> users = findUserPort.findAll();
 
-            return ResponseEntity.ok(userPage);
+            return ResponseEntity.ok(users);
         } catch (Exception e){
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
