@@ -121,20 +121,17 @@ bg-neutral
             <div class="flex justify-between mb-4">
                 <div class="text-[#3d3d3d] text-2xl">Шлюзы</div>
 
-                <form hx-post="/api/gateways"
-                      hx-vals='{"site_id": {{site_id}}}'
-                      hx-ext="form-json"
-                      mustache-template="deploy-gateway">
-
-                    <button type="submit"
+                <button hx-post="/api/gateways"
+                        hx-vals='{"site_id": {{site_id}}}'
+                        hx-ext="form-json"
+                        mustache-template="deploy-gateway"
 
 
                         class="flex items-center gap-2 px-3 rounded-sm
                         bg-purple-700 text-white text-sm font-medium
                         hover:bg-purple-800 hover:cursor-pointer transition-colors">
                         <span class="text-lg">+</span> Развернуть шлюз
-                    </button>
-                </form>
+                </button>
             </div>
             <div class="mb-2 px-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
                 <div>Название</div>
