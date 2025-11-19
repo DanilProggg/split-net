@@ -17,8 +17,8 @@ import java.util.List;
 public class UserController {
     private final FindUserPort findUserPort;
 
-    @GetMapping("/{page}")
-    public ResponseEntity<?> getUsers(@RequestBody PageUsersDto pageUsersDto, @PathVariable("page") int page) {
+    @GetMapping()
+    public ResponseEntity<?> getUsers() {
         try {
 
             List<User> users = findUserPort.findAll();
