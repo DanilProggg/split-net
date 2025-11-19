@@ -48,16 +48,15 @@
                 setInterval(checkToken, 60000);
             });
 
-            htmx.defineExtension('jsonize', {
+            htmx.defineExtension('json-encoder', {
                 onEvent: function(name, evt) {
                     if (name === "htmx:configRequest") {
                         evt.detail.headers['Content-Type'] = 'application/json';
                     }
                 },
 
-                // Переопределяем генерацию тела запроса
                 encodeParameters: function(xhr, parameters, elt) {
-                    return JSON.stringify(parameters);  // превращаем параметры в JSON
+                    return JSON.stringify(parameters);
                 }
             });
 
@@ -184,16 +183,12 @@ bg-neutral
 
 <script>
 function deployGateway(siteId) {
-    const token = localStorage.getItem('authToken');
 
     htmx.ajax('POST', '/api/gateways', {
-        target: '#content',       // куда вставлять ответ
+        target: '#content',
         swap: 'innerHTML',
-        values: { site_id: siteId }, // параметры запроса
-        headers: {
-            'Authorization': 'Bearer ' + token
-        },
-        extensions: ['jsonize']    // подключаем наш extension
+        values: { site_id: siteId },
+        extensions: ['json-encoder']
     });
 }
 </script>
