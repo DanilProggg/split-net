@@ -17,8 +17,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("""
         select u from User u
-        where :emailPart is null 
-           or :emailPart = '' 
+        where :email is null 
+           or :email = '' 
            or u.email like %:emailPart%
         order by u.email asc
     """)
