@@ -170,49 +170,76 @@ bg-neutral
 </template>
 
 <script>
-    // Простой перехватчик только для htmx
-    document.addEventListener('htmx:beforeRequest', function(event) {
-        const detail = event.detail;
+    (function() {
+        const OriginalXHR = window.XMLHttpRequest;
 
-        // Проверяем, есть ли параметры для преобразования
-        if (detail.parameters && Object.keys(detail.parameters).length > 0) {
-            // Отменяем оригинальный запрос
-            event.preventDefault();
+        class InterceptedXHR extends OriginalXHR {
+            constructor() {
+                super();
+                this._headers = new Map();
+                this._body = null;
+            }
 
-            // Преобразуем параметры в JSON
-            const jsonBody = JSON.stringify(detail.parameters);
+            open(method, url, async, user, password) {
+                this._method = method;
+                this._url = url;
+                return super.open(method, url, async, user, password);
+            }
 
-            // Отправляем модифицированный запрос
-            fetch(detail.path, {
-                method: detail.verb,
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...Object.fromEntries(
-                        Object.entries(detail.headers || {}).filter(
-                            ([key]) => !key.toLowerCase().includes('content-type')
-                        )
-                    )
-                },
-                body: jsonBody
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Request failed');
-                return response.text();
-            })
-            .then(html => {
-                // Обновляем target элемент
-                if (detail.target) {
-                    const targetElement = document.querySelector(detail.target);
-                    if (targetElement) {
-                        targetElement.innerHTML = html;
-                    }
+            setRequestHeader(header, value) {
+                // Сохраняем все заголовки для отладки
+                this._headers.set(header.toLowerCase(), value);
+
+                // Если это content-type и он urlencoded - отметим для преобразования
+                if (header.toLowerCase() === 'content-type' &&
+                    value.includes('application/x-www-form-urlencoded')) {
+                    this._shouldConvertToJSON = true;
+                    // НЕ устанавливаем заголовок сейчас - установим позже
+                    return;
                 }
-            })
-            .catch(error => {
-                console.error('Request failed:', error);
-            });
+
+                super.setRequestHeader(header, value);
+            }
+
+            send(data) {
+                console.log('Отправка запроса:', {
+                    url: this._url,
+                    method: this._method,
+                    headers: Object.fromEntries(this._headers),
+                    body: data
+                });
+
+                if (this._shouldConvertToJSON && data) {
+                    console.log('Преобразование URL-encoded в JSON');
+
+                    // Преобразуем данные
+                    const jsonData = this.urlEncodedToJSON(data);
+                    this._body = jsonData;
+
+                    // Устанавливаем правильные заголовки
+                    super.setRequestHeader('Content-Type', 'application/json');
+
+                    // Отправляем JSON
+                    super.send(jsonData);
+                } else {
+                    super.send(data);
+                }
+            }
+
+            urlEncodedToJSON(urlEncodedString) {
+                const params = new URLSearchParams(urlEncodedString);
+                const result = {};
+
+                for (const [key, value] of params.entries()) {
+                    result[key] = value;
+                }
+
+                return JSON.stringify(result);
+            }
         }
-});
+
+        window.XMLHttpRequest = InterceptedXHR;
+    })();
 </script>
 
 
