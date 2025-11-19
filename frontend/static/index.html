@@ -114,20 +114,6 @@ bg-neutral
 <!-- Шаблон для Site -->
 <template id="site-template" type="x-tmpl-mustache">
 
-    <script>
-        function deployGateway(siteId) {
-        const token = localStorage.getItem('authToken');
-
-        htmx.ajax('POST', '/api/gateways', JSON.stringify({
-            site_id: siteId
-        }), {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            }
-        });
-    }
-    </script>
     {{#.}}
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
         <div class="">
@@ -168,6 +154,20 @@ bg-neutral
         </div>
     </div>
     {{/.}}
+    <script>
+        function deployGateway(siteId) {
+        const token = localStorage.getItem('authToken');
+
+        htmx.ajax('POST', '/api/gateways', JSON.stringify({
+            site_id: siteId
+        }), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        });
+    }
+    </script>
 </template>
 
 <!-- Шаблон для Deploy Gateway -->
