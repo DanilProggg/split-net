@@ -211,9 +211,7 @@ bg-neutral
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
             Новый пользователь
         </div>
-        <form hx-post="/api/auth/signup"
-              hx-target="#content"
-              hx-ext="client-side-templates"
+        <form hx-post="/api/auth/signup" method="post"
               hx-on::after-request="alert('Done making a request!')">
               class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
             <div class="">
