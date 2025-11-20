@@ -248,7 +248,7 @@ bg-neutral
         <div class="flex justify-between mb-4">
             <div class="text-[#3d3d3d] text-2xl">Ресурсы</div>
 
-            <button onclick="createUserTemplate()"
+            <button onclick="createResourceTemplate()"
                     class="flex items-center gap-2 px-3 rounded-sm
                                bg-purple-700 text-white text-sm font-medium
                                hover:bg-purple-800 hover:cursor-pointer transition-colors">
@@ -273,7 +273,77 @@ bg-neutral
 
 </template>
 
+<!-- Create resource -->
+<template id="create-resource-template" type="x-tmpl-mustache">
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="py-[20px] text-[#3d3d3d] text-2xl">
+            Новый ресурс
+        </div>
+        <form onsubmit="createTemplate(event)"
+              class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
+            <div class="">
+                <label for="resource_destination" class="block text-sm text-neutral-900 mb-2 ">
+                    IP или CIDR
+                </label>
+                <input type="text" name="destination" id="resource_destination" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="user@example.com">
+            </div>
+            <div class="">
+                <select type="text" name="site_id" id="resource_site_id" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
+
+                </select>
+            </div>
+            <button type="submit"
+                    class="mt-2 px-4 py-1 rounded-sm
+                           bg-purple-700 text-white text-sm font-medium
+                           hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                Добавить
+            </button>
+        </form>
+    </div>
+</template>
+
 <script>
+    async function createTemplate(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = {
+            destination: formData.get('destination'),
+            site_id: formData.get('site_id')
+        };
+
+        try {
+            const response = await fetch('/api/resources', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                // Очищаем поля формы
+                form.querySelector('#resource_destination').value = '';
+                form.querySelector('#resource_site_id').value = '';
+            } else {
+                console.error('Ошибка создания ресурса');
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
+
+    async function createResourceTemplate() {
+        document.getElementById('content').innerHTML = document.getElementById('create-resource-template').innerHTML;
+        const sites = await (await fetch('/api/sites', {
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem('authToken')}
+        })).json();
+        document.querySelector('select[name="site_id"]').innerHTML =
+            '<option value="">Выберите сайт</option>' +
+            sites.map(s => `<option value="${s.site_id}">${s.name}</option>`).join('');
+    }
 
     async function createUser(event) {
         event.preventDefault();
