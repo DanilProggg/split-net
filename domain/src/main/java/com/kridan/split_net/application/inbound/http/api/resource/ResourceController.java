@@ -2,6 +2,7 @@ package com.kridan.split_net.application.inbound.http.api.resource;
 
 import com.kridan.split_net.application.inbound.http.api.resource.dto.CreateResourceRequest;
 import com.kridan.split_net.application.inbound.http.api.resource.dto.ResourceDto;
+import com.kridan.split_net.application.inbound.http.api.resource.dto.ResourceSiteDto;
 import com.kridan.split_net.domain.resource.Resource;
 import com.kridan.split_net.domain.resource.usecases.CreateResourceUseCase;
 import com.kridan.split_net.domain.resource.usecases.GetAllResourcesUseCase;
@@ -47,7 +48,10 @@ public class ResourceController {
                         return new ResourceDto(
                                 resource.getResourceId(),
                                 resource.getDestination(),
-                                resource.getSite().getId()
+                                new ResourceSiteDto(
+                                        resource.getSite().getId(),
+                                        resource.getSite().getName()
+                                )
                         );
                     }).toList();
 
