@@ -90,7 +90,7 @@ bg-neutral
                 hx-trigger="click"
                 hx-target="#content"
                 hx-swap="innerHTML"
-                mustache-template="policies-template">Ресурсы</button>
+                mustache-template="policies-template">Политики</button>
     </nav>
     <section id="content" class="grow">
     </section>
@@ -345,10 +345,10 @@ bg-neutral
         {{#.}}
         <div class="p-2 grid grid-cols-3 gap-[10px] border-b-[1px] border-[#e5e7eb]">
             <div>{{policyId}}</div>
-            {{#resource}
+            {{#resource}}
             <div>{{destination}}</div>
             {{/resource}}
-            {{#group}
+            {{#group}}
             <div>{{name}}</div>
             {{/group}}
         </div>
