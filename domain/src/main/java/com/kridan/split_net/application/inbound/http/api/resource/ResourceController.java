@@ -1,6 +1,7 @@
 package com.kridan.split_net.application.inbound.http.api.resource;
 
 import com.kridan.split_net.application.inbound.http.api.resource.dto.CreateResourceRequest;
+import com.kridan.split_net.application.inbound.http.api.resource.dto.ResourceDto;
 import com.kridan.split_net.domain.resource.Resource;
 import com.kridan.split_net.domain.resource.usecases.CreateResourceUseCase;
 import com.kridan.split_net.domain.resource.usecases.GetAllResourcesUseCase;
@@ -41,7 +42,14 @@ public class ResourceController {
     @GetMapping()
     public ResponseEntity<?> getResources() {
         try {
-            List<Resource> resources = getAllResourcesUseCase.getAll();
+            List<ResourceDto> resources = getAllResourcesUseCase.getAll().stream()
+                    .map(resource -> {
+                        return new ResourceDto(
+                                resource.getResourceId(),
+                                resource.getDestination(),
+                                resource.getSite().getId()
+                        );
+                    }).toList();
 
             return ResponseEntity.ok(resources);
         } catch (Exception e) {
