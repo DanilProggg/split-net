@@ -29,7 +29,6 @@ public class User {
     private boolean requiredLogin;
     private Date lastLogIn;
 
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserIdentity> identities = new ArrayList<>();
 

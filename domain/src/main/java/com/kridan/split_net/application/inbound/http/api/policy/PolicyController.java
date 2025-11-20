@@ -1,6 +1,9 @@
 package com.kridan.split_net.application.inbound.http.api.policy;
 
 import com.kridan.split_net.application.inbound.http.api.policy.dto.CreatePolicyRequest;
+import com.kridan.split_net.application.inbound.http.api.policy.dto.PolicyDto;
+import com.kridan.split_net.application.inbound.http.api.policy.dto.PolicyGroupDto;
+import com.kridan.split_net.application.inbound.http.api.policy.dto.PolicyResourceDto;
 import com.kridan.split_net.application.inbound.http.api.resource.dto.CreateResourceRequest;
 import com.kridan.split_net.domain.policy.Policy;
 import com.kridan.split_net.domain.policy.ports.FindAllPolicyPort;
@@ -44,7 +47,22 @@ public class PolicyController {
     @GetMapping()
     public ResponseEntity<?> getPolicies() {
         try {
-            List<Policy> policies = findAllPolicyPort.findAll();
+            List<PolicyDto> policies = findAllPolicyPort.findAll().stream()
+                    .map(
+                            policy -> {
+                                return new PolicyDto(
+                                        policy.getPolicyId().toString(),
+                                        new PolicyResourceDto(
+                                                policy.getResource().getResourceId(),
+                                                policy.getResource().getDestination()
+                                        ),
+                                        new PolicyGroupDto(
+                                                policy.getGroup().getId(),
+                                                policy.getGroup().getName()
+                                        ),
+                                        policy.getDescription());
+                            }
+                    ).toList();
 
             return ResponseEntity.ok(policies);
         } catch (Exception e) {
