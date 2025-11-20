@@ -182,10 +182,7 @@ bg-neutral
         <div class="flex justify-between mb-4">
             <div class="text-[#3d3d3d] text-2xl">Пользователи</div>
 
-            <button hx-post=""
-                    hx-target="#content"
-                    hx-ext="client-side-templates"
-                    mustache-template=""
+            <button onclick="createUserTemplate()"
                     class="flex items-center gap-2 px-3 rounded-sm
                                bg-purple-700 text-white text-sm font-medium
                                hover:bg-purple-800 hover:cursor-pointer transition-colors">
@@ -232,6 +229,12 @@ bg-neutral
 </template>
 
 <script>
+
+    function createUserTemplate() {
+        document.getElementById('content').innerHTML =
+        document.getElementById('create-user-template').innerHTML;
+    }
+
     (function() {
         const OriginalXHR = window.XMLHttpRequest;
 
