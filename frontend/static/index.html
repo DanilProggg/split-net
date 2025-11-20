@@ -208,6 +208,29 @@ bg-neutral
 
 </template>
 
+<!-- Create user -->
+<template id="create-user-template" type="x-tmpl-mustache">
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="py-[20px] text-[#3d3d3d] text-2xl">
+            Новый пользователь
+        </div>
+        <form class="flex-column align-center">
+            <div class="">
+                <label for="actor_name" class="block text-sm text-neutral-900 mb-2 ">
+                    Full Name
+                </label>
+                <input type="text" name="actor[name]" id="actor_name" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="E.g. John Smith">
+            </div>
+            <div class="">
+                <label for="actor_password" class="block text-sm text-neutral-900 mb-2 ">
+                    Full Name
+                </label>
+                <input type="text" name="actor[password]" id="actor_password" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="E.g. John Smith">
+            </div>
+        </form>
+    </div>
+</template>
+
 <script>
     (function() {
         const OriginalXHR = window.XMLHttpRequest;
