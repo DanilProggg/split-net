@@ -211,20 +211,30 @@ bg-neutral
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
             Новый пользователь
         </div>
-        <form class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
+        <form hx-post="/api/auth/signup"
+              hx-target="#content"
+              hx-ext="client-side-templates"
+              mustache-template="deploy-gateway"
+              hx-on:after-request="if (event.detail.successful) htmx.ajax('GET', '/api/users', {target: '#content', swap: 'innerHTML'})"
+              class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
             <div class="">
                 <label for="actor_name" class="block text-sm text-neutral-900 mb-2 ">
-                    Full Name
+                    Почта
                 </label>
-                <input type="text" name="actor[name]" id="actor_name" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="user@example.com">
+                <input type="text" name="name" id="actor_name" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="user@example.com">
             </div>
             <div class="">
                 <label for="actor_password" class="block text-sm text-neutral-900 my-2 ">
-                    Full Name
+                    Пароль
                 </label>
-                <input type="text" name="actor[password]" id="actor_password" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
+                <input type="text" name="password" id="actor_password" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
             </div>
-
+            <button type="submit"
+                    class="px-3 rounded-sm
+                           bg-purple-700 text-white text-sm font-medium
+                           hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                    Создать
+            </button>
         </form>
     </div>
 </template>
