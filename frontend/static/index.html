@@ -258,15 +258,18 @@ bg-neutral
 
             if (response.ok) {
                 // После успеха делаем htmx запрос
+                // Создаем временный элемент с атрибутами для client-side-templates
+                const tempElement = document.createElement('div');
+                tempElement.setAttribute('hx-ext', 'client-side-templates');
+                tempElement.setAttribute('mustache-template', 'users-list');
+
+                // Используем htmx.ajax с этим элементом как source
                 htmx.ajax('GET', '/api/users', {
+                    source: tempElement,
                     target: '#content',
                     swap: 'innerHTML',
                     headers: {
                         'Authorization': 'Bearer ' + (localStorage.getItem('authToken') || '')
-                    },
-                    extensions: ['client-side-templates'],
-                    values: {
-                        'mustache-template': 'users-template' // укажите имя вашего template для списка пользователей
                     }
                 });
             } else {
