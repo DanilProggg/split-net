@@ -316,6 +316,84 @@ bg-neutral
     </div>
 </template>
 
+
+<!-- Policies -->
+<template id="policies-template" type="x-tmpl-mustache">
+
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="flex justify-between mb-4">
+            <div class="text-[#3d3d3d] text-2xl">Политики</div>
+
+            <button onclick="createPolicyTemplate()"
+                    class="flex items-center gap-2 px-3 rounded-sm
+                               bg-purple-700 text-white text-sm font-medium
+                               hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                <span class="text-lg">+</span> Добавить политика
+            </button>
+        </div>
+        <div class="mb-2 p-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
+            <div>ID</div>
+            <div>Ресурс</div>
+            <div>Имя группы</div>
+        </div>
+        {{#.}}
+        <div class="p-2 grid grid-cols-3 gap-[10px] border-b-[1px] border-[#e5e7eb]">
+            <div>{{policyId}}</div>
+            {{#resource}
+            <div>{{destination}}</div>
+            {{/resource}}
+            {{#group}
+            <div>{{name}}</div>
+            {{/group}}
+        </div>
+        {{/.}}
+    </div>
+
+</template>
+
+<!-- Create policy -->
+<template id="create-policy-template" type="x-tmpl-mustache">
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="py-[20px] text-[#3d3d3d] text-2xl">
+            Новая политика
+        </div>
+        <form onsubmit="createTemplate(event)"
+              class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
+
+            <div class="">
+                <label for="policy_policyId" class="block text-sm text-neutral-900 my-2 ">
+                    Ресурс
+                </label>
+                <select type="text" name="policyId" id="policy_policyId" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
+
+                </select>
+            </div>
+
+            <div class="">
+                <label for="policy_groupId" class="block text-sm text-neutral-900 my-2 ">
+                    Группа
+                </label>
+                <select type="text" name="groupId" id="policy_groupId" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
+
+                </select>
+            </div>
+
+            <div class="">
+                <label for="policy_description" class="block text-sm text-neutral-900 mb-2 ">
+                    Описание
+                </label>
+                <input type="text" name="description" id="policy_description" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="192.168.0.0/24">
+            </div>
+            <button type="submit"
+                    class="mt-2 px-4 py-1 rounded-sm
+                           bg-purple-700 text-white text-sm font-medium
+                           hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                Добавить
+            </button>
+        </form>
+    </div>
+</template>
+
 <script>
     async function createTemplate(event) {
         event.preventDefault();
