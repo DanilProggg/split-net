@@ -211,8 +211,7 @@ bg-neutral
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
             Новый пользователь
         </div>
-        <form hx-post="/api/auth/signup" method="post"
-              hx-on::after-request="alert('Done making a request!')">
+        <form onsubmit="createUser(event)"
               class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
             <div class="">
                 <label for="actor_name" class="block text-sm text-neutral-900 mb-2 ">
@@ -237,6 +236,46 @@ bg-neutral
 </template>
 
 <script>
+
+    async function createUser(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = {
+            name: formData.get('name'),
+            password: formData.get('password')
+        };
+
+        try {
+            const response = await fetch('/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                // После успеха делаем htmx запрос
+                htmx.ajax('GET', '/api/users', {
+                    target: '#content',
+                    swap: 'innerHTML',
+                    headers: {
+                        'Authorization': 'Bearer ' + (localStorage.getItem('authToken') || '')
+                    },
+                    extensions: ['client-side-templates'],
+                    values: {
+                        'mustache-template': 'users-list' // укажите имя вашего template для списка пользователей
+                    }
+                });
+            } else {
+                console.error('Ошибка создания пользователя');
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
 
     function createUserTemplate() {
         document.getElementById('content').innerHTML =
