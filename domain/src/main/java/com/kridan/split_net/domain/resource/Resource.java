@@ -17,7 +17,7 @@ import java.util.Set;
 public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long resourceId;
 
     @Column(nullable = false, unique = true)
     private String destination; //CIDR or IP

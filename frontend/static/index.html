@@ -79,6 +79,12 @@ bg-neutral
                 hx-target="#content"
                 hx-swap="innerHTML"
                 mustache-template="users-template">Пользователи</button>
+        <button hx-get="/api/resources"
+                hx-ext="client-side-templates"
+                hx-trigger="click"
+                hx-target="#content"
+                hx-swap="innerHTML"
+                mustache-template="resources-template">Ресурсы</button>
     </nav>
     <section id="content" class="grow">
     </section>
@@ -226,13 +232,45 @@ bg-neutral
                 <input type="text" name="password" id="actor_password" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
             </div>
             <button type="submit"
-                    class="mt-1 px-4 py-1 rounded-sm
+                    class="mt-2 px-4 py-1 rounded-sm
                            bg-purple-700 text-white text-sm font-medium
                            hover:bg-purple-800 hover:cursor-pointer transition-colors">
                     Создать
             </button>
         </form>
     </div>
+</template>
+
+<!-- Resources -->
+<template id="resources-template" type="x-tmpl-mustache">
+
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="flex justify-between mb-4">
+            <div class="text-[#3d3d3d] text-2xl">Ресурсы</div>
+
+            <button onclick="createUserTemplate()"
+                    class="flex items-center gap-2 px-3 rounded-sm
+                               bg-purple-700 text-white text-sm font-medium
+                               hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                <span class="text-lg">+</span> Добавить ресурс
+            </button>
+        </div>
+        <div class="mb-2 p-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
+            <div>ID</div>
+            <div>Ресурс</div>
+            <div>Сайт</div>
+        </div>
+        {{#.}}
+        <div class="p-2 grid grid-cols-3 gap-[10px] border-b-[1px] border-[#e5e7eb]">
+            <div>{{id}}</div>
+            <div>{{destination}}</div>
+            {{#site}
+            <div>{{name}}</div>
+            {{/site}
+        </div>
+        {{/.}}
+    </div>
+
 </template>
 
 <script>

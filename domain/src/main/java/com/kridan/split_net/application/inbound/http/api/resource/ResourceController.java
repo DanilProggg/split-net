@@ -29,6 +29,7 @@ public class ResourceController {
                     createResourceRequest.getSite_id()
             );
 
+
             return ResponseEntity.ok(resource);
         } catch (Exception e) {
             log.error(e.getMessage());
