@@ -226,7 +226,7 @@ bg-neutral
                 <input type="text" name="password" id="actor_password" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
             </div>
             <button type="submit"
-                    class="px-3 rounded-sm
+                    class="px-4 px-3 rounded-sm
                            bg-purple-700 text-white text-sm font-medium
                            hover:bg-purple-800 hover:cursor-pointer transition-colors">
                     Создать
@@ -257,21 +257,8 @@ bg-neutral
             });
 
             if (response.ok) {
-                // После успеха делаем htmx запрос
-                // Создаем временный элемент с атрибутами для client-side-templates
-                const tempElement = document.createElement('div');
-                tempElement.setAttribute('hx-ext', 'client-side-templates');
-                tempElement.setAttribute('mustache-template', 'users-list');
-
-                // Используем htmx.ajax с этим элементом как source
-                htmx.ajax('GET', '/api/users', {
-                    source: tempElement,
-                    target: '#content',
-                    swap: 'innerHTML',
-                    headers: {
-                        'Authorization': 'Bearer ' + (localStorage.getItem('authToken') || '')
-                    }
-                });
+                form.querySelector('#actor_email').value='';
+                form.querySelector('#actor_password').value='';
             } else {
                 console.error('Ошибка создания пользователя');
             }
