@@ -43,4 +43,9 @@ public class SaveUserAdapter implements SaveUserPort {
 
         return savedUser;
     }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 }

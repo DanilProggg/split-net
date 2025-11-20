@@ -43,8 +43,8 @@ public class AuthController {
     public ResponseEntity<?> loginUser(@RequestBody AuthUserDto userDto) {
         try {
             jpaUserDetailsService.auth(userDto.getEmail(), userDto.getPassword());
-
             String token = jwtUtils.generateUserToken(userDto.getEmail());
+
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e){
