@@ -85,6 +85,12 @@ bg-neutral
                 hx-target="#content"
                 hx-swap="innerHTML"
                 mustache-template="resources-template">Ресурсы</button>
+        <button hx-get="/api/policies"
+                hx-ext="client-side-templates"
+                hx-trigger="click"
+                hx-target="#content"
+                hx-swap="innerHTML"
+                mustache-template="policies-template">Ресурсы</button>
     </nav>
     <section id="content" class="grow">
     </section>
