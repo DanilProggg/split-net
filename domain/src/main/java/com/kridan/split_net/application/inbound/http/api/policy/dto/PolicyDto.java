@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PolicyDto {
     private String policyId;
-    private PolicyResourceDto policyResourceDto;
-    private PolicyGroupDto policyGroupDto;
+    private PolicyResourceDto resource;
+    private PolicyGroupDto group;
     private String description;
 }
