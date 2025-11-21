@@ -450,7 +450,7 @@ bg-neutral
         })).json();
         document.querySelector('select[name="policy_groupId"]').innerHTML =
             '<option value="">Выберите группу</option>' +
-            groups.map(g => `<option value="${g.groupId}">${g.destination}</option>`).join('');
+            groups.map(g => `<option value="${g.groupId}">${g.name}</option>`).join('');
     }
 
     async function createResource(event) {
