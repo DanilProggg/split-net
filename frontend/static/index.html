@@ -91,6 +91,12 @@ bg-neutral
                 hx-target="#content"
                 hx-swap="innerHTML"
                 mustache-template="policies-template">Политики</button>
+        <button hx-get="/api/groups"
+                hx-ext="client-side-templates"
+                hx-trigger="click"
+                hx-target="#content"
+                hx-swap="innerHTML"
+                mustache-template="groups-template">Политики</button>
     </nav>
     <section id="content" class="grow">
     </section>
@@ -400,7 +406,104 @@ bg-neutral
     </div>
 </template>
 
+<!-- Groups -->
+<template id="groups-template" type="x-tmpl-mustache">
+
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="flex justify-between mb-4">
+            <div class="text-[#3d3d3d] text-2xl">Группы</div>
+
+            <button onclick="createGroupTemplate()"
+                    class="flex items-center gap-2 px-3 rounded-sm
+                               bg-purple-700 text-white text-sm font-medium
+                               hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                <span class="text-lg">+</span> Добавить группу
+            </button>
+        </div>
+        <div class="mb-2 p-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
+            <div>ID</div>
+            <div>Название</div>
+            <div>Описание</div>
+        </div>
+        {{#.}}
+        <div class="p-2 grid grid-cols-3 gap-[10px] border-b-[1px] border-[#e5e7eb]">
+            <div>{{groupId}}</div>
+            <div>{{name}}</div>
+            <div>{{destination}}</div>
+        </div>
+        {{/.}}
+    </div>
+
+</template>
+
+<!-- Create group -->
+<template id="create-group-template">
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="py-[20px] text-[#3d3d3d] text-2xl">
+            Новый ресурс
+        </div>
+        <form onsubmit="createGroup(event)"
+              class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
+            <div class="">
+                <label for="group_name" class="block text-sm text-neutral-900 mb-2 ">
+                    Название
+                </label>
+                <input type="text" name="group_name" id="group_name" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="">
+            </div>
+            <div class="">
+                <label for="group_description" class="block text-sm text-neutral-900 mb-2 ">
+                    Описание
+                </label>
+                <input type="text" name="group_description" id="group_description" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="">
+            </div>
+            <button type="submit"
+                    class="mt-2 px-4 py-1 rounded-sm
+                           bg-purple-700 text-white text-sm font-medium
+                           hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                Добавить
+            </button>
+        </form>
+    </div>
+</template>
+
 <script>
+
+    async function createGroup(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = {
+            name: formData.get('group_name'),
+            description: formData.get('group_description')
+        };
+
+        try {
+            const response = await fetch('/api/groups', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                // Очищаем поля формы
+                form.querySelector('#group_name').value = '';
+                form.querySelector('#group_description').value = '';
+            } else {
+                console.error('Ошибка создания ресурса');
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
+
+    async function createGroupTemplate() {
+        document.getElementById('content').innerHTML = document.getElementById('create-group-template').innerHTML;
+    }
+
 
     async function createPolicy(event) {
         event.preventDefault();
