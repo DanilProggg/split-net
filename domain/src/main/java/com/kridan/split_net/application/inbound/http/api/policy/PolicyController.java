@@ -30,10 +30,11 @@ public class PolicyController {
     public ResponseEntity<?> createPolicy(@RequestBody CreatePolicyRequest createPolicyRequest) {
         try {
 
+            String desc = createPolicyRequest.getDescription();
             Policy policy = createPolicyUseCase.create(
                     createPolicyRequest.getResourceId(),
                     createPolicyRequest.getGroupId(),
-                    createPolicyRequest.getDescription().isBlank() ? null : createPolicyRequest.getDescription()
+                    (desc == null || desc.isBlank()) ? null : desc
             );
 
             return ResponseEntity.ok(policy);
