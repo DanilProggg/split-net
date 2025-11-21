@@ -11,7 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class GroupDto {
 
-    private Long resourceId;
+    private Long groupId;
     private String name;
     private String description;
     private Set<PolicyDto> policies;
