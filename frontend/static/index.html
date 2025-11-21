@@ -296,7 +296,7 @@ bg-neutral
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
             Новый ресурс
         </div>
-        <form onsubmit="createTemplate(event)"
+        <form onsubmit="createResource(event)"
               class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
             <div class="">
                 <label for="resource_destination" class="block text-sm text-neutral-900 mb-2 ">
@@ -363,14 +363,14 @@ bg-neutral
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
             Новая политика
         </div>
-        <form onsubmit="createTemplate(event)"
+        <form onsubmit="createPolicy(event)"
               class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
 
             <div class="">
-                <label for="policy_policyId" class="block text-sm text-neutral-900 my-2 ">
+                <label for="policy_resourceId" class="block text-sm text-neutral-900 my-2 ">
                     Ресурс
                 </label>
-                <select type="text" name="policyId" id="policy_policyId" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
+                <select type="text" name="policyId" id="policy_resourceId" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
 
                 </select>
             </div>
@@ -401,7 +401,59 @@ bg-neutral
 </template>
 
 <script>
-    async function createTemplate(event) {
+
+    async function createPolicy(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = {
+            resourceId: formData.get('policy_resourceId'),
+            groupId: formData.get('policy_groupId'),
+            description: formData.get('policy_description')
+        };
+
+        try {
+            const response = await fetch('/api/policies', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                // Очищаем поля формы
+                form.querySelector('#policy_resourceId').value = '';
+                form.querySelector('#policy_groupId').value = '';
+                form.querySelector('#policy_description').value = '';
+            } else {
+                console.error('Ошибка создания ресурса');
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
+
+    async function createPolicyTemplate() {
+        document.getElementById('content').innerHTML = document.getElementById('create-policy-template').innerHTML;
+        const resources = await (await fetch('/api/resources', {
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem('authToken')}
+        })).json();
+        document.querySelector('select[name="policy_resourceId"]').innerHTML =
+            '<option value="">Выберите ресурс</option>' +
+            resources.map(r => `<option value="${r.resourceId}">${r.destination}</option>`).join('');
+
+        const groups = await (await fetch('/api/groups', {
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem('authToken')}
+        })).json();
+        document.querySelector('select[name="policy_groupId"]').innerHTML =
+            '<option value="">Выберите группу</option>' +
+            groups.map(g => `<option value="${g.groupId}">${g.destination}</option>`).join('');
+    }
+
+    async function createResource(event) {
         event.preventDefault();
 
         const form = event.target;
