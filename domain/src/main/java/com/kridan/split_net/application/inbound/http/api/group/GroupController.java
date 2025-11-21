@@ -31,9 +31,12 @@ public class GroupController {
     @PostMapping()
     public ResponseEntity<?> createGroup(@RequestBody CreateGroupRequest createGroupRequest){
         try {
+
+            String desc = createGroupRequest.getDescription();
             Group group = createGroupUseCase.create(
                     createGroupRequest.getName(),
-                    createGroupRequest.getDescription()
+                    (desc == null || desc.isBlank()) ? null : desc
+
             );
 
             return ResponseEntity.ok("Group created");
