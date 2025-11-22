@@ -50,6 +50,18 @@ services:
     networks:
       - vpnnet
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8070:80"
+    networks:
+      - vpnnet
+
 volumes:
   pg_data:
 

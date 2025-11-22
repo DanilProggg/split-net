@@ -79,6 +79,12 @@ bg-neutral
                 hx-target="#content"
                 hx-swap="innerHTML"
                 mustache-template="users-template">Пользователи</button>
+        <button hx-get="/api/groups"
+                hx-ext="client-side-templates"
+                hx-trigger="click"
+                hx-target="#content"
+                hx-swap="innerHTML"
+                mustache-template="groups-template">Группы</button>
         <button hx-get="/api/resources"
                 hx-ext="client-side-templates"
                 hx-trigger="click"
@@ -91,12 +97,6 @@ bg-neutral
                 hx-target="#content"
                 hx-swap="innerHTML"
                 mustache-template="policies-template">Политики</button>
-        <button hx-get="/api/groups"
-                hx-ext="client-side-templates"
-                hx-trigger="click"
-                hx-target="#content"
-                hx-swap="innerHTML"
-                mustache-template="groups-template">Группы</button>
     </nav>
     <section id="content" class="grow">
     </section>
