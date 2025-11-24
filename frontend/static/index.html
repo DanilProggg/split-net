@@ -137,7 +137,7 @@ bg-neutral
         <div class="">
             <div class="flex justify-between">
                 <div class="py-[20px] text-2xl text-[#3d3d3d]">Сайт: {{name}}</div>
-                <button hx-post="/api/site/{{site_id}}"
+                <button hx-delete="/api/site/{{site_id}}"
                         hx-target="#content"
                         hx-ext="client-side-templates"
                         mustache-template="sites-list-template"
