@@ -135,8 +135,8 @@ bg-neutral
     {{#.}}
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
         <div class="">
-            <div class="flex justify-between">
-                <div class="py-[20px] text-2xl text-[#3d3d3d]">Сайт: {{name}}</div>
+            <div class="flex justify-between py-[20px]">
+                <div class="text-2xl text-[#3d3d3d]">Сайт: {{name}}</div>
                 <button hx-delete="/api/site/{{site_id}}"
                         hx-target="#content"
                         hx-ext="client-side-templates"
