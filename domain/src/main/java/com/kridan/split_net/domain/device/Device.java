@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -18,7 +17,7 @@ import java.util.UUID;
 @Accessors(chain = true)
 public class Device {
     @Id
-    private UUID id;
+    private UUID deviceId;
 
     @Column(unique = true, nullable = false)
     private String name;

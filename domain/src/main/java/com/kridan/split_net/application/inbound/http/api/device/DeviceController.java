@@ -41,7 +41,7 @@ public class DeviceController {
             User user = findUserPort.findByEmail(email);
 
             Device device = createDeviceUseCase.createDevice(
-                    user.getId().toString(),
+                    user.getUserId().toString(),
                     createDeviceRequest.getDeviceName(),
                     createDeviceRequest.getPubkey()
             );
@@ -64,7 +64,7 @@ public class DeviceController {
             List<DeviceDto> deviceDtos = devices.stream()
                     .map(
                         d -> new DeviceDto(
-                                d.getId().toString(),
+                                d.getDeviceId().toString(),
                                 d.getName(),
                                 d.getPublicKey(),
                                 d.getIpAddress()
@@ -89,7 +89,7 @@ public class DeviceController {
             Device device = findDevicePort.findByOwnerAndId(email, uuid);
 
             DeviceDto deviceDto = new DeviceDto(
-                    device.getId().toString(),
+                    device.getDeviceId().toString(),
                     device.getName(),
                     device.getPublicKey(),
                     device.getIpAddress()

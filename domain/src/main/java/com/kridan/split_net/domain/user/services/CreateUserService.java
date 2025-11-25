@@ -24,6 +24,7 @@ public class CreateUserService implements CreateUserUseCase {
             log.debug("Создание пользователя {}", userEmail);
 
             User user = new User();
+            user.setUserId(UUID.randomUUID());
             user.setEmail(userEmail);
             user.setRequiredLogin(false);
             user.setReauthIntervalHours(24);

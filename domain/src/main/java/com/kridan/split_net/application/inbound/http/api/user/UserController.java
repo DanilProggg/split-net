@@ -1,11 +1,9 @@
 package com.kridan.split_net.application.inbound.http.api.user;
 
 import com.kridan.split_net.application.inbound.http.api.user.dto.UserDto;
-import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +24,7 @@ public class UserController {
                     .map(
                             user -> {
                                 return new UserDto(
-                                  user.getId().toString(),
+                                  user.getUserId().toString(),
                                   user.getEmail(),
                                   user.getReauthIntervalHours(),
                                   user.isRequiredLogin(),

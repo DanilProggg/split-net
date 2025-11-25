@@ -4,18 +4,15 @@ import com.kridan.split_net.application.inbound.http.api.policy.dto.CreatePolicy
 import com.kridan.split_net.application.inbound.http.api.policy.dto.PolicyDto;
 import com.kridan.split_net.application.inbound.http.api.policy.dto.PolicyGroupDto;
 import com.kridan.split_net.application.inbound.http.api.policy.dto.PolicyResourceDto;
-import com.kridan.split_net.application.inbound.http.api.resource.dto.CreateResourceRequest;
 import com.kridan.split_net.domain.policy.Policy;
 import com.kridan.split_net.domain.policy.ports.FindAllPolicyPort;
 import com.kridan.split_net.domain.policy.usecases.CreatePolicyUseCase;
-import com.kridan.split_net.domain.resource.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/policies")
@@ -58,7 +55,7 @@ public class PolicyController {
                                                 policy.getResource().getDestination()
                                         ),
                                         new PolicyGroupDto(
-                                                policy.getGroup().getId(),
+                                                policy.getGroup().getGroupId(),
                                                 policy.getGroup().getName()
                                         ),
                                         policy.getDescription());

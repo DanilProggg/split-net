@@ -36,7 +36,7 @@ public class JwtUtils {
         User user = findUserPort.findByEmail(email);
 
         return Jwts.builder()
-                .setSubject(user.getId().toString())
+                .setSubject(user.getUserId().toString())
                 .setIssuer("self")
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plusSeconds((long) hoursToExpired *60*60)))

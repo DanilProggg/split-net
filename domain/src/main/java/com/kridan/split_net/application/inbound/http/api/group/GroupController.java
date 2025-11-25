@@ -66,14 +66,14 @@ public class GroupController {
 
             List<GroupDto> groupDtos = groups.stream()
                     .map(group -> new GroupDto(
-                            group.getId(),
+                            group.getGroupId(),
                             group.getName(),
                             group.getDescription(),
                             group.getPolicies().stream()
                                     .map(r -> new PolicyDto(r.getPolicyId().toString(), r.getResource().getDestination()))
                                     .collect(Collectors.toSet()),
                             group.getUsers().stream()
-                                    .map(u -> new UserDto(u.getId().toString(), u.getEmail()))
+                                    .map(u -> new UserDto(u.getUserId().toString(), u.getEmail()))
                                     .collect(Collectors.toSet())
                     )).toList();
 

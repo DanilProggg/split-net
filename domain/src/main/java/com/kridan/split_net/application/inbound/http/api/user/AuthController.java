@@ -31,7 +31,7 @@ public class AuthController {
 
             User user = createUserUseCase.createUser(userDto.getEmail(), userDto.getPassword());
 
-            log.debug("User created. UUID: {}", user.getId().toString());
+            log.debug("User created. UUID: {}", user.getUserId().toString());
             return ResponseEntity.ok("User created.");
         } catch (Exception e){
             log.error(e.getMessage());

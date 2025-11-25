@@ -17,7 +17,7 @@ public class DeviceFactory {
                          ) {
 
         Device device = new Device()
-                .setId(UUID.randomUUID())
+                .setDeviceId(UUID.randomUUID())
                 .setName(name)
                 .setPublicKey(devicePublicKey)
                 .setIpAddress(ipAddress)

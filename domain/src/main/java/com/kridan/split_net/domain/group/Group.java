@@ -1,7 +1,6 @@
 package com.kridan.split_net.domain.group;
 
 import com.kridan.split_net.domain.policy.Policy;
-import com.kridan.split_net.domain.resource.Resource;
 import com.kridan.split_net.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,7 +18,7 @@ import java.util.Set;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long groupId;
 
     @Column(nullable = false, unique = true)
     private String name;
