@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 public class UserIdentity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long identityId;
 
     private String provider;
 
