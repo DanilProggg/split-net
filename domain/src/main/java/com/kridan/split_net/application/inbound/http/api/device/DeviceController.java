@@ -105,7 +105,6 @@ public class DeviceController {
     @GetMapping("/{uuid}/config")
     public ResponseEntity<?> getConfig(@AuthenticationPrincipal Jwt jwt, @PathVariable("uuid") String deviceUuid) {
         try {
-
             String user_id = jwt.getSubject();
 
             List<Map<String,String>> config = generateConfigUseCase.generate(user_id, deviceUuid);
