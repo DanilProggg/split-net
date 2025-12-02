@@ -17,8 +17,8 @@ import java.util.*;
 @Accessors(chain = true)
 @Table(name = "app_user")
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID userId;
     @Column(unique = true, nullable = false)
     private String email;
