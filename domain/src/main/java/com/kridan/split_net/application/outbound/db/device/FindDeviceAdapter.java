@@ -29,7 +29,7 @@ public class FindDeviceAdapter implements FindAllDevicesPort, FindDevicePort {
     public Device findByOwnerAndId(String email, String uuid) {
         User user = findUserPort.findByEmail(email);
 
-        return deviceRepository.findByOwnerAndId(user, UUID.fromString(uuid))
+        return deviceRepository.findByOwnerAndDeviceId(user, UUID.fromString(uuid))
                 .orElseThrow(()->new DeviceNotFoundException("Device with given data not found"));
     }
 
