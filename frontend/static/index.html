@@ -439,7 +439,7 @@ bg-neutral
         </div>
         {{#.}}
         <div class="p-2 grid grid-cols-3 gap-[10px] border-b-[1px] border-[#e5e7eb]">
-            <button class="my-3 px-2 border-0 text-[#4805ff] hover:underline hover:cursor-pointer"
+            <button class="border-0 text-[#4805ff] hover:underline hover:cursor-pointer"
                     hx-get="/api/groups/{{groupId}}"
                     hx-ext="client-side-templates"
                     hx-trigger="click"
@@ -530,7 +530,7 @@ bg-neutral
                 <input type="text" name="group_description" id="group_description" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " placeholder="">
             </div>
             <button type="submit"
-                    class="m-0 p-0 rounded-sm
+                    class="mt-2 px-4 py-1 rounded-sm
                            bg-purple-700 text-white text-sm font-medium
                            hover:bg-purple-800 hover:cursor-pointer transition-colors">
                 Добавить
