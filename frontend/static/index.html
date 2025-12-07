@@ -439,7 +439,16 @@ bg-neutral
         </div>
         {{#.}}
         <div class="p-2 grid grid-cols-3 gap-[10px] border-b-[1px] border-[#e5e7eb]">
-            <div>{{groupId}}</div>
+            <button class="my-3 px-2 border-0 text-[#4805ff] hover:underline hover:cursor-pointer"
+                    hx-get="/api/groups/{{groupId}}"
+                    hx-ext="client-side-templates"
+                    hx-trigger="click"
+                    hx-target="#content"
+                    hx-swap="innerHTML"
+                    mustache-template="group-template"
+            >
+                {{groupId}}
+            </button>
             <div>{{name}}</div>
             <div>{{destination}}</div>
         </div>
