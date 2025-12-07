@@ -571,6 +571,7 @@ bg-neutral
 <script>
     async function addUserToGroup(event) {
         try {
+            event.preventDefault()
             const form = event.target;
             const formData = new FormData(form);
             let groupId = document.getElementById('groupId').innerHTML;
