@@ -569,7 +569,6 @@ bg-neutral
 </template>
 
 <script>
-
     async function addUserToGroup(event) {
         try {
             const form = event.target;
@@ -581,7 +580,8 @@ bg-neutral
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-                    }
+                    },
+                body: ""
             });
 
             if (!response.ok) {
