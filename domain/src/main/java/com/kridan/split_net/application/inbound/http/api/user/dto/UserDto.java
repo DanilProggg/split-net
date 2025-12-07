@@ -10,7 +10,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 public class UserDto {
-    private String user_id;
+    private String userId;
     private String email;
     private int reauthIntervalHours;
     private boolean requiredLogin;
