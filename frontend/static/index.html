@@ -490,17 +490,15 @@ bg-neutral
                     <span class="text-lg">+</span> Добавить пользователя
                 </button>
             </div>
-            <div class="mb-2 px-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
+            <div class="mb-2 px-2 grid grid-cols-2 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
                 <div>ID</div>
-                <div>Описание</div>
-                <div>Статус</div>
+                <div>Email</div>
             </div>
 
             {{#users}}
             <div class="px-2 grid grid-cols-3 gap-[10px]">
                 <div>{{userId}}</div>
                 <div>{{email}}</div>
-                <div></div>
             </div>
             {{/users}}
         </div>
