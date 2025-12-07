@@ -574,7 +574,6 @@ bg-neutral
         try {
             const form = event.target;
             const formData = new FormData(form);
-
             groupId = document.getElementById('groupId').innerHTML;
             userId = formData.get('group_adduser_userId');
             const response = await fetch(`/api/groups/${groupId}/users/${userId}`, {
@@ -582,7 +581,7 @@ bg-neutral
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-                }
+                    }
             });
 
             if (!response.ok) {
