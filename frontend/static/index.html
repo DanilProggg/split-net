@@ -483,7 +483,7 @@ bg-neutral
             <div class="flex justify-between mb-4">
                 <div class="text-[#3d3d3d] text-2xl">Пользователи</div>
 
-                <button onclick=""
+                <button onclick="addUserToGroupTemplate({{groupId}})"
                         class="flex items-center gap-2 px-3 rounded-sm
                                bg-purple-700 text-white text-sm font-medium
                                hover:bg-purple-800 hover:cursor-pointer transition-colors">
@@ -539,8 +539,9 @@ bg-neutral
     </div>
 </template>
 
+<!-- Add user to group template -->
 <template id="group-adduser-template">
-    {{#.}}
+    <div id="groupId" class="hidden"></div>
     <div class="shadow-md rounded-sm bg-white px-6 py-3">
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
             Добавить пользователя
@@ -549,13 +550,11 @@ bg-neutral
         <form onsubmit="addUserToGroup(event)"
               class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
             <div class="">
-                <label for="policy_resourceId" class="block text-sm text-neutral-900 my-2 ">
+                <label for="group_adduser_userId" class="block text-sm text-neutral-900 my-2 ">
                     Ресурс
                 </label>
-                <select type="text" name="policy_resourceId" id="group_adduser_userId" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
-                    {{#users}}
-                    <option value="{{groupId}}">{{name}}</option>
-                    {{/users}}
+                <select type="text" name="group_adduser_userId" id="group_adduser_userId" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
+
                 </select>
             </div>
 
@@ -567,12 +566,44 @@ bg-neutral
             </button>
         </form>
     </div>
-    {{/.}}
 </template>
 
 <script>
 
-    async function addUserToGroup() {
+    async function addUserToGroup(event) {
+        try {
+        const form = event.target;
+        const formData = new FormData(form);
+
+        groupId = document.getElementById('groupId').innerHTML;
+        userId = formData.get('group_adduser_userId')
+        const response = await fetch(`/api/groups/${groupId}/users/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+            }
+        });
+
+        if (!response.ok) {
+            console.error('Ошибка добавления пользователя в группу');
+        }
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
+    }
+
+    async function addUserToGroupTemplate(groupId) {
+        document.getElementById('content').innerHTML = document.getElementById('group-adduser-template').innerHTML;
+        const users = await (await fetch('/api/users', {
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem('authToken')}
+        })).json();
+        document.querySelector('select[name="group_adduser_userId"]').innerHTML =
+            '<option value="">Выберите пользователя</option>' +
+            users.map(u => `<option value="${u.userId}">${u.name}</option>`).join('');
+
+        // Указание groupId для функции addUserToGroup(event)
+        document.getElementById('groupId').innerHTML = groupId;
 
     }
 
