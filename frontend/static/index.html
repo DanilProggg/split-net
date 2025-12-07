@@ -572,25 +572,25 @@ bg-neutral
 
     async function addUserToGroup(event) {
         try {
-        const form = event.target;
-        const formData = new FormData(form);
+            const form = event.target;
+            const formData = new FormData(form);
 
-        groupId = document.getElementById('groupId').innerHTML;
-        userId = formData.get('group_adduser_userId')
-        const response = await fetch(`/api/groups/${groupId}/users/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+            groupId = document.getElementById('groupId').innerHTML;
+            userId = formData.get('group_adduser_userId')
+            const response = await fetch('/api/groups/${groupId}/users/${userId}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                }
+            });
+
+            if (!response.ok) {
+                console.error('Ошибка добавления пользователя в группу');
             }
-        });
-
-        if (!response.ok) {
-            console.error('Ошибка добавления пользователя в группу');
+        } catch (error) {
+            console.error('Ошибка:', error);
         }
-    } catch (error) {
-        console.error('Ошибка:', error);
-    }
     }
 
     async function addUserToGroupTemplate(groupId) {
