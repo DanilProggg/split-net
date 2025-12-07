@@ -576,8 +576,8 @@ bg-neutral
             const formData = new FormData(form);
 
             groupId = document.getElementById('groupId').innerHTML;
-            userId = formData.get('group_adduser_userId')
-            const response = await fetch('/api/groups/${groupId}/users/${userId}', {
+            userId = formData.get('group_adduser_userId');
+            const response = await fetch(`/api/groups/${groupId}/users/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
