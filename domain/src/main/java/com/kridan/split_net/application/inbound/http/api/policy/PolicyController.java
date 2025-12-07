@@ -30,7 +30,7 @@ public class PolicyController {
             String desc = createPolicyRequest.getDescription();
             Policy policy = createPolicyUseCase.create(
                     createPolicyRequest.getResourceId(),
-                    createPolicyRequest.getGroupId(),
+                    createPolicyRequest.getGroupId().toString(),
                     (desc == null || desc.isBlank()) ? null : desc
             );
 
@@ -55,7 +55,7 @@ public class PolicyController {
                                                 policy.getResource().getDestination()
                                         ),
                                         new PolicyGroupDto(
-                                                policy.getGroup().getGroupId(),
+                                                policy.getGroup().getGroupId().toString(),
                                                 policy.getGroup().getName()
                                         ),
                                         policy.getDescription());

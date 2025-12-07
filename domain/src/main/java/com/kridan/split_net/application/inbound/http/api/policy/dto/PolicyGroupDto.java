@@ -8,6 +8,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class PolicyGroupDto {
-    private Long groupId;
+    private String groupId;
     private String name;
 }
