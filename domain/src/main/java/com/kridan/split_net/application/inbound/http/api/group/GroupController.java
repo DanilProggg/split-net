@@ -5,9 +5,11 @@ import com.kridan.split_net.application.inbound.http.api.group.dto.GroupDto;
 import com.kridan.split_net.application.inbound.http.api.group.dto.PolicyDto;
 import com.kridan.split_net.application.inbound.http.api.group.dto.UserDto;
 import com.kridan.split_net.domain.group.Group;
+import com.kridan.split_net.domain.group.ports.DeleteGroupPort;
+import com.kridan.split_net.domain.group.ports.FindAllGroupPort;
+import com.kridan.split_net.domain.group.ports.FindGroupPort;
 import com.kridan.split_net.domain.group.usecases.AddUserToGroupUseCase;
 import com.kridan.split_net.domain.group.usecases.CreateGroupUseCase;
-import com.kridan.split_net.domain.group.usecases.GetAllGroupUseCase;
 import com.kridan.split_net.domain.resource.usecases.CreateResourceUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +26,10 @@ import java.util.stream.Collectors;
 public class GroupController {
 
     private final CreateGroupUseCase createGroupUseCase;
-    private final GetAllGroupUseCase getAllGroupUseCase;
+    private final FindGroupPort findGroupPort;
+    private final FindAllGroupPort findAllGroupPort;
     private final AddUserToGroupUseCase addUserToGroupUseCase;
-    private final CreateResourceUseCase createResourceUseCase;
+    private final DeleteGroupPort deleteGroupPort;
 
     @PostMapping()
     public ResponseEntity<?> createGroup(@RequestBody CreateGroupRequest createGroupRequest){
@@ -46,27 +49,14 @@ public class GroupController {
         }
     }
 
-    @PostMapping("/{group_id}/users/{user_id}")
-    public ResponseEntity<?> addUserToGroup(@PathVariable("group_id") Long group_id, @PathVariable("user_id") String user_id){
-        try {
-            Group group = addUserToGroupUseCase.add(group_id, user_id);
-
-            return ResponseEntity.ok(group);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.internalServerError().body("An error occurred");
-        }
-    }
-
-
     @GetMapping()
     public ResponseEntity<?> getGroups() {
         try {
-            List<Group> groups = getAllGroupUseCase.getAll();
+            List<Group> groups = findAllGroupPort.findAll();
 
             List<GroupDto> groupDtos = groups.stream()
                     .map(group -> new GroupDto(
-                            group.getGroupId(),
+                            group.getGroupId().toString(),
                             group.getName(),
                             group.getDescription(),
                             group.getPolicies().stream()
@@ -78,6 +68,52 @@ public class GroupController {
                     )).toList();
 
             return ResponseEntity.ok(groupDtos);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body("An error occurred");
+        }
+    }
+
+    @DeleteMapping("/{groupId}")
+    public ResponseEntity<?> deleteGroup(@PathVariable("groupId") String groupId){
+        try {
+            deleteGroupPort.delete(groupId);
+            return ResponseEntity.ok("Group deleted");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body("An error occurred");
+        }
+    }
+
+    @GetMapping("/{groupId}")
+    public ResponseEntity<?> getGroup(@PathVariable("groupId") String groupId) {
+        try {
+            Group group = findGroupPort.findById(groupId);
+            GroupDto groupDto = new GroupDto(
+                    group.getGroupId().toString(),
+                    group.getName(),
+                    group.getDescription(),
+                    group.getPolicies().stream()
+                            .map(r -> new PolicyDto(r.getPolicyId().toString(), r.getResource().getDestination()))
+                            .collect(Collectors.toSet()),
+                    group.getUsers().stream()
+                            .map(u -> new UserDto(u.getUserId().toString(), u.getEmail()))
+                            .collect(Collectors.toSet())
+            );
+
+            return ResponseEntity.ok(groupDto);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body("An error occurred");
+        }
+    }
+
+    @PostMapping("/groups/{group_id}/users/{user_id}")
+    public ResponseEntity<?> addUserToGroup(@PathVariable("group_id") String group_id, @PathVariable("user_id") String user_id){
+        try {
+            Group group = addUserToGroupUseCase.add(group_id, user_id);
+
+            return ResponseEntity.ok(group);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");

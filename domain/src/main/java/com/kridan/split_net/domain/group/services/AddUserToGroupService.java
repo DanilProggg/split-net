@@ -22,7 +22,7 @@ public class AddUserToGroupService implements AddUserToGroupUseCase {
     private final SaveGroupPort saveGroupPort;
 
     @Override
-    public Group add(Long group_id, String user_id) {
+    public Group add(String group_id, String user_id) {
         Group group = findGroupPort.findById(group_id);
         User user = findUserPort.findById(UUID.fromString(user_id));
 

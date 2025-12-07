@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -17,8 +18,8 @@ import java.util.Set;
 @Table(name = "app_group")
 public class Group {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long groupId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID groupId;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -30,9 +31,9 @@ public class Group {
 
     @ManyToMany
     @JoinTable(
-            name = "user_group",                // имя промежуточной таблицы
-            joinColumns = @JoinColumn(name = "user_id"), // внешний ключ на таблицу Student
-            inverseJoinColumns = @JoinColumn(name = "group_id") // внешний ключ на таблицу Course
+            name = "user_group",                            // имя промежуточной таблицы
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id")
     )
     private Set<User> users = new HashSet<>();
 

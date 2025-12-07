@@ -84,7 +84,7 @@ bg-neutral
                 hx-trigger="click"
                 hx-target="#content"
                 hx-swap="innerHTML"
-                mustache-template="groups-template">Группы</button>
+                mustache-template="groups-list-template">Группы</button>
         <button hx-get="/api/resources"
                 hx-ext="client-side-templates"
                 hx-trigger="click"
@@ -137,7 +137,7 @@ bg-neutral
         <div class="">
             <div class="flex justify-between py-[20px]">
                 <div class="text-2xl text-[#3d3d3d]">Сайт: {{name}}</div>
-                <button hx-delete="/api/site/{{site_id}}"
+                <button hx-delete="/api/sites/{{site_id}}"
                         hx-target="#content"
                         hx-ext="client-side-templates"
                         mustache-template="sites-list-template"
@@ -185,7 +185,7 @@ bg-neutral
         </div>
     </div>
     {{/.}}
-    </template>
+</template>
 
 <!-- Шаблон для Deploy Gateway -->
 <template id="deploy-gateway" type="x-tmpl-mustache">
@@ -418,8 +418,8 @@ bg-neutral
     </div>
 </template>
 
-<!-- Groups -->
-<template id="groups-template" type="x-tmpl-mustache">
+<!-- Groups list -->
+<template id="groups-list-template" type="x-tmpl-mustache">
 
     <div class="shadow-md rounded-sm bg-white px-6 py-3">
         <div class="flex justify-between mb-4">
@@ -448,13 +448,65 @@ bg-neutral
 
 </template>
 
+<!-- Group -->
+<template id="group-template" type="x-tmpl-mustache">
+
+    {{#.}}
+    <div class="shadow-md rounded-sm bg-white px-6 pb-3">
+        <div class="">
+            <div class="flex justify-between py-[20px]">
+                <div class="text-2xl text-[#3d3d3d]">Группа: {{name}}</div>
+                <button hx-delete="/api/groups/{{site_id}}"
+                        hx-target="#content"
+                        hx-ext="client-side-templates"
+                        mustache-template="groups-list-template"
+                        class="flex items-center gap-2 px-3 rounded-sm
+                               bg-red-700 text-white text-sm font-medium
+                               hover:bg-red-800 hover:cursor-pointer transition-colors">
+                    Удалить группу
+                </button>
+            </div>
+
+            <div class="text-[#4f4f4f] text-xs">{{description}}</div>
+        </div>
+        <br>
+        <div class="">
+            <div class="flex justify-between mb-4">
+                <div class="text-[#3d3d3d] text-2xl">Пользователи</div>
+
+                <button onclick=""
+                        class="flex items-center gap-2 px-3 rounded-sm
+                               bg-purple-700 text-white text-sm font-medium
+                               hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                    <span class="text-lg">+</span> Добавить пользователя
+                </button>
+            </div>
+            <div class="mb-2 px-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
+                <div>Название</div>
+                <div>Описание</div>
+                <div>Статус</div>
+            </div>
+
+            {{#users}}
+            <div class="px-2 grid grid-cols-3 gap-[10px]">
+                <div>{{name}}</div>
+                <div>{{description}}</div>
+                <div></div>
+            </div>
+            {{/users}}
+        </div>
+    </div>
+    {{/.}}
+
+</template>
+
 <!-- Create group -->
 <template id="create-group-template">
     <div class="shadow-md rounded-sm bg-white px-6 py-3">
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
             Новый ресурс
         </div>
-        <form onsubmit="createGroup(event)"
+        <form onsubmit="addUserToGroup(event)"
               class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
             <div class="">
                 <label for="group_name" class="block text-sm text-neutral-900 mb-2 ">
@@ -478,7 +530,42 @@ bg-neutral
     </div>
 </template>
 
+<template id="group-adduser-template">
+    {{#.}}
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="py-[20px] text-[#3d3d3d] text-2xl">
+            Добавить пользователя
+        </div>
+
+        <form onsubmit="createGroup(event)"
+              class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
+            <div class="">
+                <label for="policy_resourceId" class="block text-sm text-neutral-900 my-2 ">
+                    Ресурс
+                </label>
+                <select type="text" name="policy_resourceId" id="group_adduser_userId" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="********">
+                    {{#users}}
+                    <option value="{{groupId}}">{{name}}</option>
+                    {{/users}}
+                </select>
+            </div>
+
+            <button type="submit"
+                    class="mt-2 px-4 py-1 rounded-sm
+                           bg-purple-700 text-white text-sm font-medium
+                           hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                Добавить
+            </button>
+        </form>
+    </div>
+    {{/.}}
+</template>
+
 <script>
+
+    async function addUserToGroup() {
+
+    }
 
     async function createGroup(event) {
         event.preventDefault();

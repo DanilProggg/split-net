@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +17,8 @@ public class FindGroupAdapter implements FindGroupPort, FindAllGroupPort {
     private final GroupRepository groupRepository;
 
     @Override
-    public Group findById(Long group_id) {
-        return groupRepository.findById(group_id)
+    public Group findById(String group_id) {
+        return groupRepository.findById(UUID.fromString(group_id))
                 .orElseThrow(()->new RuntimeException("Group not found by given ID"));
     }
 

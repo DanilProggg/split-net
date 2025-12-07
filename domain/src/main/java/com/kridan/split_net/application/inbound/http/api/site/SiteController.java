@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/sites")
 @Slf4j
 @RequiredArgsConstructor
 public class SiteController {
@@ -26,7 +26,7 @@ public class SiteController {
     private final FindSitePort findSitePort;
     private final DeleteSitePort deleteSitePort;
 
-    @PostMapping("/sites")
+    @PostMapping()
     public ResponseEntity<?> createSite(@RequestBody CreateSiteRequest createSiteRequest) {
         try {
             Site site = createSiteUseCase.create(
@@ -41,7 +41,7 @@ public class SiteController {
         }
     }
 
-    @GetMapping("/site/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getSite(@PathVariable("id") Long id) {
         try {
 
@@ -73,7 +73,7 @@ public class SiteController {
         }
     }
 
-    @GetMapping("/sites")
+    @GetMapping()
     public ResponseEntity<?> getSites() {
         try {
 
@@ -103,7 +103,7 @@ public class SiteController {
         }
     }
 
-    @DeleteMapping("/site/{siteId}")
+    @DeleteMapping("/{siteId}")
     public ResponseEntity<?> deleteSite(@PathVariable() Long siteId) {
         try {
 
