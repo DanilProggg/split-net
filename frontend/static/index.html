@@ -599,7 +599,7 @@ bg-neutral
         })).json();
         document.querySelector('select[name="group_adduser_userId"]').innerHTML =
             '<option value="">Выберите пользователя</option>' +
-            users.map(u => `<option value="${u.userId}">${u.name}</option>`).join('');
+            users.map(u => `<option value="${u.userId}">${u.email}</option>`).join('');
 
         // Указание groupId для функции addUserToGroup(event)
         document.getElementById('groupId').innerHTML = groupId;
