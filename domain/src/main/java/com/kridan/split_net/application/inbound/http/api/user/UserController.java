@@ -1,6 +1,7 @@
 package com.kridan.split_net.application.inbound.http.api.user;
 
 import com.kridan.split_net.application.inbound.http.api.user.dto.UserDto;
+import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @Slf4j
@@ -35,6 +37,27 @@ public class UserController {
 
 
             return ResponseEntity.ok(usersDto);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body("An error occurred");
+        }
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUser(@PathVariable("userId") String userId) {
+        try {
+
+            User user = findUserPort.findById(UUID.fromString(userId));
+            UserDto userDto = new UserDto(
+                    user.getUserId().toString(),
+                    user.getEmail(),
+                    user.getReauthIntervalHours(),
+                    user.isRequiredLogin(),
+                    user.getLastLogIn()
+            );
+
+
+            return ResponseEntity.ok(userDto);
         } catch (Exception e){
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");
