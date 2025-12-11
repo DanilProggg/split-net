@@ -32,8 +32,8 @@ public class Group {
     @ManyToMany
     @JoinTable(
             name = "user_group",                            // имя промежуточной таблицы
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
 

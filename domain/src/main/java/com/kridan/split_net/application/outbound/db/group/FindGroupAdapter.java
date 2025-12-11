@@ -32,4 +32,9 @@ public class FindGroupAdapter implements FindGroupPort, FindAllGroupPort {
     public List<Group> findAll() {
         return groupRepository.findAll();
     }
+
+    @Override
+    public List<Group> findAllByUser(String userId) {
+        return groupRepository.findAllByUserId(UUID.fromString(userId));
+    }
 }

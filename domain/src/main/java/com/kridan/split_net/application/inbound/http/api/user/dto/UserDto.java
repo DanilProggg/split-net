@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Getter
@@ -15,5 +16,6 @@ public class UserDto {
     private int reauthIntervalHours;
     private boolean requiredLogin;
     private Date lastLogIn;
+    private List<GroupDto> groups;
 
 }

@@ -1,12 +1,18 @@
 package com.kridan.split_net.application.inbound.http.api.user;
 
+import com.kridan.split_net.application.inbound.http.api.user.dto.GroupDto;
 import com.kridan.split_net.application.inbound.http.api.user.dto.UserDto;
+import com.kridan.split_net.domain.group.Group;
+import com.kridan.split_net.domain.group.ports.FindAllGroupPort;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,6 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
     private final FindUserPort findUserPort;
+    private final FindAllGroupPort findAllGroupPort;
 
     @GetMapping()
     public ResponseEntity<?> getUsers() {
@@ -26,11 +33,20 @@ public class UserController {
                     .map(
                             user -> {
                                 return new UserDto(
-                                  user.getUserId().toString(),
-                                  user.getEmail(),
-                                  user.getReauthIntervalHours(),
-                                  user.isRequiredLogin(),
-                                  user.getLastLogIn()
+                                        user.getUserId().toString(),
+                                        user.getEmail(),
+                                        user.getReauthIntervalHours(),
+                                        user.isRequiredLogin(),
+                                        user.getLastLogIn(),
+                                        findAllGroupPort.findAllByUser(user.getUserId().toString()).stream()
+                                            .map(group -> {
+                                                return new GroupDto(
+                                                        group.getGroupId().toString(),
+                                                        group.getName(),
+                                                        group.getDescription()
+                                                );
+                                            })
+                                            .toList()
                                 );
                             }
                     ).toList();
@@ -48,12 +64,24 @@ public class UserController {
         try {
 
             User user = findUserPort.findById(UUID.fromString(userId));
+            List<Group> groups = findAllGroupPort.findAllByUser(userId);
+
             UserDto userDto = new UserDto(
                     user.getUserId().toString(),
                     user.getEmail(),
                     user.getReauthIntervalHours(),
                     user.isRequiredLogin(),
-                    user.getLastLogIn()
+                    user.getLastLogIn(),
+                    groups.stream()
+                            .map(group -> {
+                                return new GroupDto(
+                                        group.getGroupId().toString(),
+                                        group.getName(),
+                                        group.getDescription()
+                                );
+                            })
+                            .toList()
+
             );
 
 
