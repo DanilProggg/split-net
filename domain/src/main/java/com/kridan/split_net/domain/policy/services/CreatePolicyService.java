@@ -21,7 +21,7 @@ public class CreatePolicyService implements CreatePolicyUseCase {
     private final FindResourcePort findResourcePort;
 
     @Override
-    public Policy create(Long resourceId, String groupId, String description) {
+    public Policy create(String resourceId, String groupId, String description) {
         Group group = findGroupPort.findById(groupId);
         Resource resource = findResourcePort.findById(resourceId);
 

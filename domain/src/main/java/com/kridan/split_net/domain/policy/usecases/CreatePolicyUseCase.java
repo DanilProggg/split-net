@@ -3,5 +3,5 @@ package com.kridan.split_net.domain.policy.usecases;
 import com.kridan.split_net.domain.policy.Policy;
 
 public interface CreatePolicyUseCase {
-    Policy create(Long resourceId, String groupId, String description);
+    Policy create(String resourceId, String groupId, String description);
 }

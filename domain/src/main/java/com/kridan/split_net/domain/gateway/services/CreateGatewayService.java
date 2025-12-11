@@ -18,7 +18,7 @@ public class CreateGatewayService implements CreateGatewayUseCase {
 
 
     @Override
-    public Gateway create(String gatewayId, String name, Long siteId) {
+    public Gateway create(String gatewayId, String name, String siteId) {
 
 
         Gateway gateway = Gateway.builder()
