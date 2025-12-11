@@ -226,7 +226,16 @@ bg-neutral
         </div>
         {{#.}}
         <div class="p-2 grid grid-cols-3 gap-[10px] border-b-[1px] border-[#e5e7eb]">
-            <div>{{userId}}</div>
+            <button class="text-left border-0 text-[#4805ff] hover:underline hover:cursor-pointer"
+                    hx-get="/api/users/{{userId}}"
+                    hx-ext="client-side-templates"
+                    hx-trigger="click"
+                    hx-target="#content"
+                    hx-swap="innerHTML"
+                    mustache-template="group-template"
+            >
+                {{userId}}
+            </button>
             <div>{{email}}</div>
             <div>{{lastLogIn}}</div>
         </div>
@@ -268,13 +277,14 @@ bg-neutral
                     <span class="text-lg">+</span> Добавить пользователя
                 </button>
             </div>
-            <div class="mb-2 px-2 grid grid-cols-2 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
+            <div class="mb-2 px-2 grid grid-cols-3 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
                 <div>ID</div>
-                <div>Email</div>
+                <div>Название</div>
+                <div>Описание</div>
             </div>
 
             {{#groups}}
-            <div class="px-2 grid grid-cols-2 gap-[10px]">
+            <div class="px-2 grid grid-cols-3 gap-[10px]">
                 <button class="text-left border-0 text-[#4805ff] hover:underline hover:cursor-pointer"
                         hx-get="/api/groups/{{groupId}}"
                         hx-ext="client-side-templates"
@@ -557,7 +567,16 @@ bg-neutral
 
             {{#users}}
             <div class="px-2 grid grid-cols-2 gap-[10px]">
-                <div>{{userId}}</div>
+                <button class="text-left border-0 text-[#4805ff] hover:underline hover:cursor-pointer"
+                        hx-get="/api/users/{{userId}}"
+                        hx-ext="client-side-templates"
+                        hx-trigger="click"
+                        hx-target="#content"
+                        hx-swap="innerHTML"
+                        mustache-template="group-template"
+                >
+                    {{userId}}
+                </button>
                 <div>{{email}}</div>
             </div>
             {{/users}}
