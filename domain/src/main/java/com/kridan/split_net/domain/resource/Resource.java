@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -16,8 +17,8 @@ import java.util.Set;
 @Builder
 public class Resource {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long resourceId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID resourceId;
 
     @Column(nullable = false, unique = true)
     private String destination; //CIDR or IP

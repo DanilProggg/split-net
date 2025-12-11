@@ -16,7 +16,7 @@ public class CreateResourceService implements CreateResourceUseCase {
     private final FindSitePort findSitePort;
 
     @Override
-    public Resource create(String destination, Long site_id) {
+    public Resource create(String destination, String site_id) {
 
         Resource resource = Resource.builder()
                 .destination(destination)

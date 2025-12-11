@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +22,8 @@ public class FindSiteAdapter implements FindSitePort, FindAllSitesPort {
     }
 
     @Override
-    public Site findById(Long id) {
-        return siteRepository.findById(id).orElseThrow(
+    public Site findById(String siteId) {
+        return siteRepository.findById(UUID.fromString(siteId)).orElseThrow(
                 ()->new RuntimeException("Site with given ID not found")
         );
     }

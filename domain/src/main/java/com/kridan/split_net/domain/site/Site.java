@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -16,8 +17,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class Site {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID siteId;
 
     @Column(nullable = false, unique = true)
     private String name;

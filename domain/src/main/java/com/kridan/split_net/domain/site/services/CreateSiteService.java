@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 public class CreateSiteService implements CreateSiteUseCase {
 
     private final SaveSitePort saveSitePort;
-    private final GetGlobalConfigPort getGlobalConfigPort;
-    private final GetAllSitesUseCase getAllSitesUseCase;
 
 
     @Override

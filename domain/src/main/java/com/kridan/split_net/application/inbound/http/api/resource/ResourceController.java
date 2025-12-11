@@ -28,7 +28,7 @@ public class ResourceController {
 
             Resource resource = createResourceUseCase.create(
                     createResourceRequest.getDestination(),
-                    createResourceRequest.getSite_id()
+                    createResourceRequest.getSite_id().toString()
             );
 
 
@@ -46,10 +46,10 @@ public class ResourceController {
             List<ResourceDto> resources = getAllResourcesUseCase.getAll().stream()
                     .map(resource -> {
                         return new ResourceDto(
-                                resource.getResourceId(),
+                                resource.getResourceId().toString(),
                                 resource.getDestination(),
                                 new ResourceSiteDto(
-                                        resource.getSite().getId(),
+                                        resource.getSite().getSiteId().toString(),
                                         resource.getSite().getName()
                                 )
                         );

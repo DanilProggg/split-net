@@ -14,9 +14,9 @@ public class GatewayDto {
     private String publicKey;
     private String ipAddress;
     private boolean isActive;
-    private Long site_id;
+    private String site_id;
 
-    public GatewayDto(String gateway_id, String name, String wg_url, String publicKey, String ipAddress, Date lastSeen, Long site_id) {
+    public GatewayDto(String gateway_id, String name, String wg_url, String publicKey, String ipAddress, Date lastSeen, String site_id) {
         this.gateway_id = gateway_id;
         this.name = name;
         this.wg_url = wg_url;

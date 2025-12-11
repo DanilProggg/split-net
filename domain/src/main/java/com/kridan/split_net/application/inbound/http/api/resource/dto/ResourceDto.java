@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ResourceDto {
-    private Long resourceId;
+    private String resourceId;
     private String destination;
     private ResourceSiteDto site;
 }

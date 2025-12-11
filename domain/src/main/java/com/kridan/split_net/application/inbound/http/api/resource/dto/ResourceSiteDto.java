@@ -8,6 +8,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ResourceSiteDto {
-    private Long siteId;
+    private String siteId;
     private String name;
 }

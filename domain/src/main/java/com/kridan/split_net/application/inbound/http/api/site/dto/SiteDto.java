@@ -10,13 +10,13 @@ import java.util.List;
 @Data
 @Getter
 public class SiteDto {
-    private Long site_id;
+    private String site_id;
     private String name;
     private String description;
     private Date createdAt;
     private List<GatewayDto> gateways;
 
-    public SiteDto(Long site_id, String name, String description, Date createdAt, List<GatewayDto> gateways) {
+    public SiteDto(String site_id, String name, String description, Date createdAt, List<GatewayDto> gateways) {
         this.site_id = site_id;
         this.name = name;
         this.description = description;

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +22,8 @@ public class FindResourceAdapter implements FindAllResourcesPort, FindResourcePo
     }
 
     @Override
-    public Resource findById(Long id) {
-        return  resourceRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("Can not find resource with id: " + String.valueOf(id)));
+    public Resource findById(String resourceId) {
+        return  resourceRepository.findById(UUID.fromString(resourceId))
+                .orElseThrow(()->new RuntimeException("Can not find resource with id: " + String.valueOf(resourceId)));
     }
 }

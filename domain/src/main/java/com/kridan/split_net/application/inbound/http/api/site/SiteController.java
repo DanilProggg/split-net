@@ -41,14 +41,14 @@ public class SiteController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getSite(@PathVariable("id") Long id) {
+    @GetMapping("/{siteId}")
+    public ResponseEntity<?> getSite(@PathVariable("siteId") String siteId) {
         try {
 
-            Site site = findSitePort.findById(id);
+            Site site = findSitePort.findById(siteId);
 
             SiteDto siteDto = new SiteDto(
-                    site.getId(),
+                    site.getSiteId().toString(),
                     site.getName(),
                     site.getDescription(),
                     site.getCreatedAt(),
@@ -60,7 +60,7 @@ public class SiteController {
                                     gateway.getPublicKey(),
                                     gateway.getIpAddress(),
                                     gateway.getLastSeen(),
-                                    gateway.getSite().getId()
+                                    gateway.getSite().getSiteId().toString()
                             )
                     ).toList()
             );
@@ -79,7 +79,7 @@ public class SiteController {
 
             List<SiteDto> siteDtos = getAllSitesUseCase.getAll().stream()
                     .map(site -> new SiteDto(
-                            site.getId(),
+                            site.getSiteId().toString(),
                             site.getName(),
                             site.getDescription(),
                             site.getCreatedAt(),
@@ -91,7 +91,7 @@ public class SiteController {
                                             gateway.getPublicKey(),
                                             gateway.getIpAddress(),
                                             gateway.getLastSeen(),
-                                            gateway.getSite().getId()
+                                            gateway.getSite().getSiteId().toString()
                                     )
                             ).toList()
                     )).toList();
@@ -104,14 +104,14 @@ public class SiteController {
     }
 
     @DeleteMapping("/{siteId}")
-    public ResponseEntity<?> deleteSite(@PathVariable() Long siteId) {
+    public ResponseEntity<?> deleteSite(@PathVariable() String siteId) {
         try {
 
             deleteSitePort.delete(siteId);
 
             List<SiteDto> siteDtos = getAllSitesUseCase.getAll().stream()
                     .map(site -> new SiteDto(
-                            site.getId(),
+                            site.getSiteId().toString(),
                             site.getName(),
                             site.getDescription(),
                             site.getCreatedAt(),
@@ -123,7 +123,7 @@ public class SiteController {
                                             gateway.getPublicKey(),
                                             gateway.getIpAddress(),
                                             gateway.getLastSeen(),
-                                            gateway.getSite().getId()
+                                            gateway.getSite().getSiteId().toString()
                                     )
                             ).toList()
                     )).toList();
