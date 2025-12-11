@@ -16,11 +16,11 @@ public class CreateResourceService implements CreateResourceUseCase {
     private final FindSitePort findSitePort;
 
     @Override
-    public Resource create(String destination, String site_id) {
+    public Resource create(String destination, String siteId) {
 
         Resource resource = Resource.builder()
                 .destination(destination)
-                .site(findSitePort.findById(site_id))
+                .site(findSitePort.findById(siteId))
                 .build();
 
         return saveResourcePort.save(resource);

@@ -26,7 +26,6 @@ public class CreatePolicyService implements CreatePolicyUseCase {
         Resource resource = findResourcePort.findById(resourceId);
 
         Policy policy = Policy.builder()
-                .policyId(UUID.randomUUID())
                 .resource(resource)
                 .group(group)
                 .description(description)

@@ -46,7 +46,7 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String generateGatewayToken(String gatewayId, Long siteId) {
+    public String generateGatewayToken(String gatewayId, String siteId) {
         Instant now = Instant.now();
 
 

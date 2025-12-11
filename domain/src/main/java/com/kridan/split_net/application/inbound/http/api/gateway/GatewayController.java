@@ -26,7 +26,7 @@ public class GatewayController {
     public ResponseEntity<?> createGateway(@RequestBody CreateGatewayRequest createGatewayRequest) {
         try {
 
-            String token = jwtUtils.generateGatewayToken(UUID.randomUUID().toString(), createGatewayRequest.getSite_id());
+            String token = jwtUtils.generateGatewayToken(UUID.randomUUID().toString(), createGatewayRequest.getSiteId().toString());
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e) {

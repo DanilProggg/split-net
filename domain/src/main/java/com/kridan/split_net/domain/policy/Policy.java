@@ -2,10 +2,7 @@ package com.kridan.split_net.domain.policy;
 
 import com.kridan.split_net.domain.group.Group;
 import com.kridan.split_net.domain.resource.Resource;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.UUID;
@@ -18,6 +15,7 @@ import java.util.UUID;
 @Builder
 public class Policy {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID policyId;
 
     // Policy относится к одному Resource

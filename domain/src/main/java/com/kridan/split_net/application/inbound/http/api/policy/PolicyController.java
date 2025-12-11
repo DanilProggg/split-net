@@ -29,7 +29,7 @@ public class PolicyController {
 
             String desc = createPolicyRequest.getDescription();
             Policy policy = createPolicyUseCase.create(
-                    createPolicyRequest.getResourceId(),
+                    createPolicyRequest.getResourceId().toString(),
                     createPolicyRequest.getGroupId().toString(),
                     (desc == null || desc.isBlank()) ? null : desc
             );
