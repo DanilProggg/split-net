@@ -8,6 +8,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class PolicyResourceDto {
-    private Long resourceId;
+    private String resourceId;
     private String destination;
 }

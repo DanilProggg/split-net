@@ -51,7 +51,7 @@ public class PolicyController {
                                 return new PolicyDto(
                                         policy.getPolicyId().toString(),
                                         new PolicyResourceDto(
-                                                policy.getResource().getResourceId(),
+                                                policy.getResource().getResourceId().toString(),
                                                 policy.getResource().getDestination()
                                         ),
                                         new PolicyGroupDto(
