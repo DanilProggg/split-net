@@ -205,8 +205,8 @@ bg-neutral
     {{/.}}
 </template>
 
-<!-- Users -->
-<template id="users-template" type="x-tmpl-mustache">
+<!-- Users list-->
+<template id="users-list-template" type="x-tmpl-mustache">
 
     <div class="shadow-md rounded-sm bg-white px-6 py-3">
         <div class="flex justify-between mb-4">
@@ -232,6 +232,66 @@ bg-neutral
         </div>
         {{/.}}
     </div>
+
+</template>
+
+<!-- User -->
+<template id="user-template" type="x-tmpl-mustache">
+
+    {{#.}}
+    <div class="shadow-md rounded-sm bg-white px-6 pb-3">
+        <div class="">
+            <div class="flex justify-between py-[20px]">
+                <div class="text-2xl text-[#3d3d3d]">ID: {{name}}</div>
+                <button hx-delete="/api/groups/{{groupId}}"
+                        hx-target="#content"
+                        hx-ext="client-side-templates"
+                        mustache-template="groups-list-template"
+                        class="flex items-center gap-2 px-3 rounded-sm
+                               bg-red-700 text-white text-sm font-medium
+                               hover:bg-red-800 hover:cursor-pointer transition-colors">
+                    Удалить пользователя
+                </button>
+            </div>
+
+            <div class="text-[#4f4f4f] text-xs">{{userId}}</div>
+        </div>
+        <br>
+        <div class="">
+            <div class="flex justify-between mb-4">
+                <div class="text-[#3d3d3d] text-2xl">Пользователи</div>
+
+                <button onclick="addUserToGroupTemplate('{{groupId}}')"
+                        class="flex items-center gap-2 px-3 rounded-sm
+                               bg-purple-700 text-white text-sm font-medium
+                               hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                    <span class="text-lg">+</span> Добавить пользователя
+                </button>
+            </div>
+            <div class="mb-2 px-2 grid grid-cols-2 gap-[10px] text-[#4f4f4f] bg-[#F6F6F6]">
+                <div>ID</div>
+                <div>Email</div>
+            </div>
+
+            {{#groups}}
+            <div class="px-2 grid grid-cols-2 gap-[10px]">
+                <button class="text-left border-0 text-[#4805ff] hover:underline hover:cursor-pointer"
+                        hx-get="/api/groups/{{groupId}}"
+                        hx-ext="client-side-templates"
+                        hx-trigger="click"
+                        hx-target="#content"
+                        hx-swap="innerHTML"
+                        mustache-template="group-template"
+                >
+                    {{groupId}}
+                </button>
+                <div>{{name}}</div>
+                <div>{{description}}</div>
+            </div>
+            {{/groups}}
+        </div>
+    </div>
+    {{/.}}
 
 </template>
 
