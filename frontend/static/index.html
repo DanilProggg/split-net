@@ -688,8 +688,8 @@ bg-neutral
         const form = event.target;
         const formData = new FormData(form);
         const data = {
-            name: formData.get('site_name'),
-            description: formData.get('site_description')
+            name: formData.get('name'),
+            description: formData.get('description')
         };
 
         try {
