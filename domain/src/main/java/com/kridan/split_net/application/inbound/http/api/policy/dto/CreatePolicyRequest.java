@@ -6,7 +6,7 @@ import lombok.Getter;
 @Data
 @Getter
 public class CreatePolicyRequest {
-    private Long resourceId;
+    private String resourceId;
     private String groupId;
     private String description;
 }
