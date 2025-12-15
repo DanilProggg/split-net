@@ -28,7 +28,7 @@ public class ResourceController {
 
             Resource resource = createResourceUseCase.create(
                     createResourceRequest.getDestination(),
-                    createResourceRequest.getSite_id().toString()
+                    createResourceRequest.getSite_id()
             );
 
 

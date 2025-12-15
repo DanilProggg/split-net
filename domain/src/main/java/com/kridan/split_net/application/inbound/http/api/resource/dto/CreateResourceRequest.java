@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class CreateResourceRequest {
     private String destination; //CIDR or IP
-    private Long site_id;
+    private String site_id;
 }
