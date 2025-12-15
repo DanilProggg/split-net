@@ -163,7 +163,7 @@ bg-neutral
 
                 <button hx-post="/api/gateways"
                         hx-target="#content"
-                        hx-vals='{"siteId": {{site_id}}}'
+                        hx-vals='{"siteId": "{{site_id}}"}'
                         hx-ext="client-side-templates"
                         mustache-template="deploy-gateway"
                         class="flex items-center gap-2 px-3 rounded-sm
