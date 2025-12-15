@@ -105,11 +105,17 @@ bg-neutral
 
 <!-- Templates -->
 <!-- Список Sites-->
-<template id="sites-list-template">
+<template id="sites-list-template" type="x-tmpl-mustache">
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
-        <div class="py-[20px] text-[#3d3d3d] text-2xl">
-            Сайты
-        </div>
+        <div class="flex justify-between mb-4">
+            <div class="text-[#3d3d3d] text-2xl">Сайты</div>
+
+            <button onclick="createSiteTemplate()"
+                    class="flex items-center gap-2 px-3 rounded-sm
+                               bg-purple-700 text-white text-sm font-medium
+                               hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                <span class="text-lg">+</span> Добавить пользователя
+            </button>
         <div class="px-2 my-2 w-full text-[#4f4f4f] bg-[#F6F6F6]">
             Сайт
         </div>
@@ -185,6 +191,35 @@ bg-neutral
         </div>
     </div>
     {{/.}}
+</template>
+
+<!-- Create group -->
+<template id="create-site-template">
+    <div class="shadow-md rounded-sm bg-white px-6 py-3">
+        <div class="py-[20px] text-[#3d3d3d] text-2xl">
+            Новый cайт
+        <form
+              class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
+            <div class="">
+                <label for="site_name" class="block text-sm text-neutral-900 mb-2 ">
+                    Название
+                </label>
+                <input type="text" name="name" id="site_name" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " required="" placeholder="">
+            </div>
+            <div class="">
+                <label for="site_description" class="block text-sm text-neutral-900 mb-2 ">
+                    Описание
+                </label>
+                <input type="text" name="description" id="site_description" class="block w-full p-2 rounded bg-neutral-50 text-neutral-900 text-sm border border-neutral-300 disabled:bg-neutral-50 disabled:text-neutral-500 disabled:border-neutral-200 disabled:shadow-none " placeholder="">
+            </div>
+            <button type="submit"
+                    class="mt-2 px-4 py-1 rounded-sm
+                           bg-purple-700 text-white text-sm font-medium
+                           hover:bg-purple-800 hover:cursor-pointer transition-colors">
+                Добавить
+            </button>
+        </form>
+    </div>
 </template>
 
 <!-- Шаблон для Deploy Gateway -->
@@ -646,6 +681,11 @@ bg-neutral
 </template>
 
 <script>
+
+    async function createSiteTemplate(){
+          document.getElementById('content').innerHTML = document.getElementById('create-site-template').innerHTML;
+    }
+
     async function addUserToGroup(event) {
         try {
             event.preventDefault()
