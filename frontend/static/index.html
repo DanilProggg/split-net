@@ -198,8 +198,7 @@ bg-neutral
     <div class="shadow-md rounded-sm bg-white px-6 py-3">
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
             Новый cайт
-        <form   method="post"
-                hx-post="/api/sites"
+        <form onclick="createSite(event)"
               class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
             <div class="">
                 <label for="site_name" class="block text-sm text-neutral-900 mb-2 ">
@@ -682,6 +681,38 @@ bg-neutral
 </template>
 
 <script>
+
+    async function createSite(event){
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = {
+            name: formData.get('site_name'),
+            description: formData.get('site_description')
+        };
+
+        try {
+            const response = await fetch('/api/sites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                // Очищаем поля формы
+                form.querySelector('#site_name').value = '';
+                form.querySelector('#site_description').value = '';
+            } else {
+                console.error('Ошибка создания ресурса');
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
 
     async function createSiteTemplate(){
           document.getElementById('content').innerHTML = document.getElementById('create-site-template').innerHTML;
