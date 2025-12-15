@@ -107,7 +107,7 @@ bg-neutral
 <!-- Список Sites-->
 <template id="sites-list-template" type="x-tmpl-mustache">
     <div class="shadow-md rounded-sm bg-white px-6 pb-3">
-        <div class="flex justify-between mb-4">
+        <div class="flex justify-between">
             <div class="text-[#3d3d3d] text-2xl">Сайты</div>
 
             <button onclick="createSiteTemplate()"
@@ -116,9 +116,9 @@ bg-neutral
                                hover:bg-purple-800 hover:cursor-pointer transition-colors">
                 <span class="text-lg">+</span> Добавить пользователя
             </button>
-        <div class="px-2 my-2 w-full text-[#4f4f4f] bg-[#F6F6F6]">
-            Сайт
         </div>
+
+        <div class="flex justify-between mb-4">
         {{#.}}
         <button class="my-3 px-2 border-0 text-[#4805ff] hover:underline hover:cursor-pointer"
                 hx-get="/api/sites/{{site_id}}"
@@ -193,7 +193,7 @@ bg-neutral
     {{/.}}
 </template>
 
-<!-- Create group -->
+<!-- Create site template -->
 <template id="create-site-template">
     <div class="shadow-md rounded-sm bg-white px-6 py-3">
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
