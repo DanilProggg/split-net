@@ -7,6 +7,7 @@ import com.kridan.split_net.domain.policy.Policy;
 import com.kridan.split_net.domain.resource.Resource;
 import com.kridan.split_net.domain.user.User;
 import com.kridan.split_net.domain.user.ports.FindUserPort;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class GenerateConfigService implements GenerateConfigUseCase {
     private final FindAllGatewaysPort findAllGatewaysPort;
     private final FindUserPort findUserPort;
 
+    @Transactional
     @Override
     public List<Map<String, String>> generate(String user_id, String device_id) {
 
