@@ -30,13 +30,15 @@ public class GenerateConfigService implements GenerateConfigUseCase {
         User user = findUserPort.findById(UUID.fromString(user_id));
         Set<Group> groups = user.getGroups();
 
-
+        /*
         String allowedIps = groups.stream()
                 .flatMap(group -> group.getPolicies().stream())
                 .map(Policy::getResource)
                 .map(Resource::getDestination)
                 .distinct()
                 .collect(Collectors.joining(","));
+        */
+        String allowedIps = "192.168.0.104";
 
 
         List<Map<String, String>> listOfMaps = findAllGatewaysPort.findAll().stream()
