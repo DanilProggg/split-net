@@ -1,10 +1,8 @@
 package com.kridan.split_net.domain.site.services;
 
-import com.kridan.split_net.domain.globalConfig.ports.GetGlobalConfigPort;
 import com.kridan.split_net.domain.site.Site;
 import com.kridan.split_net.domain.site.ports.SaveSitePort;
 import com.kridan.split_net.domain.site.usecases.CreateSiteUseCase;
-import com.kridan.split_net.domain.site.usecases.GetAllSitesUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
