@@ -10,7 +10,7 @@ RUN mvn dependency:go-offline
 COPY src ./src
 
 # Собираем jar без тестов
-RUN mvn clean package -DskipTests
+RUN mvn clean package
 
 # -----------------------
 # 2. Runtime stage
