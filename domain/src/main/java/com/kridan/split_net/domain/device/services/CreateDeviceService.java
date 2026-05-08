@@ -29,7 +29,6 @@ public class CreateDeviceService implements CreateDeviceUseCase {
         try {
 
             String ipAddress = "100.64.100.1";
-
             //Make dhcp for IP
             Device device = deviceFactory.create(
                     findUserPort.findById(UUID.fromString(userId)),
