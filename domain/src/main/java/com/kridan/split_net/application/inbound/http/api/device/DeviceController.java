@@ -1,6 +1,7 @@
 package com.kridan.split_net.application.inbound.http.api.device;
 
 import com.kridan.split_net.application.inbound.http.api.device.dto.CreateDeviceRequest;
+import com.kridan.split_net.application.inbound.http.api.device.dto.DeviceDetailRecord;
 import com.kridan.split_net.application.inbound.http.api.device.dto.DeviceDto;
 import com.kridan.split_net.domain.device.Device;
 import com.kridan.split_net.domain.device.ports.FindDevicePort;
@@ -46,7 +47,7 @@ public class DeviceController {
                     createDeviceRequest.getPubkey()
             );
 
-            return ResponseEntity.ok(device);
+            return ResponseEntity.ok(DeviceDetailRecord.from(device));
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body("An error occurred");

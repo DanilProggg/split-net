@@ -1,5 +1,6 @@
 package com.kridan.split_net.application.inbound.http.api.device.dto;
 
+import com.kridan.split_net.domain.device.Device;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,4 +11,6 @@ public class DeviceDto {
     private String name;
     private String PublicKey;
     private String ipAddress;
+
+
 }
