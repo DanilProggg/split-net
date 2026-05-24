@@ -120,19 +120,20 @@ bg-neutral
             </button>
         </div>
 
-        <div class="flex justify-between mb-4">
-        {{#.}}
-        <button class="my-3 px-2 border-0 text-[#4805ff] hover:underline hover:cursor-pointer"
-                hx-get="/api/sites/{{site_id}}"
-                hx-ext="client-side-templates"
-                hx-trigger="click"
-                hx-target="#content"
-                hx-swap="innerHTML"
-                mustache-template="site-template"
-        >
-            {{name}}
-        </button>
-        {{/.}}
+        <div class="flex flex-col mb-4">
+            {{#.}}
+            <button class="my-1 px-2 border-0 text-[#4805ff] hover:underline hover:cursor-pointer text-left"
+                    hx-get="/api/sites/{{site_id}}"
+                    hx-ext="client-side-templates"
+                    hx-trigger="click"
+                    hx-target="#content"
+                    hx-swap="innerHTML"
+                    mustache-template="site-template"
+            >
+                {{name}}
+            </button>
+            {{/.}}
+        </div>
     </div>
 </template>
 
@@ -618,7 +619,7 @@ bg-neutral
 <template id="create-group-template">
     <div class="shadow-md rounded-sm bg-white px-6 py-3">
         <div class="py-[20px] text-[#3d3d3d] text-2xl">
-            Новый ресурс
+            Новая группа
         </div>
         <form onsubmit="createGroup(event)"
               class="mx-auto flex-column align-center w-[100%] max-w-[640px]">
