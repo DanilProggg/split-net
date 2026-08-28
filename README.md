@@ -25,9 +25,10 @@ The repo also contains a second module, **`gateway`** — a lightweight remote a
 
 ## Running locally
 
-`docker-compose.yml`, `Dockerfile` and an `.env.example` (copy to `.env`) are provided as-is from the `domain` module. Because the app manages a real WireGuard network interface, the container needs elevated network privileges — this can't run fully sandboxed:
+`docker-compose.yml`, `Dockerfile` and an `.env.example` (copy to `.env`) live in the `domain/` module. Because the app manages a real WireGuard network interface, the container needs elevated network privileges — this can't run fully sandboxed:
 
 ```bash
+cd domain
 cp .env.example .env
 docker compose up --build
 ```
